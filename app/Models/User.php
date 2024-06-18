@@ -21,7 +21,8 @@ class User extends Authenticatable
         'email',
         'password',
         'google_id',
-        'google_account_info'
+        'google_account_info',
+        'is_signup_successful'
     ];
 
     /**
@@ -32,6 +33,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'google_id',
+        'google_account_info',
     ];
 
     /**
@@ -45,5 +48,10 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function apiKeys()
+    {
+        return $this->hasMany(ApiToken::class);
     }
 }

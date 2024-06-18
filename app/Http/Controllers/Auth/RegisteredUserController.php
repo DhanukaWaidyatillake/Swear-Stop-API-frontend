@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\SiteConfig;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -27,12 +31,13 @@ class RegisteredUserController extends Controller
      * Handle an incoming registration request.
      *
      * @throws \Illuminate\Validation\ValidationException
+     * @throws \Exception
      */
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
+            'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
@@ -42,10 +47,29 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+
         event(new Registered($user));
 
-        Auth::login($user);
+        //ping the api app to generate the sanctum token
+        $response = Http::post(Config::get('auth.api_app_url') . '/api/generate-token', [
+            'user_id' => $user->id,
+            'signup_secret' => SiteConfig::firstWhere('key', 'signup_secret')?->value
+        ]);
 
-        return redirect(route('dashboard', absolute: false));
+
+        if ($response->ok()) {
+            //refresh the signup token
+            Artisan::call('signup_secret:refresh');
+
+            $user->update([
+               'is_signup_successful' => true
+            ]);
+
+            Auth::login($user);
+
+            return redirect(route('dashboard', absolute: false));
+        } else {
+            throw new \Exception('Error in generating sanctum token', 500);
+        }
     }
 }
