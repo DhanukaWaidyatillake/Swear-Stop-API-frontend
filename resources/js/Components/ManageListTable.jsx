@@ -4,67 +4,69 @@ import {
     Card,
     CardBody,
     CardFooter,
-    CardHeader, Checkbox,
-    Chip, DialogBody, DialogFooter, DialogHeader,
+    CardHeader,
+    Chip,
     Input,
     Switch,
     Typography,
 } from "@material-tailwind/react";
-import {Dialog} from "@headlessui/react";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import ManageListPopup from "@/Components/ManageListPopup.jsx";
+import {Link, router} from "@inertiajs/react";
 
 const TABLE_HEAD = ["Word", "Added on", "Added Through", "Enabled"];
 
-const TABLE_ROWS = [
-    {
-        name: "Addidas",
-        added_on: "2024-08-03",
-        org: "Organization",
-        online: true,
-        date: "23/04/18",
-        enabled: true
-    },
-    {
-        name: "Nike",
-        added_on: "2024-02-03",
-        org: "Developer",
-        online: false,
-        date: "23/04/18",
-        enabled: true
-    },
-    {
-        name: "Puma",
-        added_on: "2024-08-01",
-        org: "Projects",
-        online: false,
-        date: "19/09/17",
-        enabled: false
-    },
-    {
-        name: "Louis Vitton",
-        added_on: "2024-08-09",
-        org: "Developer",
-        online: true,
-        date: "24/12/08",
-        enabled: false
-    },
-    {
-        name: "Fila",
-        added_on: "2024-03-03",
-        org: "Executive",
-        online: false,
-        date: "04/10/21",
-        enabled: true
-    },
-];
 
 export default function ManageListTable({type}) {
 
     const [open, setOpen] = useState(false);
 
+    const [data, setData] = useState([]);
+
+    const [currentPage, setCurrentPage] = useState(1)
+    const [totalPages, setTotalPages] = useState(1)
+    const [searchString, setSearchString] = useState({})
+    let prevSearchString = "";
+
+
+    const loadData = (page) => {
+        console.log(searchString)
+        axios.get(type === "blacklist" ? '/get_blacklisted_words' : '/get_whitelisted_words', {
+            params: {
+                'search': searchString,
+                'page': page
+            }
+        }).then(response => {
+            setData(response.data.data)
+            setCurrentPage(response.data.current_page)
+            setTotalPages(response.data.last_page)
+            console.log(response.data.data)
+        }).catch(error => {
+            console.error(error);
+        });
+    }
+
+    useEffect(() => {
+        loadData(1);
+    }, []);
+
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            // console.log(searchString)
+            // console.log(prevSearchString)
+
+            if (prevSearchString !== searchString) {
+                loadData(1)
+                prevSearchString = searchString
+            }
+        }, 300);
+
+        return () => clearInterval(handler);
+    }, [searchString]);
+
+
     return (
-        <Card className={`h-full w-full ${type==="blacklist" ? '' : 'mt-16'}`}>
+        <Card className={`h-full w-full ${type === "blacklist" ? '' : 'mt-16'}`}>
             <CardHeader floated={false} shadow={false} className="rounded-none">
                 <div className="flex items-center justify-between gap-8">
                     <div>
@@ -76,26 +78,33 @@ export default function ManageListTable({type}) {
                         <Input
                             label="Search"
                             icon={<MagnifyingGlassIcon className="h-5 w-5"/>}
+                            onChange={(event) => setSearchString({
+                                'search_string': event.target.value,
+                                'search_field': 'word',
+                            })}
                         />
                     </div>
                     <div
                         className={`flex shrink-0 flex-col gap-2 sm:flex-row mr-2`}>
-                        <Button className={`flex items-center gap-3 ${type === "blacklist" ? '' : 'bg-white text-black border-black border-2'}`} size="sm" onClick={() => {
+                        <Button
+                            className={`flex items-center gap-3 ${type === "blacklist" ? '' : 'bg-white text-black border-black border-2'}`}
+                            size="sm" onClick={() => {
                             setOpen(true)
                         }}>
-                            <PlusIcon strokeWidth={2} className="h-4 w-4"/> Add Blacklisted Word
+                            <PlusIcon strokeWidth={2} className="h-4 w-4"/> Add Word
+                            to {type === "blacklist" ? 'Blacklist' : 'Whitelist'}
                         </Button>
-                        <ManageListPopup visible={open} setVisible={setOpen} list_type={type}></ManageListPopup>
+                        <ManageListPopup visible={open} setVisible={setOpen} list_type={type}
+                                         newBannedWordAdded={() => loadData(currentPage)}></ManageListPopup>
                     </div>
                 </div>
             </CardHeader>
-            <CardBody className="overflow-scroll px-0">
+            <CardBody className="overflow-scroll px-0 h-full">
                 <table className="mt-4 w-full min-w-max table-auto text-left">
                     <thead>
                     <tr>
                         {TABLE_HEAD.map((head) => (
                             <th
-                                key={head}
                                 className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4"
                             >
                                 <Typography
@@ -110,15 +119,15 @@ export default function ManageListTable({type}) {
                     </tr>
                     </thead>
                     <tbody>
-                    {TABLE_ROWS.map(
-                        ({name, added_on, online, date, enabled}, index) => {
-                            const isLast = index === TABLE_ROWS.length - 1;
+                    {data.map(
+                        ({id, word, created_at, online, added_through, is_enabled}, index) => {
+                            const isLast = index === data.length - 1;
                             const classes = isLast
                                 ? "p-4"
                                 : "p-4 border-b border-blue-gray-50";
 
                             return (
-                                <tr key={name}>
+                                <tr>
                                     <td className={classes}>
                                         <div className="flex items-center gap-3">
                                             <div className="flex flex-col">
@@ -127,7 +136,7 @@ export default function ManageListTable({type}) {
                                                     color="blue-gray"
                                                     className="font-normal"
                                                 >
-                                                    {name}
+                                                    {word}
                                                 </Typography>
                                             </div>
                                         </div>
@@ -139,7 +148,7 @@ export default function ManageListTable({type}) {
                                                 color="blue-gray"
                                                 className="font-normal"
                                             >
-                                                {added_on}
+                                                {created_at}
                                             </Typography>
                                         </div>
                                     </td>
@@ -148,14 +157,14 @@ export default function ManageListTable({type}) {
                                             <Chip
                                                 variant="ghost"
                                                 size="sm"
-                                                value={online ? "API" : "Dashboard"}
-                                                color={online ? "green" : "blue"}
+                                                value={added_through === "dashboard" ? "Dashboard" : "API"}
+                                                color={added_through === "dashboard" ? "green" : "blue"}
                                             />
                                         </div>
                                     </td>
                                     <td className={classes}>
                                         <Switch
-                                            id={`blacklist-switch-component-${index}`}
+                                            key={`${type}-switch-component-${id}`}
                                             ripple={true}
                                             className="h-full w-full checked:bg-black checked:opacity-0"
                                             containerProps={{
@@ -164,8 +173,16 @@ export default function ManageListTable({type}) {
                                             circleProps={{
                                                 className: "before:hidden left-0.5 border-none",
                                             }}
-                                            defaultChecked={enabled}
-                                        /></td>
+                                            defaultChecked={is_enabled}
+                                            onChange={(event) => {
+                                                router.put(type === "blacklist" ? '/change_state_blacklist/' + id : '/change_state_whitelist/' + id, {
+                                                    'is_enabled': event.target.checked,
+                                                },{
+                                                    'preserveScroll': true
+                                                })
+                                            }}
+                                        />
+                                    </td>
                                 </tr>
                             );
                         },
@@ -175,13 +192,15 @@ export default function ManageListTable({type}) {
             </CardBody>
             <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
                 <Typography variant="small" color="blue-gray" className="font-normal">
-                    Page 1 of 10
+                    Page {currentPage} of {totalPages}
                 </Typography>
                 <div className="flex gap-2">
-                    <Button variant="outlined" size="sm">
+                    <Button variant="outlined" size="sm" disabled={currentPage === 1}
+                            onClick={() => loadData(currentPage - 1)}>
                         Previous
                     </Button>
-                    <Button variant="outlined" size="sm">
+                    <Button variant="outlined" size="sm" disabled={currentPage === totalPages}
+                            onClick={() => loadData(currentPage + 1)}>
                         Next
                     </Button>
                 </div>

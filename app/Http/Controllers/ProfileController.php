@@ -23,7 +23,6 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): Response
     {
-
         return Inertia::render('Profile/Edit', [
             'api_key' => $this->decrypt_token($request->user())
         ]);
