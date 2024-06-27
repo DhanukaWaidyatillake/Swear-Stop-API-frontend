@@ -51,6 +51,9 @@ class GoogleAuthController extends Controller
 
                 Auth::login($user, true);
 
+                //Create paddle customer
+                $user->createAsCustomer();
+
                 return redirect()->intended(route('dashboard', absolute: false));
             } else {
                 throw new \Exception('Error in generating sanctum token', 500);

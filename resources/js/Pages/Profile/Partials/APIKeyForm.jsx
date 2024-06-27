@@ -52,7 +52,7 @@ export default function APIKeyForm({api_key}) {
                             </PopoverContent>
                         </Popover>
 
-                        <Link href={route('profile.refresh-token')} as="button" method="post">
+                        <Link href={route('profile.refresh-token')} as="button" method="post" preserveScroll>
                             <IconButton variant="outlined" size="sm" className="ml-5">
                                 <div className="scale-75">
                                     <RegenerateIconSVG></RegenerateIconSVG>

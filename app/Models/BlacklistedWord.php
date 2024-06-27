@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class BlacklistedWord extends Model
+class BlacklistedWord extends Model implements Auditable
 {
-    use HasFactory;
+    use HasFactory,\OwenIt\Auditing\Auditable;
 
     protected $fillable = ['word', 'user_id', 'is_enabled', 'added_through'];
 

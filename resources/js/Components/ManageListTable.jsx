@@ -30,7 +30,8 @@ export default function ManageListTable({type}) {
 
 
     const loadData = (page) => {
-        console.log(searchString)
+        //Using axios here instead of router since we are not returning an Inertia response
+
         axios.get(type === "blacklist" ? '/get_blacklisted_words' : '/get_whitelisted_words', {
             params: {
                 'search': searchString,
@@ -40,7 +41,6 @@ export default function ManageListTable({type}) {
             setData(response.data.data)
             setCurrentPage(response.data.current_page)
             setTotalPages(response.data.last_page)
-            console.log(response.data.data)
         }).catch(error => {
             console.error(error);
         });

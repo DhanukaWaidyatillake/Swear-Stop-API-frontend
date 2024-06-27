@@ -6,10 +6,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Paddle\Billable;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements Auditable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, Billable, \OwenIt\Auditing\Auditable;
+
+    protected $auditStrict = true; //Audit the hidden properties
+    protected $auditTimestamps = true; //Audit the timestamps
+
 
     /**
      * The attributes that are mass assignable.
@@ -22,7 +28,10 @@ class User extends Authenticatable
         'password',
         'google_id',
         'google_account_info',
-        'is_signup_successful'
+        'is_signup_successful',
+        'card_type',
+        'card_last_4',
+        'card_expiry_date'
     ];
 
     /**
@@ -36,6 +45,9 @@ class User extends Authenticatable
         'google_id',
         'google_account_info',
     ];
+
+    protected $appends = ['is_subscribed'];
+
 
     /**
      * Get the attributes that should be cast.
@@ -53,5 +65,15 @@ class User extends Authenticatable
     public function apiKeys()
     {
         return $this->hasMany(ApiToken::class);
+    }
+
+    /**
+     * Get the subscribed status
+     *
+     * @return bool
+     */
+    public function getIsSubscribedAttribute(): bool
+    {
+        return $this->subscribed();
     }
 }

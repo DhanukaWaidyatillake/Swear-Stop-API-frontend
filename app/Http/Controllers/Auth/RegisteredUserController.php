@@ -62,8 +62,11 @@ class RegisteredUserController extends Controller
             Artisan::call('signup_secret:refresh');
 
             $user->update([
-               'is_signup_successful' => true
+                'is_signup_successful' => true
             ]);
+
+            //Create paddle customer
+            $user->createAsCustomer();
 
             Auth::login($user);
 

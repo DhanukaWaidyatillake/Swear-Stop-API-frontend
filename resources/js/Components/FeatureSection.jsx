@@ -52,12 +52,12 @@ export default function FeatureSection() {
         },
         5: {
             'header': 'Make use of Metadata',
-            'body': 'Enhance your analytics by utilising metadata with each request in key-value pairs and use them for for deeper insights.',
+            'body': 'Enhance your analytics by associating metadata with each request and use them for for personalized tracking and deeper monitoring.',
             'svg': <MetaDataIcon/>
         },
         6: {
-            'header': 'No subscriptions—pay as you go!',
-            'body': 'Enjoy hassle-free usage with no subscriptions required. Your first 100 API calls are on us and then just pay for what you use!',
+            'header': 'Get Started For Free!',
+            'body': 'No credit card needed to get started! Enjoy your first 100 API calls absolutely free. Upgrade to one of our amazingly cheap subscriptions once you\'re ready.' ,
             'svg': <NoSubscriptionIcon/>
         },
     };
