@@ -1,24 +1,30 @@
-import {Alert, Button} from "@material-tailwind/react";
-import {useForm} from "@inertiajs/react";
-import {useState} from "react";
+import {useEffect} from "react";
 import {toast} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'
 
-export default function AlertPopup({text}) {
-    const [open, setOpen] = useState(true);
 
-    return (
-        <Alert
-            open={open}
-            onClose={() => {
-                toast.dismiss()
-                setOpen(false)
-                toast.clearWaitingQueue();
-            }}
-            animate={{
-                mount: {y: 0},
-                unmount: {y: -50},
-            }}>
-            {text}
-        </Alert>
-    );
+export default function AlertPopup({flash, errors}) {
+
+    useEffect(() => {
+
+        const showToasts = () => {
+            console.log(flash)
+            console.log(errors)
+            if (flash.message) {
+                if (flash.message.type === "success") {
+                    toast.success(flash.message.message)
+                } else if (flash.message.type === "success") {
+                    toast.error(flash.message.message)
+                }
+            }
+            if (errors) {
+                console.log(errors)
+                toast.error(errors.word || 'Something went wrong')
+            }
+        };
+
+        showToasts();
+    }, [flash, errors]);
+
+    return null;
 }

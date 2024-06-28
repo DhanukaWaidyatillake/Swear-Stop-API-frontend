@@ -6,11 +6,13 @@ import NoOfBannedWordsByMetaDataGraph from "@/Components/NoOfBannedWordsByMetaDa
 import RequestsTable from "@/Components/RequestsTable.jsx";
 
 
-export default function Dashboard({auth}) {
+export default function Dashboard({auth, flash, errors}) {
     return (
         <AuthenticatedLayout
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}
+            flash={flash}
+            errors={errors}
         >
             <Head title="Dashboard"/>
 

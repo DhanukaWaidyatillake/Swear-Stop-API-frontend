@@ -1,18 +1,24 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import Dropdown from '@/Components/BreezeComponents/Dropdown.jsx';
 import NavLink from '@/Components/BreezeComponents/NavLink.jsx';
 import ResponsiveNavLink from '@/Components/BreezeComponents/ResponsiveNavLink.jsx';
 import {Link} from '@inertiajs/react';
-import {Slide, ToastContainer, Zoom} from "react-toastify";
+import {Slide, toast, ToastContainer, Zoom} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'
+import AlertPopup from "@/Components/AlertPopup.jsx";
 
-export default function Authenticated({user, header, children}) {
+export default function Authenticated({user, header, children, flash, errors}) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
     return (
         <>
-            <ToastContainer autoClose={2000} position={"top-center"} limit={1} hideProgressBar={true} closeButton={true} transition={Zoom}
+            <ToastContainer autoClose={2000} position={"top-center"} limit={1} hideProgressBar={true} closeButton={true}
+                            transition={Zoom}
                             className="absolute z-[9999] top-3  left-1/2 transform -translate-x-1/2"/>
+
+            <AlertPopup flash={flash} error={errors}></AlertPopup>
+
             <div className="min-h-screen bg-gray-100 overscroll-x-none">
                 <nav className="bg-white border-b border-gray-100">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

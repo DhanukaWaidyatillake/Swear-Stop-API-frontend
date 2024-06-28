@@ -6,8 +6,10 @@ use App\Http\Requests\StoreBlacklistedWordRequest;
 use App\Http\Requests\UpdateBlacklistedWordRequest;
 use App\Models\BlacklistedWord;
 use App\Services\ApiResultTools;
+use App\Services\ToastMessageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 
 class BlacklistedWordController extends Controller
 {
@@ -36,6 +38,9 @@ class BlacklistedWordController extends Controller
             'added_through' => 'dashboard',
             'user_id' => $request->user()->id
         ]);
+
+        $toastMessageService=new ToastMessageService();
+        $toastMessageService->showToastMessage('success','Word Added to Blacklist');
 
         return Redirect::route('manage_list');
     }

@@ -6,6 +6,7 @@ use App\Http\Requests\StoreWhitelistedWordRequest;
 use App\Http\Requests\UpdateWhitelistedWordRequest;
 use App\Models\WhitelistedWord;
 use App\Services\ApiResultTools;
+use App\Services\ToastMessageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
@@ -36,6 +37,9 @@ class WhitelistedWordController extends Controller
             'added_through' => 'dashboard',
             'user_id' => $request->user()->id
         ]);
+
+        $toastMessageService=new ToastMessageService();
+        $toastMessageService->showToastMessage('success','Word Added to Whitelist');
 
         return Redirect::route('manage_list');
     }

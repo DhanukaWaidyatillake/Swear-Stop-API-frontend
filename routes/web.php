@@ -38,21 +38,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/payments', function () {
-        return Inertia::render('ManagePayments');
-    })->name('payments');
+    Route::get('/payments', [\App\Http\Controllers\PaymentController::class, 'load_manage_payments_page'])->name('payments');
 
     Route::post('/card-saved-successfully', [\App\Http\Controllers\PaymentController::class, 'card_saved_successfully'])->name('card-saved-successfully');
     Route::post('/card-saved-failed', [\App\Http\Controllers\PaymentController::class, 'card_saved_failed'])->name('card-saved-failed');
 
-    Route::get('/pre-payment-method-change', [\App\Http\Controllers\PaymentController::class, 'pre_payment_method_change'])->name('pre-payment-method-change');
-});
-
-
-Route::get('/user/subscribe', function (\Illuminate\Http\Request $request) {
-    $checkout = $request->user()->subscribe($premium = 12345, 'default')->returnTo(route('payments'));
-
-    return view('billing', ['checkout' => $checkout]);
+    Route::get('/load-payment-details-page',[\App\Http\Controllers\PaymentController::class, 'load_payment_details_page'])->name('load-payment-details-page');
+    Route::get('/load-payment-details-update-page',[\App\Http\Controllers\PaymentController::class, 'load_payment_details_update_page'])->name('load-payment-details-update-page');
 });
 
 Route::middleware('auth')->group(function () {

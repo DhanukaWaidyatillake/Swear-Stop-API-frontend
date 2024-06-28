@@ -2,9 +2,10 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head} from '@inertiajs/react';
 import ManageListTable from "@/Components/ManageListTable.jsx";
 import {useState} from "react";
+import AlertPopup from "@/Components/AlertPopup.jsx";
 
 
-export default function ManageLists({auth}) {
+export default function ManageLists({auth, flash, errors}) {
 
     const [open, setOpen] = useState(false);
 
@@ -14,6 +15,8 @@ export default function ManageLists({auth}) {
         <AuthenticatedLayout
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Manage Blacklist and Whitelist</h2>}
+            flash={flash}
+            errors={errors}
         >
             <Head title="Dashboard"/>
 

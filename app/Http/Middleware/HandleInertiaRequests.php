@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -29,11 +30,18 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        return [
+        $ar = [
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
             ],
+            'flash' => [
+                'message' => $request->session()->get('toast')
+            ],
         ];
+
+        Session::remove('toast');
+
+        return $ar;
     }
 }

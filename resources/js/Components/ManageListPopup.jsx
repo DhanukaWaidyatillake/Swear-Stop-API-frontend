@@ -12,12 +12,9 @@ export default function ManageListPopup({list_type, visible, setVisible, newBann
     function submit(e) {
         e.preventDefault()
         form.post(list_type === "blacklist" ? '/add_word_to_blacklist' : '/add_word_to_whitelist', {
+            preserveScroll: true,
             onSuccess: () => {
                 const successMessage = "Successfully Added Word to " + list_type.charAt(0).toUpperCase() + list_type.slice(1);
-                toast.success(successMessage, {
-                    position: "top-center",
-                    theme: "colored"
-                })
                 form.reset()
                 setVisible(false)
                 newBannedWordAdded()
