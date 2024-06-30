@@ -8,9 +8,7 @@ export default function AlertPopup({flash, errors}) {
     useEffect(() => {
 
         const showToasts = () => {
-            console.log(flash)
-            console.log(errors)
-            if (flash.message) {
+            if (flash && flash.message) {
                 if (flash.message.type === "success") {
                     toast.success(flash.message.message)
                 } else if (flash.message.type === "success") {
@@ -18,7 +16,6 @@ export default function AlertPopup({flash, errors}) {
                 }
             }
             if (errors) {
-                console.log(errors)
                 toast.error(errors.word || 'Something went wrong')
             }
         };

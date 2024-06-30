@@ -8,7 +8,7 @@ import {Slide, toast, ToastContainer, Zoom} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
 import AlertPopup from "@/Components/AlertPopup.jsx";
 
-export default function Authenticated({user, header, children, flash, errors}) {
+export default function Authenticated({user, header, children, flash = null, errors = null}) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
     return (
