@@ -1,0 +1,133 @@
+{
+    "data": {
+        "id": "txn_01j1nc3m94fy3wv809q9n5ed86",
+        "items": [
+            {
+                "price": {
+                    "id": "pri_01j17pahhf3d620xya4x9ckrg7",
+                    "name": "Payment method collection",
+                    "type": "standard",
+                    "status": "active",
+                    "quantity": {
+                        "maximum": 1,
+                        "minimum": 1
+                    },
+                    "tax_mode": "account_setting",
+                    "created_at": "2024-06-25T12:35:55.567447Z",
+                    "product_id": "pro_01j156emxybs5j9tvw1x2kpx5x",
+                    "unit_price": {
+                        "amount": "0",
+                        "currency_code": "USD"
+                    },
+                    "updated_at": "2024-06-27T03:26:24.71359Z",
+                    "custom_data": null,
+                    "description": "Price used for payment detail collection",
+                    "trial_period": null,
+                    "billing_cycle": {
+                        "interval": "month",
+                        "frequency": 1
+                    },
+                    "unit_price_overrides": []
+                },
+                "price_id": "pri_01j17pahhf3d620xya4x9ckrg7",
+                "quantity": 1,
+                "proration": null
+            }
+        ],
+        "origin": "web",
+        "status": "ready",
+        "details": {
+            "totals": {
+                "fee": null,
+                "tax": "0",
+                "total": "0",
+                "credit": "0",
+                "balance": "0",
+                "discount": "0",
+                "earnings": null,
+                "subtotal": "0",
+                "grand_total": "0",
+                "currency_code": "USD",
+                "credit_to_balance": "0"
+            },
+            "line_items": [
+                {
+                    "id": "txnitm_01j1nc7as83pa6veepkgfyb2a6",
+                    "totals": {
+                        "tax": "0",
+                        "total": "0",
+                        "discount": "0",
+                        "subtotal": "0"
+                    },
+                    "item_id": null,
+                    "product": {
+                        "id": "pro_01j156emxybs5j9tvw1x2kpx5x",
+                        "name": "Payment Method Collection",
+                        "type": "standard",
+                        "status": "active",
+                        "image_url": null,
+                        "created_at": "2024-06-24T13:20:04.03Z",
+                        "updated_at": "2024-06-25T18:24:16.904Z",
+                        "custom_data": null,
+                        "description": null,
+                        "tax_category": "standard"
+                    },
+                    "price_id": "pri_01j17pahhf3d620xya4x9ckrg7",
+                    "quantity": 1,
+                    "tax_rate": "0",
+                    "unit_totals": {
+                        "tax": "0",
+                        "total": "0",
+                        "discount": "0",
+                        "subtotal": "0"
+                    }
+                }
+            ],
+            "payout_totals": null,
+            "tax_rates_used": [
+                {
+                    "totals": {
+                        "tax": "0",
+                        "total": "0",
+                        "discount": "0",
+                        "subtotal": "0"
+                    },
+                    "tax_rate": "0"
+                }
+            ],
+            "adjusted_totals": {
+                "fee": "0",
+                "tax": "0",
+                "total": "0",
+                "earnings": "0",
+                "subtotal": "0",
+                "grand_total": "0",
+                "currency_code": "USD"
+            }
+        },
+        "checkout": {
+            "url": "https:\/\/localhost:8086\/?_ptxn=txn_01j1nc3m94fy3wv809q9n5ed86"
+        },
+        "payments": [],
+        "billed_at": null,
+        "address_id": "add_01j1nc7adwdpmnpmjt3bnaayrt",
+        "created_at": "2024-06-30T20:06:45.373694Z",
+        "invoice_id": null,
+        "updated_at": "2024-06-30T20:08:46.635335412Z",
+        "business_id": null,
+        "custom_data": null,
+        "customer_id": "ctm_01j1n600gedf437ksqexz5eh66",
+        "discount_id": null,
+        "receipt_data": null,
+        "currency_code": "USD",
+        "billing_period": null,
+        "invoice_number": null,
+        "billing_details": null,
+        "collection_mode": "automatic",
+        "subscription_id": null
+    },
+    "event_id": "evt_01j1nc7b9gcb9jvmjsme0wa7zn",
+    "event_type": "transaction.ready",
+    "occurred_at": "2024-06-30T20:08:47.153062Z",
+    "notification_id": "ntf_01j1nc7bf2kqveepk7w4evj0y6"
+}

@@ -44,9 +44,13 @@ class PaymentController extends Controller
         $auditService->createCustomAudit($user, 'Payment Details Saving Failed', $request->all());
     }
 
-    public function load_payment_details_page(): \Inertia\Response
+    public function load_payment_details_page(Request $request): \Inertia\Response
     {
-        return Inertia::render('PaymentMethodCollectionPage');
+        if(!$request->user()->is_subscribed) {
+            return Inertia::render('PaymentMethodCollectionPage');
+        } else {
+            abort(500,'User already has payment method');
+        }
     }
 
     public function load_payment_details_update_page(Request $request): \Inertia\Response

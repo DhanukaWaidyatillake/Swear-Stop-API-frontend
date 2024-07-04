@@ -1,0 +1,75 @@
+{
+    "data": {
+        "id": "sub_01j1nc97ayazd4c07z7fy514xe",
+        "items": [
+            {
+                "price": {
+                    "id": "pri_01j17pahhf3d620xya4x9ckrg7",
+                    "name": "Payment method collection",
+                    "type": "standard",
+                    "status": "active",
+                    "quantity": {
+                        "maximum": 1,
+                        "minimum": 1
+                    },
+                    "tax_mode": "account_setting",
+                    "seller_id": "20616",
+                    "created_at": "2024-06-25T12:35:55.567447Z",
+                    "product_id": "pro_01j156emxybs5j9tvw1x2kpx5x",
+                    "unit_price": {
+                        "amount": "0",
+                        "currency_code": "USD"
+                    },
+                    "updated_at": "2024-06-27T03:26:24.71359Z",
+                    "custom_data": null,
+                    "description": "Price used for payment detail collection",
+                    "import_meta": null,
+                    "trial_period": null,
+                    "billing_cycle": {
+                        "interval": "month",
+                        "frequency": 1
+                    },
+                    "unit_price_overrides": []
+                },
+                "status": "active",
+                "quantity": 1,
+                "recurring": true,
+                "created_at": "2024-06-30T20:09:48.638Z",
+                "updated_at": "2024-06-30T20:09:48.638Z",
+                "trial_dates": null,
+                "next_billed_at": "2024-07-30T20:09:48.631Z",
+                "previously_billed_at": "2024-06-30T20:09:48.631Z"
+            }
+        ],
+        "status": "active",
+        "discount": null,
+        "paused_at": null,
+        "address_id": "add_01j1nc7adwdpmnpmjt3bnaayrt",
+        "created_at": "2024-06-30T20:09:48.638Z",
+        "started_at": "2024-06-30T20:09:48.631Z",
+        "updated_at": "2024-06-30T20:09:48.638Z",
+        "business_id": null,
+        "canceled_at": null,
+        "custom_data": null,
+        "customer_id": "ctm_01j1n600gedf437ksqexz5eh66",
+        "import_meta": null,
+        "billing_cycle": {
+            "interval": "month",
+            "frequency": 1
+        },
+        "currency_code": "USD",
+        "next_billed_at": "2024-07-30T20:09:48.631Z",
+        "billing_details": null,
+        "collection_mode": "automatic",
+        "first_billed_at": "2024-06-30T20:09:48.631Z",
+        "scheduled_change": null,
+        "current_billing_period": {
+            "ends_at": "2024-07-30T20:09:48.631Z",
+            "starts_at": "2024-06-30T20:09:48.631Z"
+        }
+    },
+    "event_id": "evt_01j1nc97z147m5v8141ea0p63m",
+    "event_type": "subscription.activated",
+    "occurred_at": "2024-06-30T20:09:49.281863Z",
+    "notification_id": "ntf_01j1nc983rd3zktwta71s74d4e"
+}

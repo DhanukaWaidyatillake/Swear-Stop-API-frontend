@@ -31,7 +31,7 @@ class User extends Authenticatable implements Auditable
         'is_signup_successful',
         'card_type',
         'card_last_4',
-        'card_expiry_date'
+        'card_expiry_date',
     ];
 
     /**
