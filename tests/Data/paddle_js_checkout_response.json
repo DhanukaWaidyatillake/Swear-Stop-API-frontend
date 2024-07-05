@@ -1,0 +1,86 @@
+{
+    "name": "checkout.completed",
+    "data": {
+        "status": "completed",
+        "totals": {
+            "subtotal": 0,
+            "discount": 0,
+            "balance": 0,
+            "tax": 0,
+            "total": 0,
+            "credit": 0
+        },
+        "transaction_id": "txn_01j21kp5c4v5xtqxrp3985sh7d",
+        "id": "che_01j21kp5h71c8gh90sj7xh17c8",
+        "custom_data": null,
+        "payment": {
+            "method_details": {
+                "type": "card",
+                "card": {
+                    "last4": "5556",
+                    "type": "visa",
+                    "expiry_year": 2043,
+                    "expiry_month": 8
+                }
+            }
+        },
+        "currency_code": "USD",
+        "recurring_totals": {
+            "subtotal": 0,
+            "discount": 0,
+            "credit": 0,
+            "tax": 0,
+            "total": 0,
+            "balance": 0
+        },
+        "customer": {
+            "email": "jordi.prohaska@mante.com",
+            "id": "ctm_01j1zm9ttgyrma8e8cz9eg6x7x",
+            "business": null,
+            "address": {
+                "country_code": "LK",
+                "id": "add_01j21kpyd6gk7s6r5yvm6fwvya",
+                "region": null,
+                "first_line": null,
+                "city": null,
+                "postal_code": null
+            }
+        },
+        "settings": {
+            "theme": "light",
+            "display_mode": "inline"
+        },
+        "items": [
+            {
+                "totals": {
+                    "subtotal": 0,
+                    "discount": 0,
+                    "credit": 0,
+                    "tax": 0,
+                    "total": 0,
+                    "balance": 0
+                },
+                "product": {
+                    "id": "pro_01j156emxybs5j9tvw1x2kpx5x",
+                    "image_url": null,
+                    "name": "Payment Method Collection",
+                    "description": null
+                },
+                "price_id": "pri_01j17pahhf3d620xya4x9ckrg7",
+                "quantity": 1,
+                "trial_period": null,
+                "recurring_totals": {
+                    "subtotal": 0,
+                    "discount": 0,
+                    "tax": 0,
+                    "total": 0
+                },
+                "billing_cycle": {
+                    "interval": "month",
+                    "frequency": 1
+                },
+                "price_name": "Payment method collection"
+            }
+        ]
+    }
+}

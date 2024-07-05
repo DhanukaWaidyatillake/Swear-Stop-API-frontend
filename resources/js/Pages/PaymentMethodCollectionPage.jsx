@@ -3,7 +3,7 @@ import {router} from "@inertiajs/react";
 import {useEffect} from "react";
 import {Button} from "@material-tailwind/react";
 
-export default function PaymentMethodCollectionPage({auth,txn_id}) {
+export default function PaymentMethodCollectionPage({auth, txn_id}) {
 
     // Load the Paddle script dynamically
     const script = document.createElement('script');
@@ -26,17 +26,25 @@ export default function PaymentMethodCollectionPage({auth,txn_id}) {
                             router.post('/card-saved-successfully', data, {
                                 'preserveScroll': true
                             })
+
+                            setTimeout(function() {
+                                router.get('/payments');
+                            }, 2000);  // 5000 milliseconds = 5 seconds
                             break;
                         case "checkout.error":
                             router.post('/card-saved-failed', data, {
                                 'preserveScroll': true
                             })
+
+                            setTimeout(function() {
+                                router.get('/payments');
+                            }, 2000);  // 5000 milliseconds = 5 seconds
                             break;
                     }
                 }
             });
 
-            if(txn_id){
+            if (txn_id) {
                 window.Paddle.Checkout.open({
                     settings: {
                         displayMode: "inline",

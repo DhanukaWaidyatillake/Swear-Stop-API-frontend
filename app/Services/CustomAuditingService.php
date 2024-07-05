@@ -9,7 +9,7 @@ use OwenIt\Auditing\Events\AuditCustom;
 class CustomAuditingService
 {
 
-    public function createCustomAudit(User $user, string $auditEvent, array $auditData): void
+    public function createCustomAudit(User $user, string $auditEvent, array $auditData = []): void
     {
         $user->auditEvent = $auditEvent;
         $user->isCustomEvent = true;
