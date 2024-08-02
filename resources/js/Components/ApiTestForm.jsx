@@ -9,7 +9,7 @@ import VerticalStepper from "@/Components/VerticalStepper.jsx";
 
 export default function ApiTestForm(props) {
 
-    const categories = ['Slang', 'Sexual', 'Recreational Drugs', 'Medical Drugs', 'Alcohol', 'Weapons and Warfare', 'Gambling', 'Violence', 'All Categories'];
+    const categories = ['Slang', 'Sexual', 'Recreational Drugs', 'Political and religious', 'Alcohol', 'Weapons and Warfare', 'Gambling', 'Violence', 'All Categories'];
 
     const [selectedCategories, setSelectedCategories] = useState([]);
 
