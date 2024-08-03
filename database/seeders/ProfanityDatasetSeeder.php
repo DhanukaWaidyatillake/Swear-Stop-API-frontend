@@ -1852,7 +1852,6 @@ class ProfanityDatasetSeeder extends Seeder
                 380 => '6-Apdb',
                 381 => '6-it',
                 382 => '7-UP',
-                383 => 'Weed',
                 384 => 'Marijuana',
                 385 => 'Cannabis',
                 386 => 'Pot',
@@ -2022,6 +2021,7 @@ class ProfanityDatasetSeeder extends Seeder
                 550 => 'Light the joint',
                 551 => 'Pass the blunt',
                 552 => 'Snort that line',
+                553 => 'Glue sniff',
             ],
 
             'weapons' => [
@@ -3332,7 +3332,6 @@ class ProfanityDatasetSeeder extends Seeder
                 14 => 'Shoot',
                 15 => 'Stab',
                 16 => 'Terrorize',
-                17 => 'Burn',
                 18 => 'Crush',
                 19 => 'Wipe out',
                 20 => 'Incite',
@@ -4141,20 +4140,20 @@ class ProfanityDatasetSeeder extends Seeder
 
                 if ($no_of_words_in_phrase == 1) {
                     ProfanityWord::query()->create([
-                        'word_1' => $phrase,
+                        'word_1' => strtolower($phrase),
                         'profanity_category_id' => $profanity_category_id
                     ]);
                 } else if ($no_of_words_in_phrase == 2) {
                     ProfanityWord::query()->create([
-                        'word_1' => $words_in_phrase[0],
-                        'word_2' => $words_in_phrase[1],
+                        'word_1' => strtolower($words_in_phrase[0]),
+                        'word_2' => strtolower($words_in_phrase[1]),
                         'profanity_category_id' => $profanity_category_id
                     ]);
                 } else if ($no_of_words_in_phrase == 3) {
                     ProfanityWord::query()->create([
-                        'word_1' => $words_in_phrase[0],
-                        'word_2' => $words_in_phrase[1],
-                        'word_3' => $words_in_phrase[2],
+                        'word_1' => strtolower($words_in_phrase[0]),
+                        'word_2' => strtolower($words_in_phrase[1]),
+                        'word_3' => strtolower($words_in_phrase[2]),
                         'profanity_category_id' => $profanity_category_id
                     ]);
                 }

@@ -91,7 +91,7 @@ export default function ApiTestForm(props) {
                         <RegenerateIconSVG></RegenerateIconSVG>
                     </Button>
                 </div>
-                <InputLabel className="mt-16 mb-6" htmlFor="chipSelect" value="Select Categories To Filter"/>
+                <InputLabel className="mt-16 mb-6" htmlFor="chipSelect" value="Select Moderation Categories To Filter"/>
                 <div className="mt-4 flex flex-wrap justify-center">
                     {categories.map((item, index) => (
                         <div key={index} className="mb-3">
