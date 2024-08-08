@@ -32,7 +32,7 @@ class StoreWhitelistedWordRequest extends FormRequest
         ];
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [
             'word.required' => 'Please specify a word',
