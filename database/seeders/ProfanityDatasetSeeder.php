@@ -6,6 +6,8 @@ use App\Models\ProfanityCategory;
 use App\Models\ProfanityWord;
 use Database\Seeders\Datasets\ProfanityDataset;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
+use function Laravel\Prompts\progress;
 
 class ProfanityDatasetSeeder extends Seeder
 {
@@ -17,8 +19,13 @@ class ProfanityDatasetSeeder extends Seeder
     {
         $dataset = new ProfanityDataset();
         $words = $dataset->words;
+
         foreach ($words as $word_type => $word_array) {
             $profanity_category_id = ProfanityCategory::query()->where('profanity_category_code', $word_type)->first()->id;
+
+            $progress = progress(label: 'Seeding Profanity Words (In DB)  : ' . $word_type, steps: sizeof($word_array));
+            $progress->start();
+
 
             foreach ($word_array as $phrase) {
 
@@ -33,11 +40,25 @@ class ProfanityDatasetSeeder extends Seeder
                 }
 
                 if ($no_of_words_in_phrase == 1) {
+                    $phrase = strtolower($phrase);
                     ProfanityWord::query()->create([
-                        'word_1' => strtolower($phrase),
+                        'word_1' => $phrase,
                         'profanity_category_id' => $profanity_category_id
                     ]);
 
+                    if (Str::singular($phrase) != $phrase) {
+                        ProfanityWord::query()->create([
+                            'word_1' => Str::singular($phrase),
+                            'profanity_category_id' => $profanity_category_id
+                        ]);
+                    }
+
+                    if (Str::plural($phrase) != $phrase) {
+                        ProfanityWord::query()->create([
+                            'word_1' => Str::plural($phrase),
+                            'profanity_category_id' => $profanity_category_id
+                        ]);
+                    }
                 } else if ($no_of_words_in_phrase == 2) {
                     ProfanityWord::query()->create([
                         'word_1' => strtolower($words_in_phrase[0]),
@@ -52,7 +73,11 @@ class ProfanityDatasetSeeder extends Seeder
                         'profanity_category_id' => $profanity_category_id
                     ]);
                 }
+
+                $progress->advance();
             }
+
+            $progress->finish();
         }
 
     }
