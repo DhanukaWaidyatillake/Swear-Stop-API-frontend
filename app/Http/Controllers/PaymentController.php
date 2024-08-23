@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PricingTier;
+use App\Services\CostAndUsageCalculationService;
 use App\Services\CustomAuditingService;
 use App\Services\ToastMessageService;
 use Carbon\Carbon;
@@ -11,15 +13,16 @@ use Laravel\Paddle\Cashier;
 
 class PaymentController extends Controller
 {
-    public function load_manage_payments_page()
+    public function load_manage_payments_page(Request $request, CostAndUsageCalculationService $costAndUsageCalculationService): \Inertia\Response
     {
-        return Inertia::render('ManagePayments');
+        return Inertia::render('ManagePayments')->with(
+            'usage_details',
+            $costAndUsageCalculationService->calculateCostAndUsageForCurrentBillingMonth($request->user())
+        );
     }
 
-    public function card_saved_successfully(Request $request): void
+    public function card_saved_successfully(Request $request, ToastMessageService $toastMessageService, CustomAuditingService $auditService): void
     {
-        $toastMessageService = new ToastMessageService();
-        $auditService = new CustomAuditingService();
         $user = $request->user();
 
         try {
@@ -54,10 +57,9 @@ class PaymentController extends Controller
         }
     }
 
-    public function card_saved_failed(Request $request): void
+    public function card_saved_failed(Request $request, CustomAuditingService $auditService): void
     {
         $user = $request->user();
-        $auditService = new CustomAuditingService();
         $auditService->createCustomAudit($user, 'Payment Details Saving Failed', $request->all());
     }
 
@@ -70,11 +72,9 @@ class PaymentController extends Controller
         }
     }
 
-    public function load_payment_details_update_page(Request $request): \Inertia\Response
+    public function load_payment_details_update_page(Request $request, CustomAuditingService $auditService): \Inertia\Response
     {
         //To update payment method we should pass an id of a payment method update transaction is passed to the payment method collection page
-        $auditService = new CustomAuditingService();
-
         if ($request->user()->subscription()) {
             $response = Cashier::api('GET', 'subscriptions/' . $request->user()->subscription()->asPaddleSubscription()['id'] . '/update-payment-method-transaction');
 
@@ -85,5 +85,10 @@ class PaymentController extends Controller
             $auditService->createCustomAudit($request->user(), 'Attempt to load payment method modification page without subscription');
             abort(401);
         }
+    }
+
+    public function get_pricing_structure(): \Illuminate\Database\Eloquent\Collection|array
+    {
+        return PricingTier::query()->select(['from', 'to', 'price_per_api_call'])->get();
     }
 }

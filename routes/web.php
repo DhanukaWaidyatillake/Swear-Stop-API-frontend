@@ -21,6 +21,9 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
+Route::get('/get_pricing_structure', [App\Http\Controllers\PaymentController::class, 'get_pricing_structure'])->name('get-pricing-structure');
+
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/manage_list', function () {
         return Inertia::render('ManageLists');

@@ -32,6 +32,8 @@ class User extends Authenticatable implements Auditable
         'card_type',
         'card_last_4',
         'card_expiry_date',
+        'previous_billing_date',
+        'current_billing_date'
     ];
 
     /**
@@ -44,6 +46,7 @@ class User extends Authenticatable implements Auditable
         'remember_token',
         'google_id',
         'google_account_info',
+        'subscriptions'
     ];
 
     protected $appends = ['is_subscribed'];
@@ -59,6 +62,8 @@ class User extends Authenticatable implements Auditable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'previous_billing_date' => 'datetime',
+            'current_billing_date' => 'datetime',
         ];
     }
 

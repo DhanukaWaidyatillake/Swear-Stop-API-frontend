@@ -1,9 +1,9 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head} from '@inertiajs/react';
-import RequestsOverTimeGraph from "@/Components/RequestsOverTimeGraph.jsx";
-import ProfanityFrequencyGraph from "@/Components/ProfanityFrequencyGraph.jsx";
-import NoOfBannedWordsByMetaDataGraph from "@/Components/NoOfBannedWordsByMetaDataGraph.jsx";
-import RequestsTable from "@/Components/RequestsTable.jsx";
+import RequestsOverTimeGraph from "@/Components/Dashboard/RequestsOverTimeGraph.jsx";
+import ProfanityFrequencyGraph from "@/Components/Dashboard/ProfanityFrequencyGraph.jsx";
+import NoOfBannedWordsByMetaDataGraph from "@/Components/Dashboard/NoOfBannedWordsByMetaDataGraph.jsx";
+import RequestsTable from "@/Components/Dashboard/RequestsTable.jsx";
 
 
 export default function Dashboard({auth, flash, errors}) {

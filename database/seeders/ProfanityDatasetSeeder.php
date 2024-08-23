@@ -12,6 +12,11 @@ use function Laravel\Prompts\progress;
 class ProfanityDatasetSeeder extends Seeder
 {
 
+    private array $omit_singular_plural_check = [
+        'pis',
+        'nos'
+    ];
+
     /**
      * Run the database seeds.
      */
@@ -46,14 +51,14 @@ class ProfanityDatasetSeeder extends Seeder
                         'profanity_category_id' => $profanity_category_id
                     ]);
 
-                    if (Str::singular($phrase) != $phrase) {
+                    if ((Str::singular($phrase) != $phrase) && !in_array($phrase, $this->omit_singular_plural_check)) {
                         ProfanityWord::query()->create([
                             'word_1' => Str::singular($phrase),
                             'profanity_category_id' => $profanity_category_id
                         ]);
                     }
 
-                    if (Str::plural($phrase) != $phrase) {
+                    if (Str::plural($phrase) != $phrase && !in_array($phrase, $this->omit_singular_plural_check)) {
                         ProfanityWord::query()->create([
                             'word_1' => Str::plural($phrase),
                             'profanity_category_id' => $profanity_category_id

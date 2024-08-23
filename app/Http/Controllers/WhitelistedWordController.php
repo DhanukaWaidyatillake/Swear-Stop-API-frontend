@@ -15,19 +15,17 @@ class WhitelistedWordController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request, ApiResultTools $apiResultTools)
     {
         $query = WhitelistedWord::query()->where('user_id', $request->user()->id);
 
-        $apiResultTools = new ApiResultTools($query, $request);
-
-        return $apiResultTools->search()->order()->paginate(5);
+        return $apiResultTools->setRequestAndQuery($query, $request)->search()->order()->paginate(5);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreWhitelistedWordRequest $request)
+    public function store(StoreWhitelistedWordRequest $request,ToastMessageService $toastMessageService)
     {
         $data = $request->validated();
 
@@ -38,11 +36,11 @@ class WhitelistedWordController extends Controller
             'user_id' => $request->user()->id
         ]);
 
-        $toastMessageService=new ToastMessageService();
-        $toastMessageService->showToastMessage('success','Word Added to Whitelist');
+        $toastMessageService->showToastMessage('success', 'Word Added to Whitelist');
 
         return Redirect::route('manage_list');
     }
+
     /**
      * Update the specified resource in storage.
      */

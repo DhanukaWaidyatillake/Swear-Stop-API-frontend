@@ -1,6 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head} from '@inertiajs/react';
-import ManageListTable from "@/Components/ManageListTable.jsx";
+import ManageListTable from "@/Components/ManageLists/ManageListTable.jsx";
 import {useState} from "react";
 import AlertPopup from "@/Components/AlertPopup.jsx";
 

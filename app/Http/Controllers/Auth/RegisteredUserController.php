@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\SiteConfig;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -67,6 +68,11 @@ class RegisteredUserController extends Controller
 
             //Create paddle customer
             $user->createAsCustomer();
+
+            $user->update([
+                'previous_billing_date' => null,
+                'current_billing_date' => Carbon::now()->addMonth(),
+            ]);
 
             Auth::login($user);
 

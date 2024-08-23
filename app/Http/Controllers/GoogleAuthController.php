@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\SiteConfig;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -49,10 +50,15 @@ class GoogleAuthController extends Controller
                     'is_signup_successful' => true
                 ]);
 
-                Auth::login($user, true);
-
                 //Create paddle customer
                 $user->createAsCustomer();
+
+                $user->update([
+                    'previous_billing_date' => null,
+                    'current_billing_date' => Carbon::now()->addMonth(),
+                ]);
+
+                Auth::login($user, true);
 
                 return redirect()->intended(route('dashboard', absolute: false));
             } else {

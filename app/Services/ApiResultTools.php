@@ -11,10 +11,12 @@ class ApiResultTools
     private Builder $query;
     private Request $request;
 
-    public function __construct(Builder $query, Request $request)
+    public function setRequestAndQuery(Builder $query, Request $request): static
     {
         $this->query = $query;
         $this->request = $request;
+
+        return $this;
     }
 
     public function search(): ApiResultTools

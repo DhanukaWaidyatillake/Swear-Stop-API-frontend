@@ -11,7 +11,7 @@ import {
     Typography,
 } from "@material-tailwind/react";
 import {useEffect, useState} from "react";
-import ManageListPopup from "@/Components/ManageListPopup.jsx";
+import ManageListPopup from "@/Components/ManageLists/ManageListPopup.jsx";
 import {Link, router} from "@inertiajs/react";
 
 const TABLE_HEAD = ["Word", "Added on", "Added Through", "Enabled"];

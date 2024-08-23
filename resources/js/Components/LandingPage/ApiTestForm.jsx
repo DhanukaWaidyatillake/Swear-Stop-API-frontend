@@ -5,7 +5,7 @@ import RegenerateIconSVG from "@/Icons/RegenerateIconSVG.jsx";
 import TickIconSVG from "@/Icons/TickIconSVG.jsx";
 import DownArrowSVG from "@/Icons/DownArrowSVG.jsx";
 import {useEffect, useState} from "react";
-import VerticalStepper from "@/Components/VerticalStepper.jsx";
+import VerticalStepper from "@/Components/LandingPage/VerticalStepper.jsx";
 
 export default function ApiTestForm(props) {
 

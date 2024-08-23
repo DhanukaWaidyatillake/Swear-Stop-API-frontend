@@ -1,15 +1,20 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, Link, router} from '@inertiajs/react';
+import {Head, Link, router, usePage} from '@inertiajs/react';
 import {useEffect, useState} from "react";
 import {Button, Card, CardBody, Chip, Typography} from "@material-tailwind/react";
 import CreditCardIcon from "@/Icons/CreditCardIcon.jsx";
-import InvoicesTable from "@/Components/InvoicesTable.jsx";
+import InvoicesTable from "@/Components/ManagePayments/InvoicesTable.jsx";
 import {Helmet} from "react-helmet";
 import PaymentMethodCollectionPage from "@/Pages/PaymentMethodCollectionPage.jsx";
+import ManageListPopup from "@/Components/ManageLists/ManageListPopup.jsx";
+import PricingStructurePopup from "@/Components/ManagePayments/PricingStructurePopup.jsx";
 
 
 export default function ManagePayments({auth, flash, errors}) {
 
+    const [open, setOpen] = useState(false);
+
+    const {usage_details} = usePage().props;
 
     return (
         <AuthenticatedLayout
@@ -31,29 +36,46 @@ export default function ManagePayments({auth, flash, errors}) {
                             <Card className="mt-6 w-full sm:w-1/3 border-black border-2 h-fit">
                                 <CardBody className="justify-center flex">
                                     <Typography variant="h4" color="blue-gray" className="mb-2 text-center ">
-                                        Remaining Free Requests
+                                        Available Free API Calls
                                     </Typography>
-                                    <Chip value={"97"} className="text-center w-1/4 text-3xl" variant="filled"
+                                    <Chip value={auth.user.free_request_count} className="text-center w-1/4 text-3xl"
+                                          variant="filled"
                                     ></Chip>
                                 </CardBody>
                             </Card>
                             <Card className="mt-6 w-full sm:w-1/3 sm:ml-10 border-black border-2">
                                 <CardBody>
                                     <Typography variant="h4" color="blue-gray" className="mb-2 text-center">
-                                        Current Usage For This Month
+                                        Usage For The Current Billing Month
                                     </Typography>
                                     <Typography variant="h5" color="blue-gray"
                                                 className="mb-2 text-center mt-10 font-extrabold flex justify-center">
                                         <span className="w-1/2">Total API calls</span>
-                                        <Chip value={"67"} className="text-center w-1/4 text-lg" variant="filled"
+                                        <Chip
+                                            value={usage_details['usage'].toLocaleString('en-US', {
+                                                maximumFractionDigits: 1
+                                            })}
+                                            className="text-center w-auto min-w-[25%] text-lg" variant="filled"
                                         ></Chip>
                                     </Typography>
                                     <Typography variant="h5" color="blue-gray"
                                                 className="mb-2 text-center font-extrabold flex justify-center mt-5">
                                         <span className="w-1/2">Total Cost</span>
-                                        <Chip value={"$5.67"} className="text-center w-1/4 text-lg" variant="filled"
+                                        <Chip
+                                            value={'$' + usage_details['cost'].toLocaleString('en-US', {
+                                                maximumFractionDigits: 1
+                                            })}
+                                            className="text-center w-auto text-lg" variant="filled"
                                         ></Chip>
                                     </Typography>
+                                    <a href="#"
+                                       className="text-sm py-1 pr-2 mb-2 text-center flex justify-center mt-5 transition-transform hover:scale-105 hover:underline"
+                                       onClick={() => {
+                                           setOpen(true)
+                                       }}>
+                                        See Pricing Structure
+                                    </a>
+                                    <PricingStructurePopup visible={open} setVisible={setOpen}></PricingStructurePopup>
                                 </CardBody>
                             </Card>
                             {auth.user.is_subscribed ?
@@ -100,9 +122,9 @@ export default function ManagePayments({auth, flash, errors}) {
                                 </Card>)
                             }
                         </div>
-                        <div className="p-6">
-                            <InvoicesTable></InvoicesTable>
-                        </div>
+                        {/*<div className="p-6">*/}
+                        {/*    <InvoicesTable></InvoicesTable>*/}
+                        {/*</div>*/}
                     </div>
                 </div>
             </div>

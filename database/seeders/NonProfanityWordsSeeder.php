@@ -62,6 +62,14 @@ class NonProfanityWordsSeeder extends Seeder
                             continue;
                         } else {
                             Redis::sadd('words', $initial_word);
+
+                            if (Str::singular($initial_word) != $initial_word) {
+                                Redis::sadd('words', Str::singular($initial_word));
+                            }
+
+                            if (Str::plural($initial_word) != $initial_word) {
+                                Redis::sadd('words', Str::plural($initial_word));
+                            }
                         }
                     }
                 }

@@ -2,11 +2,11 @@ import {Link} from '@inertiajs/react';
 import React, {useState} from 'react';
 import ApplicationLogo from "@/Components/ApplicationLogo.jsx";
 import TopLeftBackgroundSVG from "@/Background/TopLeftBackgroundSVG.jsx";
-import ApiTestForm from "@/Components/ApiTestForm.jsx";
+import ApiTestForm from "@/Components/LandingPage/ApiTestForm.jsx";
 import MiddleLeftBackgroundSVG from "@/Background/MiddleLeftBackgroundSVG.jsx";
-import PricingSection from "@/Components/PricingSection.jsx";
+import PricingSection from "@/Components/LandingPage/PricingSection.jsx";
 import MiddleRightBackgroundSVG from "@/Background/MiddleRightBackgroundSVG.jsx";
-import FeatureSection from "@/Components/FeatureSection.jsx";
+import FeatureSection from "@/Components/LandingPage/FeatureSection.jsx";
 import mainGif from '../../gif/main.gif';
 import {Typography} from "@material-tailwind/react";
 

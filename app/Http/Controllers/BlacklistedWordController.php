@@ -16,19 +16,17 @@ class BlacklistedWordController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request, ApiResultTools $apiResultTools)
     {
         $query = BlacklistedWord::query()->where('user_id', $request->user()->id);
 
-        $apiResultTools = new ApiResultTools($query, $request);
-
-        return $apiResultTools->search()->order()->paginate(5);
+        return $apiResultTools->setRequestAndQuery($query, $request)->search()->order()->paginate(5);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreBlacklistedWordRequest $request)
+    public function store(StoreBlacklistedWordRequest $request,ToastMessageService $toastMessageService)
     {
         $data = $request->validated();
 
@@ -39,8 +37,7 @@ class BlacklistedWordController extends Controller
             'user_id' => $request->user()->id
         ]);
 
-        $toastMessageService=new ToastMessageService();
-        $toastMessageService->showToastMessage('success','Word Added to Blacklist');
+        $toastMessageService->showToastMessage('success', 'Word Added to Blacklist');
 
         return Redirect::route('manage_list');
     }
