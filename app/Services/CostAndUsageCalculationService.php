@@ -24,31 +24,29 @@ class CostAndUsageCalculationService
         if ($usage >= $highest_tier->from) {
             return [
                 'usage' => $usage,
-                'cost' => round($highest_tier->price_per_api_call * $usage, 1)
+                'cost' => round($highest_tier->price_per_api_call * $usage, 1),
+                'pricing_tier' => null
             ];
         } else {
             if ($usage == 0) {
                 return [
                     'usage' => 0,
-                    'cost' => 0.0
+                    'cost' => 0.0,
+                    'pricing_tier' => null
                 ];
             } else {
                 $tier = PricingTier::query()
-                    ->select('price_per_api_call')
-                    ->where('from', '>=', $usage)
-                    ->where('to', '<=', $usage)
+                    ->select('price_per_api_call','paddle_pricing_id')
+                    ->where('to', '>=', $usage)
+                    ->orderBy('from')
                     ->first();
 
                 return [
                     'usage' => $usage,
-                    'cost' => round($tier->price_per_api_call * $usage, 1)
+                    'cost' => round($tier->price_per_api_call * $usage, 1),
+                    'pricing_tier' => $tier
                 ];
             }
         }
-    }
-
-    public function calculateCostAndUsageForGivenBillingMonth(User $user)
-    {
-
     }
 }

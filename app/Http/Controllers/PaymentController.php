@@ -37,6 +37,7 @@ class PaymentController extends Controller
                     'card_last_4' => $card_details['last4'],
                     'card_expiry_date' => Carbon::create($card_details['expiry_year'], $card_details['expiry_month'])
                 ]);
+
                 $toastMessageService->showToastMessage('success', 'Payment Method Saved Successfully');
             } else {
                 //Customer id mismatch or invalid card details

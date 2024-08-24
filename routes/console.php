@@ -2,6 +2,7 @@
 
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
+use Laravel\Paddle\Cashier;
 
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
@@ -10,3 +11,4 @@ Artisan::command('inspire', function () {
 
 \Illuminate\Support\Facades\Schedule::command('signup_secret:refresh')->everyMinute();
 
+\Illuminate\Support\Facades\Schedule::command('trigger-subscription-renewal')->hourly();

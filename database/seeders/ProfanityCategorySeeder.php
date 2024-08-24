@@ -23,11 +23,11 @@ class ProfanityCategorySeeder extends Seeder
                 'profanity_category_name' => 'Sexual',
             ],
             [
-                'profanity_category_code' => 'drugs',
+                'profanity_category_code' => 'recreational_drugs',
                 'profanity_category_name' => 'Recreational Drugs',
             ],
             [
-                'profanity_category_code' => 'weapons',
+                'profanity_category_code' => 'weapons_and_ammunition',
                 'profanity_category_name' => 'Weapons and Ammunition',
             ],
             [
