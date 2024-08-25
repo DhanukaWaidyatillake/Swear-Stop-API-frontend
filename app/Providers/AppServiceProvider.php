@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\ApiKeyCreationService;
 use App\Services\ApiResultTools;
 use App\Services\CostAndUsageCalculationService;
 use App\Services\CustomAuditingService;
@@ -29,6 +30,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton(CostAndUsageCalculationService::class, function ($app) {
             return new CostAndUsageCalculationService();
+        });
+
+        $this->app->singleton(ApiKeyCreationService::class, function ($app) {
+            return new ApiKeyCreationService();
         });
     }
 

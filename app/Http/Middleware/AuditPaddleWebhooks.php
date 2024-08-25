@@ -2,10 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\SiteConfig;
 use App\Models\WebhookLog;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Laravel\Paddle\Cashier;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -19,7 +19,6 @@ class AuditPaddleWebhooks
     public function handle(Request $request, Closure $next): Response
     {
         if ($request->is('paddle/webhook')) {
-
             //Creating A webhook Log
             WebhookLog::query()->create([
                 'user_id' => isset($request->get('data')['customer_id']) ? Cashier::findBillable($request->get('data')['customer_id'])->id : null,
@@ -30,7 +29,7 @@ class AuditPaddleWebhooks
 
                 //Change the billing date of the subscription to a date in the late future to prevent Paddle auto-renewal
                 Cashier::api('PATCH', 'subscriptions/' . $request->get('data')['id'], [
-                    'next_billed_at' => '2200-01-01T00:00:00Z',
+                    'next_billed_at' => SiteConfig::query()->firstWhere('key', 'subscription_renewal_date')?->value,
                     'proration_billing_mode' => 'do_not_bill'
                 ]);
             }

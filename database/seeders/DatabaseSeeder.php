@@ -14,5 +14,6 @@ class DatabaseSeeder extends Seeder
         (new ProfanityCategorySeeder())->run();
         (new ProfanityDatasetSeeder())->run();
         (new PricingTiersSeeder())->run();
+        (new ConfigsSeeder())->run();
     }
 }

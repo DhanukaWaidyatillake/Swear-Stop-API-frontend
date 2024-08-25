@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Invoice;
+use App\Models\User;
 use App\Services\CustomAuditingService;
 use Illuminate\Console\Command;
 use Laravel\Paddle\Cashier;
@@ -28,7 +29,12 @@ class TriggerSubscriptionRenewal extends Command
      */
     public function handle(\App\Services\CostAndUsageCalculationService $costAndUsageCalculationService, CustomAuditingService $auditingService)
     {
-        $users = \App\Models\User::query()->where('current_billing_date', '<=', \Carbon\Carbon::now())->get();
+        //Get all Users whose billing date has elapsed and have an active subscription
+        $users = \App\Models\User::query()
+            ->where('current_billing_date', '<=', \Carbon\Carbon::now())
+            ->get()->filter(function (User $user) {
+                return $user->is_subscribed;
+            });
 
         foreach ($users as $user) {
             $current_date = \Carbon\Carbon::now();

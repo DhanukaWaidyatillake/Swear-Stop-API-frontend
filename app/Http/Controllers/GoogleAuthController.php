@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\SiteConfig;
 use App\Models\User;
+use App\Services\ApiKeyCreationService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +23,10 @@ class GoogleAuthController extends Controller
         return Socialite::driver('google')->redirect();
     }
 
-    public function callback(): false|\Illuminate\Http\RedirectResponse
+    /**
+     * @throws \Exception
+     */
+    public function callback(ApiKeyCreationService $apiKeyCreationService): false|\Illuminate\Http\RedirectResponse
     {
         $google_account = Socialite::driver('google')->user();
         if (!empty($google_account)) {
@@ -35,35 +39,8 @@ class GoogleAuthController extends Controller
                 'google_account_info' => json_encode($google_account, JSON_PRETTY_PRINT)
             ]);
 
-            //ping the api app to generate the sanctum token
-            $response = Http::post(Config::get('auth.api_app_url') . '/generate-token', [
-                'user_id' => $user->id,
-                'signup_secret' => SiteConfig::firstWhere('key', 'signup_secret')?->value
-            ]);
-
-            if ($response->ok()) {
-
-                //refresh the signup token
-                Artisan::call('signup_secret:refresh');
-
-                $user->update([
-                    'is_signup_successful' => true
-                ]);
-
-                //Create paddle customer
-                $user->createAsCustomer();
-
-                $user->update([
-                    'previous_billing_date' => null,
-                    'current_billing_date' => Carbon::now()->addMonth(),
-                ]);
-
-                Auth::login($user, true);
-
-                return redirect()->intended(route('dashboard', absolute: false));
-            } else {
-                throw new \Exception('Error in generating sanctum token', 500);
-            }
+            //ping the api app to generate the API key and finalize registration
+            return $apiKeyCreationService->createAPIKeyAndFinalizeRegistration($user);
         }
         return false;
     }

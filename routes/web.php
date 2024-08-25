@@ -21,9 +21,6 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
-Route::get('/get_pricing_structure', [App\Http\Controllers\PaymentController::class, 'get_pricing_structure'])->name('get-pricing-structure');
-
-
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/manage_list', function () {
         return Inertia::render('ManageLists');
@@ -41,6 +38,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
 Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/get_pricing_structure', [App\Http\Controllers\PaymentController::class, 'get_pricing_structure'])->name('get-pricing-structure');
+
     Route::get('/payments', [\App\Http\Controllers\PaymentController::class, 'load_manage_payments_page'])->name('payments');
 
     Route::post('/card-saved-successfully', [\App\Http\Controllers\PaymentController::class, 'card_saved_successfully'])->name('card-saved-successfully');
@@ -48,6 +47,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/load-payment-details-page',[\App\Http\Controllers\PaymentController::class, 'load_payment_details_page'])->name('load-payment-details-page');
     Route::get('/load-payment-details-update-page',[\App\Http\Controllers\PaymentController::class, 'load_payment_details_update_page'])->name('load-payment-details-update-page');
+
+    Route::get('/show_payment_method_removal_popup',[\App\Http\Controllers\PaymentController::class, 'show_payment_method_removal_popup'])->name('show-payment-method-removal-popup');
+    Route::post('/remove_payment_method',[\App\Http\Controllers\PaymentController::class, 'remove_payment_method'])->name('remove-payment-method');
 });
 
 Route::middleware('auth')->group(function () {

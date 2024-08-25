@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\SiteConfig;
 use App\Models\User;
+use App\Services\ApiKeyCreationService;
 use Carbon\Carbon;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -34,7 +35,7 @@ class RegisteredUserController extends Controller
      * @throws \Illuminate\Validation\ValidationException
      * @throws \Exception
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request, ApiKeyCreationService $apiKeyCreationService): RedirectResponse
     {
         $request->validate([
             'name' => 'required|string|max:255',
@@ -48,37 +49,7 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-
-        event(new Registered($user));
-
-        //ping the api app to generate the sanctum token
-        $response = Http::post(Config::get('auth.api_app_url') . '/api/generate-token', [
-            'user_id' => $user->id,
-            'signup_secret' => SiteConfig::firstWhere('key', 'signup_secret')?->value
-        ]);
-
-
-        if ($response->ok()) {
-            //refresh the signup token
-            Artisan::call('signup_secret:refresh');
-
-            $user->update([
-                'is_signup_successful' => true
-            ]);
-
-            //Create paddle customer
-            $user->createAsCustomer();
-
-            $user->update([
-                'previous_billing_date' => null,
-                'current_billing_date' => Carbon::now()->addMonth(),
-            ]);
-
-            Auth::login($user);
-
-            return redirect(route('dashboard', absolute: false));
-        } else {
-            throw new \Exception('Error in generating sanctum token', 500);
-        }
+        //ping the api app to generate the API key and finalize registration
+        return $apiKeyCreationService->createAPIKeyAndFinalizeRegistration($user);
     }
 }

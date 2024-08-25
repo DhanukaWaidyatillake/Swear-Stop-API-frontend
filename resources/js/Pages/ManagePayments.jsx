@@ -8,11 +8,14 @@ import {Helmet} from "react-helmet";
 import PaymentMethodCollectionPage from "@/Pages/PaymentMethodCollectionPage.jsx";
 import ManageListPopup from "@/Components/ManageLists/ManageListPopup.jsx";
 import PricingStructurePopup from "@/Components/ManagePayments/PricingStructurePopup.jsx";
+import ConfirmCardRemovalPopup from "@/Components/ManagePayments/ConfirmCardRemovalPopup.jsx";
 
 
 export default function ManagePayments({auth, flash, errors}) {
 
-    const [open, setOpen] = useState(false);
+    const [openPricingPopup, setOpenPricingPopup] = useState(false);
+
+    const [openCardRemovalPopup, setOpenCardRemovalPopup] = useState(false);
 
     const {usage_details} = usePage().props;
 
@@ -71,11 +74,12 @@ export default function ManagePayments({auth, flash, errors}) {
                                     <a href="#"
                                        className="text-sm py-1 pr-2 mb-2 text-center flex justify-center mt-5 transition-transform hover:scale-105 hover:underline"
                                        onClick={() => {
-                                           setOpen(true)
+                                           setOpenPricingPopup(true)
                                        }}>
                                         See Pricing Structure
                                     </a>
-                                    <PricingStructurePopup visible={open} setVisible={setOpen}></PricingStructurePopup>
+                                    <PricingStructurePopup visible={openPricingPopup}
+                                                           setVisible={setOpenPricingPopup}></PricingStructurePopup>
                                 </CardBody>
                             </Card>
                             {auth.user.is_subscribed ?
@@ -99,7 +103,11 @@ export default function ManagePayments({auth, flash, errors}) {
                                                 }}>Change Payment Method</Button>
                                         <Button color="red" size="sm"
                                                 className="w-3/4 self-center mt-5 text-center justify-center"
-                                                variant="outlined">Remove Payment Method</Button>
+                                                variant="outlined" onClick={() => {
+                                                    setOpenCardRemovalPopup(true)
+                                                }}>Remove Payment Method</Button>
+                                        <ConfirmCardRemovalPopup visible={openCardRemovalPopup}
+                                                               setVisible={setOpenCardRemovalPopup}></ConfirmCardRemovalPopup>
 
                                     </CardBody>
                                 </Card>) :

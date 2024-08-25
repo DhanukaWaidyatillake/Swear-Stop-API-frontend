@@ -88,7 +88,38 @@ class PaymentController extends Controller
         }
     }
 
-    public function get_pricing_structure(): \Illuminate\Database\Eloquent\Collection|array
+    public function show_payment_method_removal_popup(Request $request, CostAndUsageCalculationService $costAndUsageCalculationService)
+    {
+        return $costAndUsageCalculationService->calculateCostAndUsageForCurrentBillingMonth($request->user())['cost'];
+    }
+
+    public function remove_payment_method(Request $request, CostAndUsageCalculationService $costAndUsageCalculationService)
+    {
+        //Charging customer's card through Paddle
+        $user = $request->user();
+
+        $data = $costAndUsageCalculationService->calculateCostAndUsageForCurrentBillingMonth($request->user());
+
+        if ($data['usage'] != 0) {
+            $response = Cashier::api('POST', 'subscriptions/' . $user->subscription()->asPaddleSubscription()['id'] . '/charge', [
+                'effective_from' => 'immediately',
+                'items' => [
+                    [
+                        'price_id' => $data['pricing_tier']->paddle_pricing_id,
+                        'quantity' => $data['usage']
+                    ]
+                ]
+            ]);
+
+            if ($response->successful()) {
+                
+            } else {
+
+            }
+        }
+    }
+
+    public function get_pricing_structure(Request $request): \Illuminate\Database\Eloquent\Collection|array
     {
         return PricingTier::query()->select(['from', 'to', 'price_per_api_call'])->get();
     }

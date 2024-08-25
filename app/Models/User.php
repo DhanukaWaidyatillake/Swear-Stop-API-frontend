@@ -35,7 +35,8 @@ class User extends Authenticatable implements Auditable
         'previous_billing_date',
         'current_billing_date',
         'current_month_failed_renewal_attempts',
-        'is_active'
+        'is_active',
+        'free_request_count'
     ];
 
     /**
@@ -81,6 +82,6 @@ class User extends Authenticatable implements Auditable
      */
     public function getIsSubscribedAttribute(): bool
     {
-        return !is_null($this->subscription());
+        return $this->subscribed();
     }
 }
