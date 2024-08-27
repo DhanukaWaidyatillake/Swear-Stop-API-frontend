@@ -3,21 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\PricingTier;
-use App\Services\CostAndUsageCalculationService;
 use App\Services\CustomAuditingService;
+use App\Services\PaymentProcessingService;
 use App\Services\ToastMessageService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Laravel\Paddle\Cashier;
 
 class PaymentController extends Controller
 {
-    public function load_manage_payments_page(Request $request, CostAndUsageCalculationService $costAndUsageCalculationService): \Inertia\Response
+    public function load_manage_payments_page(Request $request, PaymentProcessingService $paymentProcessingService): \Inertia\Response
     {
         return Inertia::render('ManagePayments')->with(
             'usage_details',
-            $costAndUsageCalculationService->calculateCostAndUsageForCurrentBillingMonth($request->user())
+            $paymentProcessingService->calculateCostAndUsageForCurrentBillingMonth($request->user())
         );
     }
 
@@ -31,11 +32,13 @@ class PaymentController extends Controller
             $card_details = $request->get('data')['payment']['method_details']['card'] ?? null;
             $customer_id = $request->get('data')['customer']['id'] ?? null;
             if ($card_details && ($customer_id == $user->customer->paddle_id)) {
-                //Updating customers card details on our end
+                //Updating customers card details and subscription renewal dates on our end
                 $user->update([
                     'card_type' => $card_details['type'],
                     'card_last_4' => $card_details['last4'],
-                    'card_expiry_date' => Carbon::create($card_details['expiry_year'], $card_details['expiry_month'])
+                    'card_expiry_date' => Carbon::create($card_details['expiry_year'], $card_details['expiry_month']),
+                    'previous_billing_date' => null,
+                    'current_billing_date' => Carbon::now()->addMonth()
                 ]);
 
                 $toastMessageService->showToastMessage('success', 'Payment Method Saved Successfully');
@@ -88,35 +91,55 @@ class PaymentController extends Controller
         }
     }
 
-    public function show_payment_method_removal_popup(Request $request, CostAndUsageCalculationService $costAndUsageCalculationService)
+    public function show_payment_method_removal_popup(Request $request, PaymentProcessingService $paymentProcessingService)
     {
-        return $costAndUsageCalculationService->calculateCostAndUsageForCurrentBillingMonth($request->user())['cost'];
+        return $paymentProcessingService->calculateCostAndUsageForCurrentBillingMonth($request->user())['cost'];
     }
 
-    public function remove_payment_method(Request $request, CostAndUsageCalculationService $costAndUsageCalculationService)
+    public function remove_payment_method(Request $request, PaymentProcessingService $paymentProcessingService, CustomAuditingService $auditingService, ToastMessageService $toastMessageService): \Illuminate\Http\RedirectResponse
     {
-        //Charging customer's card through Paddle
         $user = $request->user();
 
-        $data = $costAndUsageCalculationService->calculateCostAndUsageForCurrentBillingMonth($request->user());
+        //Charging the due amount from the customers card
+        $isSuccessful = $paymentProcessingService->chargeCustomer($user);
 
-        if ($data['usage'] != 0) {
-            $response = Cashier::api('POST', 'subscriptions/' . $user->subscription()->asPaddleSubscription()['id'] . '/charge', [
-                'effective_from' => 'immediately',
-                'items' => [
-                    [
-                        'price_id' => $data['pricing_tier']->paddle_pricing_id,
-                        'quantity' => $data['usage']
-                    ]
-                ]
-            ]);
+        try {
+            if ($isSuccessful) {
+                //Cancelling the users subscription
+                $user->subscription()->cancelNow();
 
-            if ($response->successful()) {
-                
+                $auditingService->createCustomAudit($user, 'Due Amount charged successfully');
+
+                $auditingService->createCustomAudit($user, 'Payment method before removal', [
+                    'card_type' => $user->card_type,
+                    'card_last_4' => $user->card_last_4,
+                    'card_expiry_date' => $user->card_expiry_date,
+                    'current_billing_date' => $user->current_billing_date,
+                ]);
+
+                //remove users card details
+                $user->update([
+                    'card_type' => null,
+                    'card_last_4' => null,
+                    'card_expiry_date' => null,
+                    'current_billing_date' => null
+                ]);
+
+                $auditingService->createCustomAudit($user, 'Payment method removed successfully');
+                $toastMessageService->showToastMessage('success', 'Payment method removed successfully');
             } else {
-
+                $auditingService->createCustomAudit($user, 'Failed to charge due amount');
+                $toastMessageService->showToastMessage('error', 'Payment method removed failed');
             }
+        } catch (\Exception $e) {
+            $toastMessageService->showToastMessage('error', 'Payment method removal failed');
+            $auditingService->createCustomAudit($user, 'Exception during payment method removal', [
+                'message' => $e->getMessage(),
+                'details' => $e->getTraceAsString(),
+            ]);
         }
+
+        return Redirect::route('load-payment-details-page');
     }
 
     public function get_pricing_structure(Request $request): \Illuminate\Database\Eloquent\Collection|array

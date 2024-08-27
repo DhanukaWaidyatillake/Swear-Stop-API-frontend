@@ -40,7 +40,11 @@ class GoogleAuthController extends Controller
             ]);
 
             //ping the api app to generate the API key and finalize registration
-            return $apiKeyCreationService->createAPIKeyAndFinalizeRegistration($user);
+            $apiKeyCreationService->createAPIKeyAndFinalizeRegistration($user);
+
+            Auth::login($user);
+
+            return redirect(route('dashboard', absolute: false));
         }
         return false;
     }

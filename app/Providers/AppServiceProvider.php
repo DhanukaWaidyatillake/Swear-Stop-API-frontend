@@ -4,8 +4,8 @@ namespace App\Providers;
 
 use App\Services\ApiKeyCreationService;
 use App\Services\ApiResultTools;
-use App\Services\CostAndUsageCalculationService;
 use App\Services\CustomAuditingService;
+use App\Services\PaymentProcessingService;
 use App\Services\ToastMessageService;
 use Illuminate\Support\ServiceProvider;
 
@@ -28,12 +28,12 @@ class AppServiceProvider extends ServiceProvider
             return new CustomAuditingService();
         });
 
-        $this->app->singleton(CostAndUsageCalculationService::class, function ($app) {
-            return new CostAndUsageCalculationService();
-        });
-
         $this->app->singleton(ApiKeyCreationService::class, function ($app) {
             return new ApiKeyCreationService();
+        });
+
+        $this->app->singleton(PaymentProcessingService::class, function ($app) {
+            return new PaymentProcessingService(new CustomAuditingService());
         });
     }
 

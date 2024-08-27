@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Http;
 
 class ApiKeyCreationService
 {
-    public function createAPIKeyAndFinalizeRegistration(User $user): \Illuminate\Http\RedirectResponse
+    public function createAPIKeyAndFinalizeRegistration(User $user): void
     {
         $response = Http::post(Config::get('auth.api_app_url') . '/api/generate-token', [
             'user_id' => $user->id,
@@ -32,14 +32,9 @@ class ApiKeyCreationService
             $user->createAsCustomer();
 
             $user->update([
-                'previous_billing_date' => null,
-                'current_billing_date' => Carbon::now()->addMonth(),
                 'free_request_count' => (int) SiteConfig::query()->firstWhere('key', 'free_requests')?->value
             ]);
 
-            Auth::login($user);
-
-            return redirect(route('dashboard', absolute: false));
         } else {
             throw new \Exception('Error in generating signup_secret token', 500);
         }

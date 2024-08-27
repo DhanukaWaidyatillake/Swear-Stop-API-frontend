@@ -11,7 +11,7 @@ export default function AlertPopup({flash, errors}) {
             if (flash && flash.message) {
                 if (flash.message.type === "success") {
                     toast.success(flash.message.message)
-                } else if (flash.message.type === "success") {
+                } else if (flash.message.type === "error") {
                     toast.error(flash.message.message)
                 }
             }

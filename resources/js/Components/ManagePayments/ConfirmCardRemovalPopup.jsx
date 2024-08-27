@@ -49,7 +49,8 @@ export default function ConfirmCardRemovalPopup({visible, setVisible}) {
                         onClick={() => {
                             router.visit(route('remove-payment-method'), {
                                 method: 'post',
-                                onSuccess: page => {
+                                onFinish: page => {
+                                    setVisible(false)
                                     window.location.reload()
                                 },
                             })
