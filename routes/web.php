@@ -16,9 +16,7 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -45,11 +43,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/card-saved-successfully', [\App\Http\Controllers\PaymentController::class, 'card_saved_successfully'])->name('card-saved-successfully');
     Route::post('/card-saved-failed', [\App\Http\Controllers\PaymentController::class, 'card_saved_failed'])->name('card-saved-failed');
 
-    Route::get('/load-payment-details-page',[\App\Http\Controllers\PaymentController::class, 'load_payment_details_page'])->name('load-payment-details-page');
-    Route::get('/load-payment-details-update-page',[\App\Http\Controllers\PaymentController::class, 'load_payment_details_update_page'])->name('load-payment-details-update-page');
+    Route::get('/load-payment-details-page', [\App\Http\Controllers\PaymentController::class, 'load_payment_details_page'])->name('load-payment-details-page');
+    Route::get('/load-payment-details-update-page', [\App\Http\Controllers\PaymentController::class, 'load_payment_details_update_page'])->name('load-payment-details-update-page');
 
-    Route::get('/show_payment_method_removal_popup',[\App\Http\Controllers\PaymentController::class, 'show_payment_method_removal_popup'])->name('show-payment-method-removal-popup');
-    Route::post('/remove_payment_method',[\App\Http\Controllers\PaymentController::class, 'remove_payment_method'])->name('remove-payment-method');
+    Route::get('/show_payment_method_removal_popup', [\App\Http\Controllers\PaymentController::class, 'show_payment_method_removal_popup'])->name('show-payment-method-removal-popup');
+    Route::post('/remove_payment_method', [\App\Http\Controllers\PaymentController::class, 'remove_payment_method'])->name('remove-payment-method');
 });
 
 Route::middleware('auth')->group(function () {

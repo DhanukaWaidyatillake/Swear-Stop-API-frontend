@@ -20,13 +20,12 @@ export default function Dashboard({auth, flash, errors}) {
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-6 text-gray-900">
-                            <RequestsOverTimeGraph></RequestsOverTimeGraph>
                             <div className="flex w-full justify-between mt-6">
                                 <div className="w-1/2">
-                                    <ProfanityFrequencyGraph></ProfanityFrequencyGraph>
+                                    <RequestsOverTimeGraph></RequestsOverTimeGraph>
                                 </div>
-                                <div className="w-1/3">
-                                    <NoOfBannedWordsByMetaDataGraph></NoOfBannedWordsByMetaDataGraph>
+                                <div className="w-2/5">
+                                    <ProfanityFrequencyGraph></ProfanityFrequencyGraph>
                                 </div>
                             </div>
                             <div className="mt-6">
