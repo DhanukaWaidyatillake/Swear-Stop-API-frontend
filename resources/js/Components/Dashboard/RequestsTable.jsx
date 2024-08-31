@@ -81,9 +81,6 @@ export default function RequestsTable(props) {
                         <Typography variant="h5" color="blue-gray">
                             Recent Requests
                         </Typography>
-                        <Typography color="gray" className="mt-1 font-normal">
-                            See information about all members
-                        </Typography>
                     </div>
 
                 </div>

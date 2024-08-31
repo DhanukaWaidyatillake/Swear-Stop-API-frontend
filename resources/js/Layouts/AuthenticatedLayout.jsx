@@ -1,10 +1,10 @@
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import Dropdown from '@/Components/BreezeComponents/Dropdown.jsx';
 import NavLink from '@/Components/BreezeComponents/NavLink.jsx';
 import ResponsiveNavLink from '@/Components/BreezeComponents/ResponsiveNavLink.jsx';
 import {Link} from '@inertiajs/react';
-import {Slide, toast, ToastContainer, Zoom} from "react-toastify";
+import {ToastContainer, Zoom} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
 import AlertPopup from "@/Components/AlertPopup.jsx";
 

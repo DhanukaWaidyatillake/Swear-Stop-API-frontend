@@ -102,7 +102,7 @@ export default function RequestsOverTimeGraph() {
             >
                 <div>
                     <Typography variant="h6" color="blue-gray">
-                        Number of requests per day
+                        Chronological Usage
                     </Typography>
                     <Typography
                         variant="small"

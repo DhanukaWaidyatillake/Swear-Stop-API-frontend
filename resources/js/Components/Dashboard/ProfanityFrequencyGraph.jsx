@@ -1,122 +1,115 @@
-import {Card, CardBody, CardHeader, Typography} from "@material-tailwind/react";
+import {
+    Card,
+    CardBody,
+    CardHeader,
+    Typography,
+} from "@material-tailwind/react";
 import Chart from "react-apexcharts";
-
-
-const chartConfig = {
-    type: "bar",
-    height: 240,
-    series: [
-        {
-            name: "Sales",
-            data: [50, 40, 300, 320, 500, 350, 200, 230, 500],
-        },
-    ],
-    options: {
-        chart: {
-            toolbar: {
-                show: false,
-            },
-        },
-        title: {
-            show: "",
-        },
-        dataLabels: {
-            enabled: false,
-        },
-        colors: ["#020617"],
-        plotOptions: {
-            bar: {
-                columnWidth: "40%",
-                borderRadius: 2,
-            },
-        },
-        xaxis: {
-            axisTicks: {
-                show: false,
-            },
-            axisBorder: {
-                show: false,
-            },
-            labels: {
-                style: {
-                    colors: "#616161",
-                    fontSize: "12px",
-                    fontFamily: "inherit",
-                    fontWeight: 400,
-                },
-            },
-            categories: [
-                "Fuck",
-                "Shit",
-                "Nigga",
-                "F*U*C*K",
-                "C*unt",
-                "Dick!!!",
-                "Ass",
-                "Pe*rv*rt",
-                "Pedo",
-            ],
-        },
-        yaxis: {
-            labels: {
-                style: {
-                    colors: "#616161",
-                    fontSize: "12px",
-                    fontFamily: "inherit",
-                    fontWeight: 400,
-                },
-            },
-        },
-        grid: {
-            show: true,
-            borderColor: "#dddddd",
-            strokeDashArray: 5,
-            xaxis: {
-                lines: {
-                    show: true,
-                },
-            },
-            padding: {
-                top: 5,
-                right: 20,
-            },
-        },
-        fill: {
-            opacity: 0.8,
-        },
-        tooltip: {
-            theme: "dark",
-        },
-    },
-};
+import Dropdown from "@/Components/BreezeComponents/Dropdown.jsx";
+import ChartTimeframeSelector from "@/Components/Dashboard/ChartTimeframeSelector.jsx";
+import {useState} from "react";
 
 export default function ProfanityFrequencyGraph() {
+
+    const [xAxis, setXAxis] = useState([]);
+    const [yAxis, setYAxis] = useState([]);
+
+    const chartConfig = {
+        type: "bar",
+        height: 240,
+        series: [
+            {
+                name: "Sales",
+                data: yAxis,
+            },
+        ],
+        options: {
+            chart: {
+                toolbar: {
+                    show: false,
+                },
+            },
+            title: {
+                show: "",
+            },
+            dataLabels: {
+                enabled: false,
+            },
+            colors: ["#020617"],
+            plotOptions: {
+                bar: {
+                    columnWidth: "40%",
+                    borderRadius: 2,
+                },
+            },
+            xaxis: {
+                axisTicks: {
+                    show: false,
+                },
+                axisBorder: {
+                    show: false,
+                },
+                labels: {
+                    style: {
+                        colors: "#616161",
+                        fontSize: "12px",
+                        fontFamily: "inherit",
+                        fontWeight: 400,
+                    },
+                },
+                categories: xAxis,
+            },
+            yaxis: {
+                labels: {
+                    style: {
+                        colors: "#616161",
+                        fontSize: "12px",
+                        fontFamily: "inherit",
+                        fontWeight: 400,
+                    },
+                },
+            },
+            grid: {
+                show: true,
+                borderColor: "#dddddd",
+                strokeDashArray: 5,
+                xaxis: {
+                    lines: {
+                        show: true,
+                    },
+                },
+                padding: {
+                    top: 5,
+                    right: 20,
+                },
+            },
+            fill: {
+                opacity: 0.8,
+            },
+            tooltip: {
+                theme: "dark",
+            },
+        },
+    };
+
     return (
         <Card>
             <CardHeader
                 floated={false}
                 shadow={false}
-                color="transparent"
-                className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
+                className="flex flex-col justify-between gap-4 rounded-none md:flex-row md:items-center relative overflow-visible"
             >
                 <div>
                     <Typography variant="h6" color="blue-gray">
-                        Most frequently caught banned words
-                    </Typography>
-                    <Typography
-                        variant="small"
-                        color="gray"
-                        className="max-w-sm font-normal"
-                    >
-                        Visualize your data in a simple way using the
-                        @material-tailwind/react chart plugin.
+                        Most Frequently Caught Profanity
                     </Typography>
                 </div>
+
+                <ChartTimeframeSelector chart_name={"profanity-frequency"} setXAxis={setXAxis} setYAxis={setYAxis}></ChartTimeframeSelector>
             </CardHeader>
             <CardBody className="px-2 pb-0">
                 <Chart {...chartConfig} />
             </CardBody>
         </Card>
-
     );
 }

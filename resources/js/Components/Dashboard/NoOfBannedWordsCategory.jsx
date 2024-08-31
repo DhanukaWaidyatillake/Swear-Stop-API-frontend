@@ -1,5 +1,6 @@
 import {Card, CardBody, CardHeader, Typography} from "@material-tailwind/react";
 import Chart from "react-apexcharts";
+import ChartTimeframeSelector from "@/Components/Dashboard/ChartTimeframeSelector.jsx";
 
 
 const chartConfig = {
@@ -26,28 +27,23 @@ const chartConfig = {
     },
 };
 
-export default function NoOfBannedWordsByMetaDataGraph() {
+export default function NoOfBannedWordsCategory() {
     return (
         <Card>
             <CardHeader
                 floated={false}
                 shadow={false}
                 color="transparent"
-                className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
+                className="flex flex-col gap-4 rounded-none md:flex-row md:items-center relative overflow-visible"
             >
                 <div>
                     <Typography variant="h6" color="blue-gray">
-                        No Of Banned Words By Metadata
-                    </Typography>
-                    <Typography
-                        variant="small"
-                        color="gray"
-                        className="max-w-sm font-normal"
-                    >
-                        Visualize your data in a simple way using the
-                        @material-tailwind/react chart plugin.
+                        Percentage of Profanity Caught In Each Category
                     </Typography>
                 </div>
+
+                <ChartTimeframeSelector></ChartTimeframeSelector>
+
             </CardHeader>
             <CardBody className="mt-4 grid place-items-center px-2">
                 <Chart {...chartConfig} />

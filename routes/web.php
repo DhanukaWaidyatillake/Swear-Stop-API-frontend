@@ -18,6 +18,13 @@ Route::get('/', function () {
 
 Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/chart-profanity-frequency', [\App\Http\Controllers\DashboardController::class, 'loadProfanityFrequencyChart'])->name('load-profanity-frequency-chart');
+    Route::get('/chart-profanity-category', [\App\Http\Controllers\DashboardController::class, 'loadProfanityCategoryChart'])->name('load-profanity-category-chart');
+    Route::get('/load-chart-filters', [\App\Http\Controllers\DashboardController::class, 'loadChartFilters'])->name('load-chart-filters');
+});
+
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/manage_list', function () {

@@ -2,7 +2,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head} from '@inertiajs/react';
 import RequestsOverTimeGraph from "@/Components/Dashboard/RequestsOverTimeGraph.jsx";
 import ProfanityFrequencyGraph from "@/Components/Dashboard/ProfanityFrequencyGraph.jsx";
-import NoOfBannedWordsByMetaDataGraph from "@/Components/Dashboard/NoOfBannedWordsByMetaDataGraph.jsx";
+import NoOfBannedWordsCategory from "@/Components/Dashboard/NoOfBannedWordsCategory.jsx";
 import RequestsTable from "@/Components/Dashboard/RequestsTable.jsx";
 
 
@@ -22,10 +22,10 @@ export default function Dashboard({auth, flash, errors}) {
                         <div className="p-6 text-gray-900">
                             <div className="flex w-full justify-between mt-6">
                                 <div className="w-1/2">
-                                    <RequestsOverTimeGraph></RequestsOverTimeGraph>
+                                    <ProfanityFrequencyGraph></ProfanityFrequencyGraph>
                                 </div>
                                 <div className="w-2/5">
-                                    <ProfanityFrequencyGraph></ProfanityFrequencyGraph>
+                                    <NoOfBannedWordsCategory></NoOfBannedWordsCategory>
                                 </div>
                             </div>
                             <div className="mt-6">
