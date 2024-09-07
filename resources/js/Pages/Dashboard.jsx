@@ -2,8 +2,8 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head} from '@inertiajs/react';
 import RequestsOverTimeGraph from "@/Components/Dashboard/RequestsOverTimeGraph.jsx";
 import ProfanityFrequencyGraph from "@/Components/Dashboard/ProfanityFrequencyGraph.jsx";
-import NoOfBannedWordsCategory from "@/Components/Dashboard/NoOfBannedWordsCategory.jsx";
-import RequestsTable from "@/Components/Dashboard/RequestsTable.jsx";
+import PercentageBannedWordsCategory from "@/Components/Dashboard/PercentageBannedWordsCategory.jsx";
+import FilterHistory from "@/Components/Dashboard/RequestDetailsTable.jsx";
 
 
 export default function Dashboard({auth, flash, errors}) {
@@ -25,11 +25,11 @@ export default function Dashboard({auth, flash, errors}) {
                                     <ProfanityFrequencyGraph></ProfanityFrequencyGraph>
                                 </div>
                                 <div className="w-2/5">
-                                    <NoOfBannedWordsCategory></NoOfBannedWordsCategory>
+                                    <PercentageBannedWordsCategory></PercentageBannedWordsCategory>
                                 </div>
                             </div>
                             <div className="mt-6">
-                                <RequestsTable></RequestsTable>
+                                <FilterHistory></FilterHistory>
                             </div>
                         </div>
                     </div>

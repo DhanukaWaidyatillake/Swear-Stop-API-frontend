@@ -23,6 +23,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/chart-profanity-frequency', [\App\Http\Controllers\DashboardController::class, 'loadProfanityFrequencyChart'])->name('load-profanity-frequency-chart');
     Route::get('/chart-profanity-category', [\App\Http\Controllers\DashboardController::class, 'loadProfanityCategoryChart'])->name('load-profanity-category-chart');
     Route::get('/load-chart-filters', [\App\Http\Controllers\DashboardController::class, 'loadChartFilters'])->name('load-chart-filters');
+    Route::get('/load-profanity-history', [\App\Http\Controllers\DashboardController::class, 'loadProfanityFilterHistory'])->name('load-profanity-history');
+    Route::get('/load-request-details-popup', [\App\Http\Controllers\DashboardController::class, 'loadRequestDetailsPopup'])->name('load-request-details-popup');
 });
 
 

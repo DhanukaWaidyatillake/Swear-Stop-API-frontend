@@ -6,6 +6,7 @@ import TickIconSVG from "@/Icons/TickIconSVG.jsx";
 import DownArrowSVG from "@/Icons/DownArrowSVG.jsx";
 import {useEffect, useState} from "react";
 import VerticalStepper from "@/Components/LandingPage/VerticalStepper.jsx";
+import CodeViewComponent from "@/Components/CodeViewComponent.jsx";
 
 export default function ApiTestForm(props) {
 
@@ -112,25 +113,7 @@ export default function ApiTestForm(props) {
                         <TickIconSVG></TickIconSVG>
                     </Button>
                 </div>
-                <div className="mt-5">
-                    <div className="bg-black text-white p-4 rounded-xl">
-                        <div className="flex justify-between items-center mb-2">
-                            <span className="text-gray-400">Response:</span>
-                        </div>
-                        <div className="overflow-x-auto">
-                            <pre id="code" className="text-white max-w-0">
-                                <code>
-                                    {'{'} <br/>
-                                        <span>  </span>"name": "John Doe", <br/>
-                                        <span>  </span>"age": 30, <br/>
-                                        <span>  </span>"city": "New York", <br/>
-                                        <span>  </span>"email": "john.doe@example.com 5tgv345tg45tg5tg345t" <br/>
-                                    {'}'}
-                                </code>
-                            </pre>
-                        </div>
-                    </div>
-                </div>
+                <CodeViewComponent json={JSON.parse('{"name": "John Doe","age": 30,  "city": "New York",  "email": "john.doe@example.com 5tgv345tg45tg5tg345t"}')}></CodeViewComponent>
                 <br/>
             </div>
             <div className="mt-20 ml-16 hidden sm:block">

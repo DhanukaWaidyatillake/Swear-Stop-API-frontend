@@ -70,7 +70,7 @@ export default function Welcome({auth, laravelVersion, phpVersion}) {
                         <img
                             className="rounded-3xl w-4/5 shadow-xl shadow-blue-gray-300/30"
                             src={mainGif}
-                            alt="nature image"
+                            alt="welcome page gif"
                         />
                     </div>
                 </div>
