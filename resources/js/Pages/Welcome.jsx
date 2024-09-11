@@ -1,5 +1,5 @@
-import {Link} from '@inertiajs/react';
-import React, {useState} from 'react';
+import {Link, router} from '@inertiajs/react';
+import React, {useRef, useState} from 'react';
 import ApplicationLogo from "@/Components/ApplicationLogo.jsx";
 import TopLeftBackgroundSVG from "@/Background/TopLeftBackgroundSVG.jsx";
 import ApiTestForm from "@/Components/LandingPage/ApiTestForm.jsx";
@@ -8,15 +8,15 @@ import PricingSection from "@/Components/LandingPage/PricingSection.jsx";
 import MiddleRightBackgroundSVG from "@/Background/MiddleRightBackgroundSVG.jsx";
 import FeatureSection from "@/Components/LandingPage/FeatureSection.jsx";
 import mainGif from '../../gif/main.gif';
-import {Typography} from "@material-tailwind/react";
+import {Button, Typography} from "@material-tailwind/react";
+import ThunderIcon from "@/Icons/ThunderIcon.jsx";
+import DoubleArrow from "@/Icons/DoubleArrow.jsx";
 
 let currentIndex = 0;
 
-export default function Welcome({auth, laravelVersion, phpVersion}) {
+export default function Welcome({auth,profanityCategories,api_domain}) {
 
-    const [text, setText] = useState('Banned Words');
-    const alternateText = ['Banned Words', '#B@nn3d! *Wor%d$', '*B!a!n!n!e!d* *W!o!r!d!s*', '#B@nn3d! *Wor%d$'];
-
+    const apiTestFormRef = useRef(null);
 
     return (
         <div className="relative h-screen bg-white overflow-x-clip ">
@@ -55,15 +55,33 @@ export default function Welcome({auth, laravelVersion, phpVersion}) {
                 </div>
             </nav>
             <div className="flex justify-between h-5/6 w-full">
-                <div className="sm:ml-16 content-center w-1/2">
+                <div className="sm:ml-24 sm:mb-16 content-center w-1/2">
                     <div>
                         <h1 className="p-2 text-5xl font-black text-center sm:text-left">Swear-Stop API</h1>
                     </div>
-                    <h1 className="p-2 text-xl font-bold text-center sm:text-left mt-5 leading-8">
-                        Power your app with our <span className="underline">AI</span>
-                        -driven <br/> Text Moderation RESTFUL API
-                        for <br/>seamless banned words filtering! <br/>
+                    <h1 className="p-2 text-xl font-bold text-center sm:text-left mt-10 leading-8">
+                        Enhance your app with our top-tier Text Moderation <br/>Service!
+                        Effortlessly filter explicit words and phrases <br/> to create a safe, inclusive and seamless
+                        user experience.
                     </h1>
+                    <div className="flex mt-10">
+                        <div className="flex">
+                            <Button variant="outlined" size="sm" className="flex items-center gap-3" onClick={() => {
+                                apiTestFormRef.current.scrollIntoView({behavior: 'smooth'});
+                            }}>
+                                See in Action
+                                <ThunderIcon></ThunderIcon>
+                            </Button>
+                        </div>
+                        <div className="flex ml-5">
+                            <Button size="sm" className="flex items-center gap-3 z-50" onClick={() => {
+                                router.visit('/register')
+                            }}>
+                                Get Started
+                                <DoubleArrow></DoubleArrow>
+                            </Button>
+                        </div>
+                    </div>
                 </div>
                 <div className="hidden z-10 items-center sm:flex">
                     <div className="scale-[0.65] flex justify-start">
@@ -82,9 +100,9 @@ export default function Welcome({auth, laravelVersion, phpVersion}) {
 
             <br/>
 
-            <div className="flex items-center flex-col mt-20">
+            <div ref={apiTestFormRef} className="flex items-center flex-col mt-20">
                 <h1 className="p-2 text-4xl font-black text-center">See In Action...</h1>
-                <ApiTestForm></ApiTestForm>
+                <ApiTestForm profanityCategories={profanityCategories} api_domain={api_domain}></ApiTestForm>
             </div>
 
             <br/>
@@ -113,9 +131,6 @@ export default function Welcome({auth, laravelVersion, phpVersion}) {
                     className="underline">3,726</span> clients
                     count on Swear-Stop for profanity filtering. <br/>Join the movement! </h1>
             </div>
-            {/*<footer className="h-16 w-auto bg-black mt-28 flex justify-center">*/}
-            {/*    <h1 className="p-2 text-sm font-black text-center text-white mt-2">Made with 🤍 by 🥔🐷</h1>*/}
-            {/*</footer>*/}
             <footer
                 className="bg-black mt-20 p-10 flex w-full flex-row flex-wrap items-center justify-center gap-y-6 gap-x-12 border-t border-blue-gray-50 py-6 text-center md:justify-between">
                 <Typography color="blue-gray" className="font-normal text-white">

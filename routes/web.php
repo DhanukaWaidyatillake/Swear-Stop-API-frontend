@@ -1,22 +1,16 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BlacklistedWordController;
-use \App\Http\Controllers\WhitelistedWordController;
-use Illuminate\Foundation\Application;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\WhitelistedWordController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION, 99
-    ]);
+Route::middleware([])->group(function () {
+    Route::get('/', [\App\Http\Controllers\WelcomePageController::class, 'loadWelcomePage'])->name('load-welcome-page');
+    Route::get('/api-tester-get-sentence',[\App\Http\Controllers\WelcomePageController::class,'getRandomSentence'])->name('get-random-sentence');
 });
 
-Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');

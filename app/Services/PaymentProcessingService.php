@@ -17,9 +17,14 @@ class PaymentProcessingService
         $this->customAuditingService = $customAuditingService;
     }
 
+    public function calculateCost(PricingTier $tier, int $usage = 0): float|int
+    {
+        return $tier->price_per_api_call * $usage;
+    }
+
     public function calculateCostAndUsageForCurrentBillingMonth(User $user): array
     {
-        if(!is_null($user->current_billing_date)) {
+        if (!is_null($user->current_billing_date)) {
             $start_of_billing_month = $user->previous_billing_date ?? $user->current_billing_date->subMonth();
 
             $usage = TextFilterAudit::query()->where('user_id', $user->id)
@@ -32,12 +37,12 @@ class PaymentProcessingService
             $usage = 0;
         }
 
-        $highest_tier = PricingTier::query()->orderBy('from', 'desc')->first();
+        $highest_tier = PricingTier::query()->orderBy('from', 'desc')->firstOrFail();
 
         if ($usage >= $highest_tier->from) {
             return [
                 'usage' => $usage,
-                'cost' => round($highest_tier->price_per_api_call * $usage, 1),
+                'cost' => round($this->calculateCost($highest_tier, $usage), 1),
                 'pricing_tier' => null
             ];
         } else {
@@ -52,11 +57,11 @@ class PaymentProcessingService
                     ->select('price_per_api_call', 'paddle_pricing_id')
                     ->where('to', '>=', $usage)
                     ->orderBy('from')
-                    ->first();
+                    ->firstOrFail();
 
                 return [
                     'usage' => $usage,
-                    'cost' => round($tier->price_per_api_call * $usage, 1),
+                    'cost' => round($this->calculateCost($tier, $usage), 1),
                     'pricing_tier' => $tier
                 ];
             }
@@ -96,7 +101,7 @@ class PaymentProcessingService
                     $invoice->is_paid = true;
                     $invoice->update();
 
-                    $this->customAuditingService ->createCustomAudit($user,
+                    $this->customAuditingService->createCustomAudit($user,
                         'Payment made successfully', [
                             ...$response->json(),
                             'invoice_id' => $invoice->id
@@ -109,7 +114,7 @@ class PaymentProcessingService
                     $invoice->is_paid = false;
                     $invoice->update();
 
-                    $this->customAuditingService ->createCustomAudit($user,
+                    $this->customAuditingService->createCustomAudit($user,
                         'Payment failed', [
                             ...$response->json(),
                             'invoice_id' => $invoice->id
@@ -124,7 +129,7 @@ class PaymentProcessingService
                 $invoice->is_paid = true;
                 $invoice->update();
 
-                $this->customAuditingService ->createCustomAudit($user,
+                $this->customAuditingService->createCustomAudit($user,
                     '$0 Payment made', [
                         'invoice_id' => $invoice->id
                     ]
@@ -133,7 +138,7 @@ class PaymentProcessingService
                 return true;
             }
         } catch (\Exception $e) {
-            $this->customAuditingService ->createCustomAudit($user,
+            $this->customAuditingService->createCustomAudit($user,
                 'Exception when charging customer', [
                     'message' => $e->getMessage(),
                     'details' => $e->getTraceAsString()

@@ -52,7 +52,7 @@ export default function CodeViewComponent({json = [], max_height = "22", title =
                     <span className="text-gray-400">{title}</span>
                 </div>
                 <div className="overflow-x-auto scrollbar-thin">
-                    <pre id="code" className={`text-white max-w-0 max-h-36`}>
+                    <pre id="code" className={`text-white max-w-0  h-36`}>
                         <code>
                             {"{"} <br/>
                             {json ? renderJson(json) : ""}

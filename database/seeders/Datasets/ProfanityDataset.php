@@ -6,6 +6,7 @@ class ProfanityDataset
 {
     public array $words = [
         'slang' => [
+            'idiot',
             'craps',
             'crap',
             'wigga',
@@ -626,8 +627,6 @@ class ProfanityDataset
             '4skins',
             '5kank',
             '5kanks',
-            'a_s_s',
-            'a_s_',
             'anal',
             'anals',
             'analingus',
@@ -664,7 +663,6 @@ class ProfanityDataset
             'ass',
             'asses',
             'asses',
-            'ass',
             'assface',
             'assfaces',
             'assfck',
@@ -3114,6 +3112,8 @@ class ProfanityDataset
             'girl on girl',
             'boy on girl',
             'boy on boy',
+            'sx',
+            'dck'
         ],
 
         'recreational_drugs' => [

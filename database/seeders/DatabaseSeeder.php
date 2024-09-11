@@ -16,5 +16,6 @@ class DatabaseSeeder extends Seeder
         (new PricingTiersSeeder())->run();
         (new ConfigsSeeder())->run();
         (new ChartFilterSeeder())->run();
+        (new TestSentenceSeeder())->run();
     }
 }

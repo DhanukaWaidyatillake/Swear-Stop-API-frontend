@@ -10,14 +10,49 @@ use function Laravel\Prompts\progress;
 
 class NonProfanityWordsSeeder extends Seeder
 {
+    private array $symbols = array("!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "_", "+", "=", "{", "}", "[", "]", ":", ";", ",", ".", "<", ">", "/", "?", "|", "'");
+
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
+        //Clearing words in redis
         Redis::del('words');
 
+        //Seeding list of countries and cities
+        $path = 'database/seeders/Datasets/countries.json';
+        $jsonData = file_get_contents($path);
+        $countries = json_decode($jsonData, true);
+        $progress = progress(label: 'Seeding List of Countries and cities (In Redis) ', steps: sizeof($countries));
+        foreach ($countries as $country => $cities) {
+            Redis::sadd('words', strtolower($country));
+            foreach ($cities as $city) {
+                $city = implode('', explode(' ', $city));
+                $city = str_replace($this->symbols, '', $city);
+                Redis::sadd('words', strtolower($city));
+            }
+            $progress->advance();
+        }
+        $progress->finish();
 
+        //Seeding list of musical instruments
+        $path = 'database/seeders/Datasets/musical_instruments.json';
+        $jsonData = file_get_contents($path);
+        $data = json_decode($jsonData, true)['instruments'];
+        $progress = progress(label: 'Seeding List of Musical Instruments (In Redis) ', steps: sizeof($data));
+        $progress->start();
+        foreach ($data as $datum) {
+            $datum = strtolower($datum);
+            $combined_word = implode('', explode(' ', $datum));
+            Redis::sadd('words', $datum);
+            Redis::sadd('words', $combined_word);
+            $progress->advance();
+        }
+        $progress->finish();
+
+
+        //Seeding dictionary
         for ($i = 1; $i < 4; $i++) {
             $path = 'database/seeders/Datasets/words_dictionary_' . $i . '.json';
             $handle = fopen($path, 'r');
