@@ -1,6 +1,6 @@
 export default function TopLeftBackgroundSVG(props) {
     return (
-        <svg id="visual" viewBox="0 0 900 600" width="1200" height="800"  xmlns="http://www.w3.org/2000/svg"
+        <svg id="visual" viewBox="0 0 900 600" width="1900" height="800"  xmlns="http://www.w3.org/2000/svg"
              xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
             <g transform="translate(949.236627507564 12.050348673342683)">
                 <path

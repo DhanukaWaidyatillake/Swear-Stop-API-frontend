@@ -53,7 +53,7 @@ export default function FeatureSection() {
     };
 
     return (
-        <div className="w-1/2">
+        <div className="w-3/4 md:w-1/2">
             {Object.keys(content).map(key => (
                 <Accordion open={open === key} className="mb-2 rounded-2xl border border-black px-4 mt-5">
                     <AccordionHeader

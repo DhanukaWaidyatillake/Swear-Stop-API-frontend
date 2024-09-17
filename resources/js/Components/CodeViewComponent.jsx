@@ -5,7 +5,6 @@ export default function CodeViewComponent({
     max_height = 36,
     title = "",
 }) {
-    const [maxHeight, setMaxHeight] = useState(max_height);
 
     const renderJson = (data, depth = 1) => {
         return Object.keys(data).map((key, index) => {

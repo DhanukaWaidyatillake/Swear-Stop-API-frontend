@@ -3,6 +3,8 @@ import laravel from 'laravel-vite-plugin';
 import react from '@vitejs/plugin-react';
 
 export default defineConfig({
+    base: '/',
+
     plugins: [
         laravel({
             input: 'resources/js/app.jsx',
@@ -13,12 +15,11 @@ export default defineConfig({
 
     server: {
         host: '0.0.0.0',
-        // host: 'https://bfde-2402-d000-8100-47f-88ec-b101-5833-d8f3.ngrok-free.app/',
+        // host: '8d2b-2402-d000-8100-a7f-d923-2f7e-8b84-5425.ngrok-free.app',
         hmr: {
-            host: 'localhost'
-            // host: 'https://bfde-2402-d000-8100-47f-88ec-b101-5833-d8f3.ngrok-free.app/'
+            host: 'localhost',
+            // host: '8d2b-2402-d000-8100-a7f-d923-2f7e-8b84-5425.ngrok-free.app'
         },
     },
-
 });
 

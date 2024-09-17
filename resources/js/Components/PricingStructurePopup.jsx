@@ -32,7 +32,7 @@ export default function PricingStructurePopup({visible, setVisible}) {
              className={`${visible ? '' : 'pointer-events-none'}  fixed inset-0 z-[999] grid h-screen w-screen place-items-center bg-black bg-opacity-60 ${visible ? 'opacity-100' : 'opacity-0'}  backdrop-blur-sm transition-opacity duration-300`}>
 
             <div data-dialog="sign-in-dialog"
-                 className="relative mx-auto flex w-full max-w-[50rem] flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
+                 className="relative mx-auto flex w-3/4 lg:w-full max-w-[50rem] flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
                 <Typography variant="h5" color="blue-gray"
                             className="text-center font-extrabold flex justify-center m-5">
                     <span className="w-1/2">Pricing Structure</span>

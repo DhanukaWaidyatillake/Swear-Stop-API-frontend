@@ -152,7 +152,7 @@ export default function ApiTestForm({profanityCategories, api_domain}) {
                     </a>
                     <ExpandedResponsePopup visible={isExpandedResponsePopupVisible} setVisible={setIsExpandedResponsePopupVisible} json={jsonResponse}></ExpandedResponsePopup>
                 </div>
-                <CodeViewComponent json={jsonResponse}></CodeViewComponent>
+                <CodeViewComponent json={jsonResponse} max_height={"36"}></CodeViewComponent>
                 <br/>
             </div>
             <div className="mt-20 ml-16 hidden sm:block">

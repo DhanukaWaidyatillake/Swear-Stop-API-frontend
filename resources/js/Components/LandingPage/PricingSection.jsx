@@ -25,7 +25,7 @@ export default function PricingSection({max_usage}) {
     }, []);
 
     return (
-        <div className="text-center flex flex-col items-center mt-20">
+        <div className="text-center flex flex-col items-center mt-20 w-full">
             <div className="w-4/5 sm:w-1/2  p-2 border-2 border-black rounded-3xl flex flex-col items-center">
                 <h1 className="text-xl font-bold text-center mt-5">
                     Calculate your monthly cost
