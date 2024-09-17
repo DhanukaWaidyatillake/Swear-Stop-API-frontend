@@ -14,8 +14,7 @@ import DoubleArrow from "@/Icons/DoubleArrow.jsx";
 
 let currentIndex = 0;
 
-export default function Welcome({auth,profanityCategories,api_domain}) {
-
+export default function Welcome({auth, profanityCategories, api_domain, maxUsage}) {
     const apiTestFormRef = useRef(null);
 
     return (
@@ -101,7 +100,7 @@ export default function Welcome({auth,profanityCategories,api_domain}) {
             <br/>
 
             <div ref={apiTestFormRef} className="flex items-center flex-col mt-20">
-                <h1 className="p-2 text-4xl font-black text-center">See In Action...</h1>
+                <h1 className="p-2 text-4xl font-black text-center">See In Action</h1>
                 <ApiTestForm profanityCategories={profanityCategories} api_domain={api_domain}></ApiTestForm>
             </div>
 
@@ -126,7 +125,7 @@ export default function Welcome({auth,profanityCategories,api_domain}) {
             <div className="mt-64">
                 <h1 className="text-4xl font-black text-center p-5"><span className="underline">100</span> Free Requests
                     to Get You Started! <br/> Pay per Usage Afterwards. </h1>
-                <PricingSection></PricingSection>
+                <PricingSection max_usage={maxUsage}></PricingSection>
                 <h1 className="text-4xl font-black text-center mt-20 p-5"><span
                     className="underline">3,726</span> clients
                     count on Swear-Stop for profanity filtering. <br/>Join the movement! </h1>

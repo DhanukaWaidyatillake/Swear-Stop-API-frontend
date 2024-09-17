@@ -5,8 +5,6 @@ import CodeViewComponent from "@/Components/CodeViewComponent.jsx";
 
 export default function RequestDetailsPopup({visible, setVisible, requestId}) {
 
-    const TABLE_HEAD = ["Number of API calls per month", "Price per API call"];
-
     const [data, setData] = useState([]);
 
     const loadData = (page) => {
@@ -57,7 +55,7 @@ export default function RequestDetailsPopup({visible, setVisible, requestId}) {
                     <CodeViewComponent
                         json={data.request_body ? JSON.parse(data.request_body) : null} title="Request Body"></CodeViewComponent>
                 </div>
-                <div className="w-4/5 self-center mb-10">
+                <div className="w-4/5 self-center mb-10 mt-5">
                     <CodeViewComponent
                         json={data.response_body ? JSON.parse(data.response_body) : null} title="Response Body"></CodeViewComponent>                </div>
             </div>

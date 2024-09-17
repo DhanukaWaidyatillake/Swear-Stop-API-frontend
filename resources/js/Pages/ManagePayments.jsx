@@ -7,7 +7,7 @@ import InvoicesTable from "@/Components/ManagePayments/InvoicesTable.jsx";
 import {Helmet} from "react-helmet";
 import PaymentMethodCollectionPage from "@/Pages/PaymentMethodCollectionPage.jsx";
 import ManageListPopup from "@/Components/ManageLists/ManageListPopup.jsx";
-import PricingStructurePopup from "@/Components/ManagePayments/PricingStructurePopup.jsx";
+import PricingStructurePopup from "@/Components/PricingStructurePopup.jsx";
 import ConfirmCardRemovalPopup from "@/Components/ManagePayments/ConfirmCardRemovalPopup.jsx";
 
 

@@ -7,9 +7,10 @@ import DownArrowSVG from "@/Icons/DownArrowSVG.jsx";
 import {useEffect, useState} from "react";
 import VerticalStepper from "@/Components/LandingPage/VerticalStepper.jsx";
 import CodeViewComponent from "@/Components/CodeViewComponent.jsx";
+import {ArrowsPointingOutIcon} from "@heroicons/react/16/solid/index.js";
+import ExpandedResponsePopup from "@/Components/LandingPage/ExpandedResponsePopup.jsx";
 
 export default function ApiTestForm({profanityCategories, api_domain}) {
-
 
 
     const [selectedCategories, setSelectedCategories] = useState([]);
@@ -18,7 +19,7 @@ export default function ApiTestForm({profanityCategories, api_domain}) {
     const [sentenceId, setSentenceId] = useState('');
     const [jsonResponse, setJsonResponse] = useState(null);
     const all_category_id = 0;
-    const default_json = '{}'
+    const [isExpandedResponsePopupVisible, setIsExpandedResponsePopupVisible] = useState(false)
 
     const toggleCategory = (category) => {
         if (category === all_category_id) {
@@ -141,9 +142,17 @@ export default function ApiTestForm({profanityCategories, api_domain}) {
                         <TickIconSVG></TickIconSVG>
                     </Button>
                 </div>
-                <InputLabel className=" mt-6" htmlFor="chipSelect" value="Response "/>
-                <CodeViewComponent
-                    json={jsonResponse}></CodeViewComponent>
+                <InputLabel className="mt-6" htmlFor="chipSelect" value="Response "/>
+                <div className="w-full h-9 flex justify-end">
+                    <a href="#" className="w-[25px]  opacity-50 hover:opacity-100  hover:scale-[1.2] transition-transform" onClick={(event)=>{
+                        event.preventDefault()
+                        setIsExpandedResponsePopupVisible(true)
+                    }}>
+                        <ArrowsPointingOutIcon></ArrowsPointingOutIcon>
+                    </a>
+                    <ExpandedResponsePopup visible={isExpandedResponsePopupVisible} setVisible={setIsExpandedResponsePopupVisible} json={jsonResponse}></ExpandedResponsePopup>
+                </div>
+                <CodeViewComponent json={jsonResponse}></CodeViewComponent>
                 <br/>
             </div>
             <div className="mt-20 ml-16 hidden sm:block">

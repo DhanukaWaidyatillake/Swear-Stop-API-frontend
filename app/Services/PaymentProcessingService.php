@@ -17,9 +17,25 @@ class PaymentProcessingService
         $this->customAuditingService = $customAuditingService;
     }
 
-    public function calculateCost(PricingTier $tier, int $usage = 0): float|int
+    public function calculateCost(int $usage = 0): array
     {
-        return $tier->price_per_api_call * $usage;
+        $highest_tier = PricingTier::query()->orderBy('from', 'desc')->firstOrFail();
+
+        if ($usage >= $highest_tier->from) {
+            $tier = $highest_tier;
+            //If usage is in the highest tier
+        } else {
+            $tier = PricingTier::query()
+                ->select('price_per_api_call', 'paddle_pricing_id')
+                ->where('to', '>=', $usage)
+                ->orderBy('from')
+                ->firstOrFail();
+        }
+
+        return [
+            'cost' => round($tier->price_per_api_call * $usage, 2),
+            'tier' => $tier
+        ];
     }
 
     public function calculateCostAndUsageForCurrentBillingMonth(User $user): array
@@ -37,35 +53,13 @@ class PaymentProcessingService
             $usage = 0;
         }
 
-        $highest_tier = PricingTier::query()->orderBy('from', 'desc')->firstOrFail();
+        $costAndTier = $this->calculateCost($usage);
 
-        if ($usage >= $highest_tier->from) {
-            return [
-                'usage' => $usage,
-                'cost' => round($this->calculateCost($highest_tier, $usage), 1),
-                'pricing_tier' => null
-            ];
-        } else {
-            if ($usage == 0) {
-                return [
-                    'usage' => 0,
-                    'cost' => 0.0,
-                    'pricing_tier' => null
-                ];
-            } else {
-                $tier = PricingTier::query()
-                    ->select('price_per_api_call', 'paddle_pricing_id')
-                    ->where('to', '>=', $usage)
-                    ->orderBy('from')
-                    ->firstOrFail();
-
-                return [
-                    'usage' => $usage,
-                    'cost' => round($this->calculateCost($tier, $usage), 1),
-                    'pricing_tier' => $tier
-                ];
-            }
-        }
+        return [
+            'usage' => $usage,
+            'cost' => $costAndTier['cost'],
+            'pricing_tier' => $costAndTier['tier']
+        ];
     }
 
     public function chargeCustomer(User $user): bool

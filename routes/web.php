@@ -6,12 +6,15 @@ use App\Http\Controllers\WhitelistedWordController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+//Welcome page
 Route::middleware([])->group(function () {
     Route::get('/', [\App\Http\Controllers\WelcomePageController::class, 'loadWelcomePage'])->name('load-welcome-page');
-    Route::get('/api-tester-get-sentence',[\App\Http\Controllers\WelcomePageController::class,'getRandomSentence'])->name('get-random-sentence');
+    Route::get('/api-tester-get-sentence', [\App\Http\Controllers\WelcomePageController::class, 'getRandomSentence'])->name('get-random-sentence');
+    Route::get('/calculate-monthly-cost',[\App\Http\Controllers\WelcomePageController::class, 'getMonthlyCost'])->name('calculate-monthly-cost');
+    Route::get('/get_pricing_structure', [App\Http\Controllers\PaymentController::class, 'get_pricing_structure'])->name('get-pricing-structure');
 });
 
-
+//Dashboard
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
     Route::get('/chart-profanity-frequency', [\App\Http\Controllers\DashboardController::class, 'loadProfanityFrequencyChart'])->name('load-profanity-frequency-chart');
@@ -21,7 +24,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/load-request-details-popup', [\App\Http\Controllers\DashboardController::class, 'loadRequestDetailsPopup'])->name('load-request-details-popup');
 });
 
-
+//Manage Lists
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/manage_list', function () {
         return Inertia::render('ManageLists');
@@ -37,10 +40,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/change_state_whitelist/{whitelistedWord}', [WhitelistedWordController::class, 'update'])->name('change_state_whitelist');
 });
 
-
+//Payment page
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/get_pricing_structure', [App\Http\Controllers\PaymentController::class, 'get_pricing_structure'])->name('get-pricing-structure');
-
     Route::get('/payments', [\App\Http\Controllers\PaymentController::class, 'load_manage_payments_page'])->name('payments');
 
     Route::post('/card-saved-successfully', [\App\Http\Controllers\PaymentController::class, 'card_saved_successfully'])->name('card-saved-successfully');
@@ -53,6 +54,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/remove_payment_method', [\App\Http\Controllers\PaymentController::class, 'remove_payment_method'])->name('remove-payment-method');
 });
 
+//Profile
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -60,6 +62,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile', [ProfileController::class, 'refresh_token'])->name('profile.refresh-token');
 });
 
+//Google Auth webhooks
 Route::get('/google-auth/redirect', [\App\Http\Controllers\GoogleAuthController::class, 'redirect'])->name("google.redirect");
 Route::get('/google-auth/callback', [\App\Http\Controllers\GoogleAuthController::class, 'callback'])->name("google.callback");
 

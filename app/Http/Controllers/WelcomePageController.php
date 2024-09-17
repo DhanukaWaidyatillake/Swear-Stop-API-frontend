@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ApiTestFormRequest;
+use App\Models\PricingTier;
 use App\Models\ProfanityCategory;
 use App\Models\TestSentence;
+use App\Services\PaymentProcessingService;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Route;
@@ -29,12 +32,24 @@ class WelcomePageController extends Controller
             'profanityCategories' => $profanity_categories,
             'laravelVersion' => Application::VERSION,
             'phpVersion' => PHP_VERSION, 99,
-            'api_domain' => App::isLocal() ? 'http://localhost:8087' : Config::get('auth.api_app_url')
+            'api_domain' => App::isLocal() ? 'http://localhost:8087' : Config::get('auth.api_app_url'),
+            'maxUsage' => PricingTier::query()->orderBy('from', 'desc')->firstOrFail()->from
         ]);
     }
 
     public function getRandomSentence(): \Illuminate\Http\JsonResponse
     {
         return response()->json(['sentence' => TestSentence::query()->select('id', 'sentence')->inRandomOrder()->firstOrFail()]);
+    }
+
+    public function getMonthlyCost(Request $request, PaymentProcessingService $paymentProcessingService)
+    {
+        $slider_value = $request->slider_value;
+        $highest_tier = PricingTier::query()->orderBy('from', 'desc')->firstOrFail();
+        $usage = round(($slider_value / 100) * $highest_tier->from);
+        return [
+            'usage' => $usage,
+            'cost' => $paymentProcessingService->calculateCost($usage)['cost']
+        ];
     }
 }

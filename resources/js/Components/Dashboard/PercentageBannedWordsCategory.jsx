@@ -36,7 +36,7 @@ export default function PercentageBannedWordsCategory() {
     };
 
     return (
-        <Card className={'h-[45vh]'}>
+        <Card className={'min-h-[45vh]'}>
             <CardHeader
                 floated={false}
                 shadow={false}

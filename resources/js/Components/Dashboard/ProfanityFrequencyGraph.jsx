@@ -94,7 +94,7 @@ export default function ProfanityFrequencyGraph() {
     };
 
     return (
-        <Card className={'h-[37vh]'}>
+        <Card className={'min-h-[30vh]'}>
             <CardHeader
                 floated={false}
                 shadow={false}
@@ -121,7 +121,7 @@ export default function ProfanityFrequencyGraph() {
                 (
                     <CardBody className="p-0 flex h-full justify-center">
                         <div className="h-full">
-                            <div className={"opacity-25 scale-[0.7]"}>
+                            <div className={"opacity-25 scale-[0.6]"}>
                                 <EnvelopeOpenIcon></EnvelopeOpenIcon>
                             </div>
                             <Typography color="blue-gray" className="font-light">

@@ -18,16 +18,6 @@ export default function FeatureSection() {
         setOpen(value)
     };
 
-    // const intervalId = setInterval(function () {
-    //     if (!isAccordionFocused) {
-    //         if (open === Math.max(...Object.keys(content).map(Number)).toString()) {
-    //             setOpen("1")
-    //         } else {
-    //             setOpen((parseInt(open) + 1).toString())
-    //         }
-    //     }
-    // }, 1000);
-
 
     const content = {
         1: {
