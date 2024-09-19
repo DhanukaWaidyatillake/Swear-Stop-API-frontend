@@ -1,10 +1,10 @@
-import { useState } from "react";
+import {useState} from "react";
 
 export default function CodeViewComponent({
-    json = [],
-    max_height = 36,
-    title = "",
-}) {
+                                              json = [],
+                                              isExpanded = false,
+                                              title = "",
+                                          }) {
 
     const renderJson = (data, depth = 1) => {
         return Object.keys(data).map((key, index) => {
@@ -12,32 +12,32 @@ export default function CodeViewComponent({
             if (Array.isArray(value)) {
                 return (
                     <div key={index}>
-                        {getSpans(depth)}"{key}": [<br />
+                        {getSpans(depth)}"{key}": [<br/>
                         {value.map((item, i) => (
                             <div key={i}>
                                 {getSpans(depth + 1)}
-                                {JSON.stringify(item)},<br />
+                                {JSON.stringify(item)},<br/>
                             </div>
                         ))}
                         {getSpans(depth)}],
-                        <br />
+                        <br/>
                     </div>
                 );
             } else if (typeof value === "object" && value !== null) {
                 return (
                     <div key={index}>
                         {getSpans(depth)}"{key}": {"{"}
-                        <br />
+                        <br/>
                         {renderJson(value, depth + 1)}
                         {getSpans(depth)}
-                        {"}"},<br />
+                        {"}"},<br/>
                     </div>
                 );
             } else {
                 return (
                     <div key={index}>
                         {getSpans(depth)}"{key}": "{value}",
-                        <br />
+                        <br/>
                     </div>
                 );
             }
@@ -58,9 +58,9 @@ export default function CodeViewComponent({
                 <span className="text-gray-400">{title}</span>
             </div>
             <div className="overflow-x-auto scrollbar-thin">
-                <pre id="code" className={`text-white max-w-0 h-${max_height}`}>
+                <pre id="code" className={`text-white max-w-0 ${isExpanded ? 'h-96' : 'h-36'}`}>
                     <code>
-                        {"{"} <br />
+                        {"{"} <br/>
                         {json ? renderJson(json) : ""}
                         {"}"}
                     </code>

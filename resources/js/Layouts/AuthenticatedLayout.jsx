@@ -113,10 +113,16 @@ export default function Authenticated({user, header, children, flash = null, err
                         </div>
                     </div>
 
-                    <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
+                    <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' md:hidden'}>
                         <div className="pt-2 pb-3 space-y-1">
                             <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
                                 Dashboard
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink href={route('manage_list')} active={route().current('manage_list')}>
+                                Manage Blacklist and Whitelist
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink href={route('payments')} active={route().current('payments')}>
+                                Manage Payments
                             </ResponsiveNavLink>
                         </div>
 
@@ -128,6 +134,7 @@ export default function Authenticated({user, header, children, flash = null, err
 
                             <div className="mt-3 space-y-1">
                                 <ResponsiveNavLink href={route('profile.edit')}>Profile</ResponsiveNavLink>
+                                <ResponsiveNavLink href={route('profile.edit')}>Docs</ResponsiveNavLink>
                                 <ResponsiveNavLink method="post" href={route('logout')} as="button">
                                     Log Out
                                 </ResponsiveNavLink>

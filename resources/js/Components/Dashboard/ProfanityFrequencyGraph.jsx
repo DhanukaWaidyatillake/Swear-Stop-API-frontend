@@ -7,11 +7,10 @@ import {
 import Chart from "react-apexcharts";
 import Dropdown from "@/Components/BreezeComponents/Dropdown.jsx";
 import ChartTimeframeSelector from "@/Components/Dashboard/ChartTimeframeSelector.jsx";
-import {useState} from "react";
-import {EnvelopeOpenIcon} from "@heroicons/react/24/outline/index.js";
+import { useState } from "react";
+import { EnvelopeOpenIcon } from "@heroicons/react/24/outline/index.js";
 
 export default function ProfanityFrequencyGraph() {
-
     const [xAxis, setXAxis] = useState([]);
     const [yAxis, setYAxis] = useState([]);
 
@@ -94,7 +93,7 @@ export default function ProfanityFrequencyGraph() {
     };
 
     return (
-        <Card className={'min-h-[30vh]'}>
+        <Card className={"min-h-[30vh]"}>
             <CardHeader
                 floated={false}
                 shadow={false}
@@ -106,31 +105,29 @@ export default function ProfanityFrequencyGraph() {
                     </Typography>
                 </div>
 
-                <ChartTimeframeSelector chart_name={"profanity-frequency"} setXAxis={setXAxis}
-                                        setYAxis={setYAxis}></ChartTimeframeSelector>
+                <ChartTimeframeSelector
+                    chart_name={"profanity-frequency"}
+                    setXAxis={setXAxis}
+                    setYAxis={setYAxis}
+                ></ChartTimeframeSelector>
             </CardHeader>
 
-            {(yAxis.length !== 0) ?
-                (
-                    <CardBody className="px-2 pb-0 h-full">
-                        <Chart {...chartConfig} />
-                    </CardBody>
-
-                )
-                :
-                (
-                    <CardBody className="p-0 flex h-full justify-center">
-                        <div className="h-full">
-                            <div className={"opacity-25 scale-[0.6]"}>
-                                <EnvelopeOpenIcon></EnvelopeOpenIcon>
-                            </div>
-                            <Typography color="blue-gray" className="font-light">
-                                No data for selected duration
-                            </Typography>
+            {yAxis.length !== 0 ? (
+                <CardBody className="px-2 pb-0 h-full">
+                    <Chart {...chartConfig} />
+                </CardBody>
+            ) : (
+                <CardBody className="flex h-full justify-center">
+                    <div className="h-full">
+                        <div className={"opacity-25 scale-[0.6]"}>
+                            <EnvelopeOpenIcon></EnvelopeOpenIcon>
                         </div>
-                    </CardBody>
-                )
-            }
+                        <Typography color="blue-gray" className="font-light">
+                            No data for selected duration
+                        </Typography>
+                    </div>
+                </CardBody>
+            )}
         </Card>
     );
 }

@@ -19,7 +19,7 @@ export default function ExpandedResponsePopup({visible, setVisible, json}) {
                  className="relative mx-auto flex w-3/4 lg:w-full max-w-[50rem] flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md min-h-[60vh] justify-center">
 
                 <div className="min-w-[90%] self-center h-fit">
-                    <CodeViewComponent json={json} max_height={96}></CodeViewComponent>
+                    <CodeViewComponent json={json} isExpanded={true}></CodeViewComponent>
                 </div>
             </div>
         </div>

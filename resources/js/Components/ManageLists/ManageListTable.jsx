@@ -68,7 +68,7 @@ export default function ManageListTable({type}) {
     return (
         <Card className={`h-full w-full ${type === "blacklist" ? '' : 'mt-16'}`}>
             <CardHeader floated={false} shadow={false} className="rounded-none">
-                <div className="flex items-center justify-between gap-8">
+                <div className="flex items-center justify-between gap-8 flex-col md:flex-row">
                     <div>
                         <Typography variant="h5" color="blue-gray">
                             {type === "blacklist" ? 'Blacklisted words' : 'Whitelisted words'}
