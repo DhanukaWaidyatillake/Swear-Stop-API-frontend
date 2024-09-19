@@ -36,7 +36,8 @@ class User extends Authenticatable implements Auditable
         'current_billing_date',
         'current_month_failed_renewal_attempts',
         'is_active',
-        'free_request_count'
+        'free_request_count',
+        'user_inactivity_message'
     ];
 
     /**

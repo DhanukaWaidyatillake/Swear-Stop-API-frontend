@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\PricingTier;
+use App\Models\SiteConfig;
 use App\Services\CustomAuditingService;
 use App\Services\PaymentProcessingService;
 use App\Services\ToastMessageService;
@@ -38,7 +39,9 @@ class PaymentController extends Controller
                     'card_last_4' => $card_details['last4'],
                     'card_expiry_date' => Carbon::create($card_details['expiry_year'], $card_details['expiry_month']),
                     'previous_billing_date' => null,
-                    'current_billing_date' => Carbon::now()->addMonth()
+                    'current_billing_date' => Carbon::now()->addMonth(),
+                    'is_active' => true,
+                    'user_inactivity_message' => null
                 ]);
 
                 $toastMessageService->showToastMessage('success', 'Payment Method Saved Successfully');
@@ -122,7 +125,9 @@ class PaymentController extends Controller
                     'card_type' => null,
                     'card_last_4' => null,
                     'card_expiry_date' => null,
-                    'current_billing_date' => null
+                    'current_billing_date' => null,
+                    'is_active' => false,
+                    'user_inactivity_message' => SiteConfig::query()->firstWhere('key', 'user_inactivity_message_for_no_card')?->value
                 ]);
 
                 $auditingService->createCustomAudit($user, 'Payment method removed successfully');

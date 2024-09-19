@@ -31,5 +31,13 @@ class ConfigsSeeder extends Seeder
                 'value' => '100'
             ]
         );
+
+        SiteConfig::query()->updateOrCreate(
+            ['key' => 'user_inactivity_message_for_no_card'],
+            [
+                'key' => 'user_inactivity_message_for_no_card',
+                'value' => "It looks like you've run out of free requests and don't have a payment method on file. To continue using the Swear-Stop API, please add your card details at http://localhost:8086/payments"
+            ]
+        );
     }
 }
