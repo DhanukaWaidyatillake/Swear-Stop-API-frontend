@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\SiteConfig;
 use App\Models\User;
+use App\Services\ToastMessageService;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -21,7 +22,7 @@ class ProfileController extends Controller
     /**
      * Display the user's profile form.
      */
-    public function edit(Request $request): Response
+    public function edit(Request $request): \Inertia\Response
     {
         return Inertia::render('Profile/Edit', [
             'api_key' => $this->decrypt_token($request->user())
@@ -44,34 +45,19 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit');
     }
 
-    /**
-     * Delete the user's account.
-     */
-    public function destroy(Request $request): RedirectResponse
+    public function refresh_token(Request $request, ToastMessageService $toastMessageService)
     {
-        $request->validate([
-            'password' => ['required', 'current_password'],
-        ]);
-
-        $user = $request->user();
-
-        Auth::logout();
-
-        $user->delete();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return Redirect::to('/');
-    }
-
-    public function refresh_token(Request $request)
-    {
-        Http::withHeaders([
+        $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $this->decrypt_token($request->user())
         ])->post(Config::get('auth.api_app_url') . '/api/refresh-token', [
             'user_id' => $request->user()->id,
         ]);
+
+        if (!$response->successful()) {
+            $toastMessageService->showToastMessage('error', $response->reason());
+        } else {
+            $toastMessageService->showToastMessage('success', 'API Token Refreshed');
+        }
     }
 
     private function decrypt_token(User $user)

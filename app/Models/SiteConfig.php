@@ -12,4 +12,9 @@ class SiteConfig extends Model
     protected $table = 'configs';
 
     protected $fillable = ['key', 'value'];
+
+    public static function getConfig($key = "")
+    {
+        return SiteConfig::query()->firstWhere('key', $key)?->value;
+    }
 }

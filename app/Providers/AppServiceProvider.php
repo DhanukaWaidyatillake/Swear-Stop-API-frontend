@@ -7,6 +7,10 @@ use App\Services\ApiResultTools;
 use App\Services\CustomAuditingService;
 use App\Services\PaymentProcessingService;
 use App\Services\ToastMessageService;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -42,6 +46,39 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        //Rate limiting dashboard loading
+        RateLimiter::for('dashboard-page-loads', function (Request $request) {
+            return [
+                Limit::perSecond(12)->by($request->user()->id),
+            ];
+        });
+
+        //Rate limiting manage lists page loading
+        RateLimiter::for('manage-list-page-loads', function (Request $request) {
+            return [
+                Limit::perSecond(6)->by($request->user()->id),
+            ];
+        });
+
+        //Rate limiting other page loadings
+        RateLimiter::for('other-page-loads', function (Request $request) {
+            return [
+                Limit::perSecond(2)->by($request->user()->id),
+            ];
+        });
+
+        //Rate limiting for refreshing API token
+        RateLimiter::for('refresh-token-throttling', function (Request $request) {
+            return [
+                Limit::perMinute(2)->by($request->user()->id),
+            ];
+        });
+
+        //Rate limiting post and put requests
+        RateLimiter::for('post-request-throttling', function (Request $request) {
+            return [
+                Limit::perMinute(5)->by($request->user()->id),
+            ];
+        });
     }
 }

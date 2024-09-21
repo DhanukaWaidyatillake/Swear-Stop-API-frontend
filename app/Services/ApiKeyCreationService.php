@@ -16,7 +16,7 @@ class ApiKeyCreationService
     {
         $response = Http::post(Config::get('auth.api_app_url') . '/api/generate-token', [
             'user_id' => $user->id,
-            'signup_secret' => SiteConfig::query()->firstWhere('key', 'signup_secret')?->value
+            'signup_secret' => SiteConfig::getConfig('signup_secret')
         ]);
 
 
@@ -32,7 +32,7 @@ class ApiKeyCreationService
             $user->createAsCustomer();
 
             $user->update([
-                'free_request_count' => (int) SiteConfig::query()->firstWhere('key', 'free_requests')?->value
+                'free_request_count' => (int)SiteConfig::getConfig('free_requests')
             ]);
 
         } else {

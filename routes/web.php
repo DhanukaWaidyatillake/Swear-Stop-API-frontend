@@ -10,12 +10,12 @@ use Inertia\Inertia;
 Route::middleware([])->group(function () {
     Route::get('/', [\App\Http\Controllers\WelcomePageController::class, 'loadWelcomePage'])->name('load-welcome-page');
     Route::get('/api-tester-get-sentence', [\App\Http\Controllers\WelcomePageController::class, 'getRandomSentence'])->name('get-random-sentence');
-    Route::get('/calculate-monthly-cost',[\App\Http\Controllers\WelcomePageController::class, 'getMonthlyCost'])->name('calculate-monthly-cost');
+    Route::get('/calculate-monthly-cost', [\App\Http\Controllers\WelcomePageController::class, 'getMonthlyCost'])->name('calculate-monthly-cost');
     Route::get('/get_pricing_structure', [App\Http\Controllers\PaymentController::class, 'get_pricing_structure'])->name('get-pricing-structure');
 });
 
 //Dashboard
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', 'throttle:dashboard-page-loads'])->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
     Route::get('/chart-profanity-frequency', [\App\Http\Controllers\DashboardController::class, 'loadProfanityFrequencyChart'])->name('load-profanity-frequency-chart');
     Route::get('/chart-profanity-category', [\App\Http\Controllers\DashboardController::class, 'loadProfanityCategoryChart'])->name('load-profanity-category-chart');
@@ -26,40 +26,49 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 //Manage Lists
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/manage_list', function () {
-        return Inertia::render('ManageLists');
-    })->name('manage_list');
 
-    Route::post('/add_word_to_blacklist', [BlacklistedWordController::class, 'store'])->name('add_word_to_blacklist');
-    Route::get('/get_blacklisted_words', [BlacklistedWordController::class, 'index'])->name('get_blacklisted_words');
-    Route::put('/change_state_blacklist/{blacklistedWord}', [BlacklistedWordController::class, 'update'])->name('change_state_blacklist');
+    Route::middleware(['throttle:manage-list-page-loads'])->group(function () {
+        Route::get('/manage_list', function () {
+            return Inertia::render('ManageLists');
+        })->name('manage_list');
+        Route::get('/get_blacklisted_words', [BlacklistedWordController::class, 'index'])->name('get_blacklisted_words');
+        Route::get('/get_whitelisted_words', [WhitelistedWordController::class, 'index'])->name('get_whitelisted_words');
+    });
 
+    Route::middleware(['throttle:post-request-throttling'])->group(function () {
+        Route::post('/add_word_to_blacklist', [BlacklistedWordController::class, 'store'])->name('add_word_to_blacklist');
+        Route::post('/add_word_to_whitelist', [WhitelistedWordController::class, 'store'])->name('add_word_to_whitelist');
 
-    Route::post('/add_word_to_whitelist', [WhitelistedWordController::class, 'store'])->name('add_word_to_whitelist');
-    Route::get('/get_whitelisted_words', [WhitelistedWordController::class, 'index'])->name('get_whitelisted_words');
-    Route::put('/change_state_whitelist/{whitelistedWord}', [WhitelistedWordController::class, 'update'])->name('change_state_whitelist');
+        Route::put('/change_state_blacklist/{blacklistedWord}', [BlacklistedWordController::class, 'update'])->name('change_state_blacklist');
+        Route::put('/change_state_whitelist/{whitelistedWord}', [WhitelistedWordController::class, 'update'])->name('change_state_whitelist');
+    });
 });
 
 //Payment page
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/payments', [\App\Http\Controllers\PaymentController::class, 'load_manage_payments_page'])->name('payments');
+    Route::middleware('throttle:other-page-loads')
+        ->get('/payments', [\App\Http\Controllers\PaymentController::class, 'load_manage_payments_page'])->name('payments');
 
-    Route::post('/card-saved-successfully', [\App\Http\Controllers\PaymentController::class, 'card_saved_successfully'])->name('card-saved-successfully');
-    Route::post('/card-saved-failed', [\App\Http\Controllers\PaymentController::class, 'card_saved_failed'])->name('card-saved-failed');
+    Route::middleware(['throttle:post-request-throttling'])->group(function () {
+        Route::post('/card-saved-successfully', [\App\Http\Controllers\PaymentController::class, 'card_saved_successfully'])->name('card-saved-successfully');
+        Route::post('/card-saved-failed', [\App\Http\Controllers\PaymentController::class, 'card_saved_failed'])->name('card-saved-failed');
+        Route::post('/remove_payment_method', [\App\Http\Controllers\PaymentController::class, 'remove_payment_method'])->name('remove-payment-method');
+    });
 
     Route::get('/load-payment-details-page', [\App\Http\Controllers\PaymentController::class, 'load_payment_details_page'])->name('load-payment-details-page');
     Route::get('/load-payment-details-update-page', [\App\Http\Controllers\PaymentController::class, 'load_payment_details_update_page'])->name('load-payment-details-update-page');
 
     Route::get('/show_payment_method_removal_popup', [\App\Http\Controllers\PaymentController::class, 'show_payment_method_removal_popup'])->name('show-payment-method-removal-popup');
-    Route::post('/remove_payment_method', [\App\Http\Controllers\PaymentController::class, 'remove_payment_method'])->name('remove-payment-method');
 });
 
 //Profile
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::post('/profile', [ProfileController::class, 'refresh_token'])->name('profile.refresh-token');
+    Route::middleware('throttle:other-page-loads')
+        ->get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+
+    Route::middleware('throttle:post-request-throttling')->patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+
+    Route::middleware('throttle:refresh-token-throttling')->post('/profile', [ProfileController::class, 'refresh_token'])->name('profile.refresh-token');
 });
 
 //Google Auth webhooks

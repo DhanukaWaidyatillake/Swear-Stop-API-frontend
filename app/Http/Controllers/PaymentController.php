@@ -17,10 +17,9 @@ class PaymentController extends Controller
 {
     public function load_manage_payments_page(Request $request, PaymentProcessingService $paymentProcessingService): \Inertia\Response
     {
-        return Inertia::render('ManagePayments')->with(
-            'usage_details',
-            $paymentProcessingService->calculateCostAndUsageForCurrentBillingMonth($request->user())
-        );
+        $usage_details = $paymentProcessingService->calculateCostAndUsageForCurrentBillingMonth($request->user());
+        $usage_details['billing_date'] = Carbon::parse($request->user()->current_billing_date)->toFormattedDayDateString();
+        return Inertia::render('ManagePayments')->with('usage_details', $usage_details);
     }
 
     public function card_saved_successfully(Request $request, ToastMessageService $toastMessageService, CustomAuditingService $auditService): void
@@ -73,7 +72,9 @@ class PaymentController extends Controller
     public function load_payment_details_page(Request $request): \Inertia\Response
     {
         if (!$request->user()->is_subscribed) {
-            return Inertia::render('PaymentMethodCollectionPage');
+            return Inertia::render('PaymentMethodCollectionPage', [
+                'price_id' => SiteConfig::getConfig('price_id_for_payment_method_collection')
+            ]);
         } else {
             abort(401, 'User already has payment method');
         }
@@ -127,7 +128,7 @@ class PaymentController extends Controller
                     'card_expiry_date' => null,
                     'current_billing_date' => null,
                     'is_active' => false,
-                    'user_inactivity_message' => SiteConfig::query()->firstWhere('key', 'user_inactivity_message_for_no_card')?->value
+                    'user_inactivity_message' => SiteConfig::getConfig('user_inactivity_message_for_no_card')
                 ]);
 
                 $auditingService->createCustomAudit($user, 'Payment method removed successfully');

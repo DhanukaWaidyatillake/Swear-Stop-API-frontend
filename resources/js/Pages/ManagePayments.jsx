@@ -1,12 +1,9 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, Link, router, usePage} from '@inertiajs/react';
-import {useEffect, useState} from "react";
+import {Head, router, usePage} from '@inertiajs/react';
+import {useState} from "react";
 import {Button, Card, CardBody, Chip, Typography} from "@material-tailwind/react";
 import CreditCardIcon from "@/Icons/CreditCardIcon.jsx";
-import InvoicesTable from "@/Components/ManagePayments/InvoicesTable.jsx";
 import {Helmet} from "react-helmet";
-import PaymentMethodCollectionPage from "@/Pages/PaymentMethodCollectionPage.jsx";
-import ManageListPopup from "@/Components/ManageLists/ManageListPopup.jsx";
 import PricingStructurePopup from "@/Components/PricingStructurePopup.jsx";
 import ConfirmCardRemovalPopup from "@/Components/ManagePayments/ConfirmCardRemovalPopup.jsx";
 
@@ -50,6 +47,10 @@ export default function ManagePayments({auth, flash, errors}) {
                                 <CardBody>
                                     <Typography variant="h4" color="blue-gray" className="mb-2 text-center">
                                         Usage For The Current Billing Month
+                                    </Typography>
+                                    <Typography
+                                        className={`text-sm text-center flex justify-center mt-1 ${auth.user.is_subscribed ? 'block' : 'hidden'}`}>
+                                        (Next billing date : <span className="font-bold">{usage_details['billing_date']}</span>)
                                     </Typography>
                                     <Typography variant="h5" color="blue-gray"
                                                 className="mb-2 text-center mt-10 font-extrabold flex justify-center">
@@ -104,10 +105,10 @@ export default function ManagePayments({auth, flash, errors}) {
                                         <Button color="red" size="sm"
                                                 className="w-3/4 self-center mt-5 text-center justify-center"
                                                 variant="outlined" onClick={() => {
-                                                    setOpenCardRemovalPopup(true)
-                                                }}>Remove Payment Method</Button>
+                                            setOpenCardRemovalPopup(true)
+                                        }}>Remove Payment Method</Button>
                                         <ConfirmCardRemovalPopup visible={openCardRemovalPopup}
-                                                               setVisible={setOpenCardRemovalPopup}></ConfirmCardRemovalPopup>
+                                                                 setVisible={setOpenCardRemovalPopup}></ConfirmCardRemovalPopup>
 
                                     </CardBody>
                                 </Card>) :

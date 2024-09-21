@@ -29,7 +29,7 @@ class AuditPaddleWebhooks
 
                 //Change the billing date of the subscription to a date in the late future to prevent Paddle auto-renewal
                 Cashier::api('PATCH', 'subscriptions/' . $request->get('data')['id'], [
-                    'next_billed_at' => SiteConfig::query()->firstWhere('key', 'subscription_renewal_date')?->value,
+                    'next_billed_at' => SiteConfig::getConfig('subscription_renewal_date'),
                     'proration_billing_mode' => 'do_not_bill'
                 ]);
             }

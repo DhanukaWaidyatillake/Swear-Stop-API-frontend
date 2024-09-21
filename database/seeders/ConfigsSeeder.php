@@ -39,5 +39,13 @@ class ConfigsSeeder extends Seeder
                 'value' => "It looks like you've run out of free requests and don't have a payment method on file. To continue using the Swear-Stop API, please add your card details at http://localhost:8086/payments"
             ]
         );
+
+        SiteConfig::query()->updateOrCreate(
+            ['key' => 'price_id_for_payment_method_collection'],
+            [
+                'key' => 'price_id_for_payment_method_collection',
+                'value' => 'pri_01j17pahhf3d620xya4x9ckrg7'
+            ]
+        );
     }
 }

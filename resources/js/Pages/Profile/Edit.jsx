@@ -3,12 +3,15 @@ import UpdatePasswordForm from './Partials/UpdatePasswordForm';
 import {Head} from '@inertiajs/react';
 import APIKeyForm from "@/Pages/Profile/Partials/APIKeyForm.jsx";
 
-export default function Edit({auth, api_key}) {
+export default function Edit({auth, api_key, flash, errors}) {
     return (
         <AuthenticatedLayout
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Profile</h2>}
+            flash={flash}
+            errors={errors}
         >
+
             <Head title="Profile"/>
 
             <div className="py-12">

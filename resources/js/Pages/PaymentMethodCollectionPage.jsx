@@ -3,7 +3,7 @@ import {router} from "@inertiajs/react";
 import {useEffect} from "react";
 import {Button} from "@material-tailwind/react";
 
-export default function PaymentMethodCollectionPage({auth, txn_id}) {
+export default function PaymentMethodCollectionPage({auth, txn_id, price_id}) {
 
     // Load the Paddle script dynamically
     const script = document.createElement('script');
@@ -27,7 +27,7 @@ export default function PaymentMethodCollectionPage({auth, txn_id}) {
                                 'preserveScroll': true
                             })
 
-                            setTimeout(function() {
+                            setTimeout(function () {
                                 router.get('/payments');
                             }, 2000);  // 5000 milliseconds = 5 seconds
                             break;
@@ -36,7 +36,7 @@ export default function PaymentMethodCollectionPage({auth, txn_id}) {
                                 'preserveScroll': true
                             })
 
-                            setTimeout(function() {
+                            setTimeout(function () {
                                 router.get('/payments');
                             }, 2000);  // 5000 milliseconds = 5 seconds
                             break;
@@ -74,7 +74,7 @@ export default function PaymentMethodCollectionPage({auth, txn_id}) {
                     },
                     items: [
                         {
-                            priceId: 'pri_01j17pahhf3d620xya4x9ckrg7',
+                            priceId: price_id,
                         }
                     ],
                 });
