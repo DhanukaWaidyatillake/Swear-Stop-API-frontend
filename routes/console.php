@@ -1,12 +1,8 @@
 <?php
 
-use Illuminate\Foundation\Inspiring;
-use Illuminate\Support\Facades\Artisan;
-use Laravel\Paddle\Cashier;
-
-Artisan::command('inspire', function () {
-    $this->comment(Inspiring::quote());
-})->purpose('Display an inspiring quote')->hourly();
+//Artisan::command('inspire', function () {
+//    $this->comment(Inspiring::quote());
+//})->purpose('Display an inspiring quote')->hourly();
 
 
 \Illuminate\Support\Facades\Schedule::command('signup_secret:refresh')->everyMinute();

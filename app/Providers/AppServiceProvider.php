@@ -8,9 +8,13 @@ use App\Services\CustomAuditingService;
 use App\Services\PaymentProcessingService;
 use App\Services\ToastMessageService;
 use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Database\Events\MigrationsStarted;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -46,6 +50,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        //Allowing only https traffic in production environments
+        if($this->app->environment('production')) {
+            URL::forceScheme('https');
+        }
+
         //Rate limiting dashboard loading
         RateLimiter::for('dashboard-page-loads', function (Request $request) {
             return [
