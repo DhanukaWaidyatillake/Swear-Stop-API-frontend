@@ -112,5 +112,7 @@ return [
 
     'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
 
-    'api_app_url' => env('API_APP_URL','https://localhost:8087')
+    'api_external_url' => env('API_EXTERNAL_URL','https://localhost:8087'),
+
+    'api_internal_url' => env('API_INTERNAL_URL','https://localhost:8087')
 ];

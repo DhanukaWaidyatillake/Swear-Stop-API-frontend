@@ -14,7 +14,7 @@ class ApiKeyCreationService
 {
     public function createAPIKeyAndFinalizeRegistration(User $user): void
     {
-        $response = Http::post(Config::get('auth.api_app_url') . '/api/generate-token', [
+        $response = Http::post(Config::get('auth.api_external_url') . '/api/generate-token', [
             'user_id' => $user->id,
             'signup_secret' => SiteConfig::getConfig('signup_secret')
         ]);

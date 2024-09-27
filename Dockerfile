@@ -4,8 +4,6 @@ FROM php:8.3-fpm-alpine
 # Set working directory
 WORKDIR /var/www/html
 
-ENV FPM_HOST='frontend-app:9000'
-
 # Install dependencies
 RUN apk update && apk add --no-cache \
     git \

@@ -32,7 +32,7 @@ class WelcomePageController extends Controller
             'profanityCategories' => $profanity_categories,
             'laravelVersion' => Application::VERSION,
             'phpVersion' => PHP_VERSION, 99,
-            'api_domain' => App::isLocal() ? 'http://localhost:8087' : Config::get('auth.api_app_url'),
+            'api_domain' => Config::get('auth.api_external_url'),
             'maxUsage' => PricingTier::query()->orderBy('from', 'desc')->firstOrFail()->from
         ]);
     }

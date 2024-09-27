@@ -23,7 +23,6 @@ data:
   FILESYSTEM_DRIVER: "local"
   QUEUE_CONNECTION: "redis"
 
-  # Update the Session driver to Redis, based off part-2 of series
   SESSION_DRIVER: "redis"
   SESSION_LIFETIME: "120"
 
@@ -31,6 +30,8 @@ data:
   REDIS_PORT: "25061"
   REDIS_SSL: "false"
 
+  API_EXTERNAL_URL: "http://174.138.102.216"
+  API_INTERNAL_URL: "http://swear-stop-api-service"
 
   MAIL_MAILER: "smtp"
   MAIL_HOST: "mailhog"

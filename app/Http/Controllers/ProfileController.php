@@ -49,7 +49,7 @@ class ProfileController extends Controller
     {
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $this->decrypt_token($request->user())
-        ])->post(Config::get('auth.api_app_url') . '/api/refresh-token', [
+        ])->post(Config::get('auth.api_internal_url') . '/api/refresh-token', [
             'user_id' => $request->user()->id,
         ]);
 

@@ -76,7 +76,7 @@ class RegistrationTest extends TestCase
 
         $user = User::factory()->createOne();
 
-        $response = Http::post(Config::get('auth.api_app_url') . '/api/generate-token', [
+        $response = Http::post(Config::get('auth.api_internal_url') . '/api/generate-token', [
             'user_id' => $user->id,
             'signup_secret' => Str::uuid()->toString()
         ]);

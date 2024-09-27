@@ -23,11 +23,13 @@ spec:
         tier: frontend
         layer: website
     spec:
+      imagePullSecrets:
+        - name: swear-stop-docker-registry
       # InitContainer to run migrations before the main application container starts
       initContainers:
         - name: swear-stop-frontend-migrations
           # Docker image containing the Laravel app that will run the migrations
-          image: danukawaidyatillake/text-moderator-frontend-app:v0.0.4
+          image: danukawaidyatillake/text-moderator-frontend-app:v0.0.42
           command:
             - php
           args:
@@ -46,7 +48,7 @@ spec:
       containers:
         - name: swear-stop-frontend
           # Docker image for the main frontend application
-          image: danukawaidyatillake/text-moderator-frontend-app:v0.0.4
+          image: danukawaidyatillake/text-moderator-frontend-app:v0.0.42
           # Exposing port 80 for web traffic
           ports:
             - containerPort: 80

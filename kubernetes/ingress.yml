@@ -7,10 +7,17 @@ spec:
   rules:
     - http:
         paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: swear-stop-api-service
+                port:
+                  number: 80
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: swear-stop-frontend
+                name: swear-stop-frontend-service
                 port:
                   number: 80
