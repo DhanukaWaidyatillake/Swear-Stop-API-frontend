@@ -1,5 +1,5 @@
-import { Link, router } from "@inertiajs/react";
-import React, { useRef, useState } from "react";
+import {Link, router} from "@inertiajs/react";
+import React, {useRef, useState} from "react";
 import ApplicationLogo from "@/Components/ApplicationLogo.jsx";
 import TopLeftBackgroundSVG from "@/Background/TopLeftBackgroundSVG.jsx";
 import ApiTestForm from "@/Components/LandingPage/ApiTestForm.jsx";
@@ -8,19 +8,27 @@ import PricingSection from "@/Components/LandingPage/PricingSection.jsx";
 import MiddleRightBackgroundSVG from "@/Background/MiddleRightBackgroundSVG.jsx";
 import FeatureSection from "@/Components/LandingPage/FeatureSection.jsx";
 import mainGif from "../../gif/main.gif";
-import { Button, Typography } from "@material-tailwind/react";
+import {Button, Typography} from "@material-tailwind/react";
 import ThunderIcon from "@/Icons/ThunderIcon.jsx";
 import DoubleArrow from "@/Icons/DoubleArrow.jsx";
+import PoliciesAndTermsPopup from "@/Components/WelcomePageComponents/PoliciesAndTermsPopup.jsx";
+import privacy_policy from '../../data/privacypolicy.json';
+import terms_and_conditions from '../../data/termsandconditions.json';
+
 
 let currentIndex = 0;
 
 export default function Welcome({
-    auth,
-    profanityCategories,
-    api_domain,
-    maxUsage,
-}) {
+                                    auth,
+                                    profanityCategories,
+                                    api_domain,
+                                    maxUsage,
+                                }) {
     const apiTestFormRef = useRef(null);
+
+    const [isOpenTermsAndPrivacyPopup, setIsOpenTermsAndPrivacyPopup] = useState(false)
+    const [termsAndPolicy, setTermsAndPolicy] = useState(terms_and_conditions)
+
 
     return (
         <div className="relative h-screen bg-white overflow-x-clip ">
@@ -30,7 +38,7 @@ export default function Welcome({
 
             <nav className="flex justify-between p-5 w-screen ">
                 <div className="ml-4">
-                    <ApplicationLogo className="w-20 h-16 fill-current" />
+                    <ApplicationLogo className="w-20 h-16 fill-current"/>
                 </div>
                 <div className="z-10">
                     {auth.user ? (
@@ -68,9 +76,9 @@ export default function Welcome({
                     <h1 className="p-2 text-xl font-bold text-center lg:text-left mt-10 leading-8">
                         <span className="hidden lg:inline">
                             Enhance your app with our top-tier Text Moderation{" "}
-                            <br />
+                            <br/>
                             Service! Effortlessly filter explicit words and
-                            phrases <br />
+                            phrases <br/>
                             to create a safe, inclusive and seamless user
                             experience.
                         </span>
@@ -86,7 +94,7 @@ export default function Welcome({
                             <Button
                                 variant="outlined"
                                 size="sm"
-                                className="flex items-center gap-3"
+                                className="flex items-center gap-3 z-50"
                                 onClick={() => {
                                     apiTestFormRef.current.scrollIntoView({
                                         behavior: "smooth",
@@ -126,7 +134,7 @@ export default function Welcome({
                 <MiddleLeftBackgroundSVG></MiddleLeftBackgroundSVG>
             </div>
 
-            <br />
+            <br/>
 
             <div
                 ref={apiTestFormRef}
@@ -141,7 +149,7 @@ export default function Welcome({
                 ></ApiTestForm>
             </div>
 
-            <br />
+            <br/>
 
             <div className="hidden lg:block absolute right-16 z-0 scale-y-[4] scale-x-[3] rotate-180">
                 <MiddleRightBackgroundSVG></MiddleRightBackgroundSVG>
@@ -149,7 +157,7 @@ export default function Welcome({
 
             <div className="flex items-center flex-col mt-24 ">
                 <h1 className="p-2 text-4xl font-black text-center mb-10">
-                    Experience Unmatched Reliability <br /> and Control
+                    Experience Unmatched Reliability <br/> and Control
                 </h1>
                 <FeatureSection></FeatureSection>
             </div>
@@ -161,16 +169,17 @@ export default function Welcome({
             <div className="flex items-center flex-col mt-24 ">
                 <h1 className="text-4xl font-black text-center p-5">
                     <span className="underline">100</span> Free Requests to Get
-                    You Started! <br /> Pay per Usage Afterwards.{" "}
+                    You Started! <br/> Pay per Usage Afterwards.{" "}
                 </h1>
                 <PricingSection max_usage={maxUsage}></PricingSection>
                 <h1 className="text-4xl font-black text-center mt-20 p-5">
                     <span className="underline">3,726</span> clients count on
-                    Swear-Stop for profanity filtering. <br />
+                    Swear-Stop for profanity filtering. <br/>
                     Join the movement!{" "}
                 </h1>
             </div>
-            <footer className="bg-black mt-20 p-10 flex w-full flex-row flex-wrap items-center justify-center gap-y-6 gap-x-12 border-t border-blue-gray-50 py-6 text-center md:justify-between">
+            <footer
+                className="bg-black mt-20 p-10 flex w-full flex-row flex-wrap items-center justify-center gap-y-6 gap-x-12 border-t border-blue-gray-50 py-6 text-center md:justify-between">
                 <Typography
                     color="blue-gray"
                     className="font-normal text-white"
@@ -183,9 +192,14 @@ export default function Welcome({
                             as="a"
                             href="#"
                             color="blue-gray"
-                            className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500 text-white"
+                            className="font-normal transition-colors text-white"
+                            onClick={(event) => {
+                                event.preventDefault()
+                                setTermsAndPolicy(privacy_policy)
+                                setIsOpenTermsAndPrivacyPopup(true)
+                            }}
                         >
-                            About Us
+                            Privacy Policy
                         </Typography>
                     </li>
                     <li>
@@ -193,9 +207,13 @@ export default function Welcome({
                             as="a"
                             href="#"
                             color="blue-gray"
-                            className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500 text-white"
-                        >
-                            License
+                            className="font-normal transition-colors text-white"
+                            onClick={(event) => {
+                                event.preventDefault()
+                                setTermsAndPolicy(terms_and_conditions)
+                                setIsOpenTermsAndPrivacyPopup(true)
+                            }}>
+                            Terms of Use
                         </Typography>
                     </li>
                     <li>
@@ -203,22 +221,13 @@ export default function Welcome({
                             as="a"
                             href="#"
                             color="blue-gray"
-                            className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500 text-white"
+                            className="font-normal transition-colors text-white"
                         >
-                            Contribute
-                        </Typography>
-                    </li>
-                    <li>
-                        <Typography
-                            as="a"
-                            href="#"
-                            color="blue-gray"
-                            className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500 text-white"
-                        >
-                            Contact Us
+                            Support
                         </Typography>
                     </li>
                 </ul>
+                <PoliciesAndTermsPopup visible={isOpenTermsAndPrivacyPopup} setVisible={setIsOpenTermsAndPrivacyPopup} data={termsAndPolicy}></PoliciesAndTermsPopup>
             </footer>
         </div>
     );

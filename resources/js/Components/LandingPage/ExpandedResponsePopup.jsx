@@ -1,6 +1,4 @@
-import {Typography} from "@material-tailwind/react";
 import 'react-toastify/dist/ReactToastify.css'
-import {useEffect, useState} from "react";
 import CodeViewComponent from "@/Components/CodeViewComponent.jsx";
 
 export default function ExpandedResponsePopup({visible, setVisible, json}) {
