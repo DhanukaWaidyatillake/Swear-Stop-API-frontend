@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -18,8 +19,6 @@ class GoogleAuthController extends Controller
 {
     public function redirect(): \Symfony\Component\HttpFoundation\RedirectResponse|\Illuminate\Http\RedirectResponse
     {
-        $a = 10;
-        $a = str($a);
         return Socialite::driver('google')->redirect();
     }
 
@@ -29,6 +28,7 @@ class GoogleAuthController extends Controller
     public function callback(ApiKeyCreationService $apiKeyCreationService): false|\Illuminate\Http\RedirectResponse
     {
         $google_account = Socialite::driver('google')->user();
+        Log::info(json_encode($google_account,JSON_PRETTY_PRINT));
         if (!empty($google_account)) {
             $user = User::updateOrCreate([
                 'google_id' => $google_account->id,

@@ -1,5 +1,5 @@
 import {Link, router} from "@inertiajs/react";
-import React, {useRef, useState} from "react";
+import React, {useRef} from "react";
 import ApplicationLogo from "@/Components/ApplicationLogo.jsx";
 import TopLeftBackgroundSVG from "@/Background/TopLeftBackgroundSVG.jsx";
 import ApiTestForm from "@/Components/LandingPage/ApiTestForm.jsx";
@@ -8,12 +8,10 @@ import PricingSection from "@/Components/LandingPage/PricingSection.jsx";
 import MiddleRightBackgroundSVG from "@/Background/MiddleRightBackgroundSVG.jsx";
 import FeatureSection from "@/Components/LandingPage/FeatureSection.jsx";
 import mainGif from "../../gif/main.gif";
-import {Button, Typography} from "@material-tailwind/react";
+import {Button} from "@material-tailwind/react";
 import ThunderIcon from "@/Icons/ThunderIcon.jsx";
 import DoubleArrow from "@/Icons/DoubleArrow.jsx";
-import PoliciesAndTermsPopup from "@/Components/WelcomePageComponents/PoliciesAndTermsPopup.jsx";
-import privacy_policy from '../../data/privacypolicy.json';
-import terms_and_conditions from '../../data/termsandconditions.json';
+import Footer from "@/Components/Footer.jsx";
 
 
 let currentIndex = 0;
@@ -26,8 +24,6 @@ export default function Welcome({
                                 }) {
     const apiTestFormRef = useRef(null);
 
-    const [isOpenTermsAndPrivacyPopup, setIsOpenTermsAndPrivacyPopup] = useState(false)
-    const [termsAndPolicy, setTermsAndPolicy] = useState(terms_and_conditions)
 
 
     return (
@@ -178,57 +174,7 @@ export default function Welcome({
                     Join the movement!{" "}
                 </h1>
             </div>
-            <footer
-                className="bg-black mt-20 p-10 flex w-full flex-row flex-wrap items-center justify-center gap-y-6 gap-x-12 border-t border-blue-gray-50 py-6 text-center md:justify-between">
-                <Typography
-                    color="blue-gray"
-                    className="font-normal text-white"
-                >
-                    &copy; Swear Stop API
-                </Typography>
-                <ul className="flex flex-wrap items-center gap-y-2 gap-x-8">
-                    <li>
-                        <Typography
-                            as="a"
-                            href="#"
-                            color="blue-gray"
-                            className="font-normal transition-colors text-white"
-                            onClick={(event) => {
-                                event.preventDefault()
-                                setTermsAndPolicy(privacy_policy)
-                                setIsOpenTermsAndPrivacyPopup(true)
-                            }}
-                        >
-                            Privacy Policy
-                        </Typography>
-                    </li>
-                    <li>
-                        <Typography
-                            as="a"
-                            href="#"
-                            color="blue-gray"
-                            className="font-normal transition-colors text-white"
-                            onClick={(event) => {
-                                event.preventDefault()
-                                setTermsAndPolicy(terms_and_conditions)
-                                setIsOpenTermsAndPrivacyPopup(true)
-                            }}>
-                            Terms of Use
-                        </Typography>
-                    </li>
-                    <li>
-                        <Typography
-                            as="a"
-                            href="#"
-                            color="blue-gray"
-                            className="font-normal transition-colors text-white"
-                        >
-                            Support
-                        </Typography>
-                    </li>
-                </ul>
-                <PoliciesAndTermsPopup visible={isOpenTermsAndPrivacyPopup} setVisible={setIsOpenTermsAndPrivacyPopup} data={termsAndPolicy}></PoliciesAndTermsPopup>
-            </footer>
+            <Footer></Footer>
         </div>
     );
 }
