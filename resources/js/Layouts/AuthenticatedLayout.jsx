@@ -13,6 +13,8 @@ export default function Authenticated({user, header, children, flash = null, err
 
     return (
         <>
+            <link rel="icon" href="/swear-stop-favicon.png"/>
+
             <ToastContainer autoClose={2000} position={"top-center"} limit={1} hideProgressBar={true} closeButton={true}
                             transition={Zoom}
                             className="absolute z-[9999] top-3  left-1/2 transform -translate-x-1/2"/>

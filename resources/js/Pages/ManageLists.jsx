@@ -18,7 +18,7 @@ export default function ManageLists({auth, flash, errors}) {
             flash={flash}
             errors={errors}
         >
-            <Head title="Dashboard"/>
+            <Head title="Manage Lists"/>
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">

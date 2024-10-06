@@ -1,9 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head} from '@inertiajs/react';
-import RequestsOverTimeGraph from "@/Components/Dashboard/RequestsOverTimeGraph.jsx";
 import ProfanityFrequencyGraph from "@/Components/Dashboard/ProfanityFrequencyGraph.jsx";
 import PercentageBannedWordsCategory from "@/Components/Dashboard/PercentageBannedWordsCategory.jsx";
-import FilterHistory from "@/Components/Dashboard/RequestDetailsTable.jsx";
 import RequestDetailsTable from "@/Components/Dashboard/RequestDetailsTable.jsx";
 
 
