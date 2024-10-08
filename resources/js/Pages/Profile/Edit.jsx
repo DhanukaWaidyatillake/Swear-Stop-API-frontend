@@ -23,9 +23,11 @@ export default function Edit({auth, api_key, flash, errors}) {
                         />
                     </div>
 
-                    <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                        <UpdatePasswordForm className="max-w-xl"/>
-                    </div>
+                    {!auth.user.is_oauth_user && (
+                        <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                            <UpdatePasswordForm className="max-w-xl" />
+                        </div>
+                    )}
                 </div>
             </div>
         </AuthenticatedLayout>

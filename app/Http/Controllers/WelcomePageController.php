@@ -9,14 +9,13 @@ use App\Models\TestSentence;
 use App\Services\PaymentProcessingService;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 class WelcomePageController extends Controller
 {
-    public function loadWelcomePage(): \Inertia\Response
+    public function loadWelcomePage(Request $request): \Inertia\Response
     {
         $profanity_categories = ProfanityCategory::query()->select('id', 'profanity_category_name')->get();
 
@@ -33,7 +32,7 @@ class WelcomePageController extends Controller
             'laravelVersion' => Application::VERSION,
             'phpVersion' => PHP_VERSION, 99,
             'api_domain' => Config::get('auth.api_external_url'),
-            'maxUsage' => PricingTier::query()->orderBy('from', 'desc')->firstOrFail()->from
+            'maxUsage' => PricingTier::query()->orderBy('from', 'desc')->firstOrFail()->from,
         ]);
     }
 

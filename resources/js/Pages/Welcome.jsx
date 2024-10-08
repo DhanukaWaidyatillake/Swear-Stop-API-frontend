@@ -11,7 +11,7 @@ import mainGif from "../../gif/main.gif";
 import {Button} from "@material-tailwind/react";
 import ThunderIcon from "@/Icons/ThunderIcon.jsx";
 import DoubleArrow from "@/Icons/DoubleArrow.jsx";
-import Footer from "@/Components/Footer.jsx";
+import Footer from "@/Components/Footer/Footer.jsx";
 
 
 let currentIndex = 0;
@@ -57,6 +57,12 @@ export default function Welcome({
                                 className="lg:text-white px-3"
                             >
                                 Sign Up
+                            </Link>
+                            <Link
+                                href='/docs/1.0/authentication'
+                                className="lg:text-white px-3"
+                            >
+                                Docs
                             </Link>
                         </>
                     )}
@@ -162,17 +168,17 @@ export default function Welcome({
                 <MiddleLeftBackgroundSVG></MiddleLeftBackgroundSVG>
             </div>
 
-            <div className="flex items-center flex-col mt-24 ">
+            <div className="flex items-center flex-col mt-24 mb-20">
                 <h1 className="text-4xl font-black text-center p-5">
                     <span className="underline">100</span> Free Requests to Get
                     You Started! <br/> Pay per Usage Afterwards.{" "}
                 </h1>
                 <PricingSection max_usage={maxUsage}></PricingSection>
-                <h1 className="text-4xl font-black text-center mt-20 p-5">
-                    <span className="underline">3,726</span> clients count on
-                    Swear-Stop for profanity filtering. <br/>
-                    Join the movement!{" "}
-                </h1>
+                {/*<h1 className="text-4xl font-black text-center mt-20 p-5">*/}
+                {/*    <span className="underline">3,726</span> clients count on*/}
+                {/*    Swear-Stop for profanity filtering. <br/>*/}
+                {/*    Join the movement!{" "}*/}
+                {/*</h1>*/}
             </div>
             <Footer></Footer>
         </div>

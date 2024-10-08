@@ -1,6 +1,6 @@
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import { Link } from '@inertiajs/react';
-import Footer from "@/Components/Footer.jsx";
+import Footer from "@/Components/Footer/Footer.jsx";
 
 export default function Guest({ children }) {
     return (

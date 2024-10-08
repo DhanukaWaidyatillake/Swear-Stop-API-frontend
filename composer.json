@@ -6,7 +6,9 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "ext-curl": "*",
         "ext-openssl": "*",
+        "binarytorch/larecipe": "^2.7",
         "inertiajs/inertia-laravel": "^1.0",
         "laravel/cashier-paddle": "^2.4",
         "laravel/framework": "^11.0",
@@ -15,8 +17,7 @@
         "laravel/socialite": "^5.14",
         "laravel/tinker": "^2.9",
         "owen-it/laravel-auditing": "^13.6",
-        "tightenco/ziggy": "^2.0",
-        "ext-curl": "*"
+        "tightenco/ziggy": "^2.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

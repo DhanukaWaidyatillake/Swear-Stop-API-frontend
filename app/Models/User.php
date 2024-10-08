@@ -37,7 +37,8 @@ class User extends Authenticatable implements Auditable
         'current_month_failed_renewal_attempts',
         'is_active',
         'free_request_count',
-        'user_inactivity_message'
+        'user_inactivity_message',
+        'is_oauth_user'
     ];
 
     /**

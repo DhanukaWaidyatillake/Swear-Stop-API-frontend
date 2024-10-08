@@ -7,7 +7,7 @@ import {Link} from '@inertiajs/react';
 import {ToastContainer, Zoom} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
 import AlertPopup from "@/Components/AlertPopup.jsx";
-import Footer from "@/Components/Footer.jsx";
+import Footer from "@/Components/Footer/Footer.jsx";
 
 export default function Authenticated({user, header, children, flash = null, errors = null}) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
@@ -79,7 +79,7 @@ export default function Authenticated({user, header, children, flash = null, err
 
                                         <Dropdown.Content>
                                             <Dropdown.Link href={route('profile.edit')}>Profile</Dropdown.Link>
-                                            <Dropdown.Link href={route('profile.edit')}>Docs</Dropdown.Link>
+                                            <Dropdown.Link href='/docs/1.0/authentication'>Docs</Dropdown.Link>
                                             <Dropdown.Link href={route('logout')} method="post" as="button">
                                                 Log Out
                                             </Dropdown.Link>
@@ -151,8 +151,8 @@ export default function Authenticated({user, header, children, flash = null, err
                 )}
 
                 <main>{children}</main>
-                <Footer></Footer>
             </div>
+            <Footer></Footer>
         </>
     );
 }
