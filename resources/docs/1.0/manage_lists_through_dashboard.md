@@ -1,4 +1,4 @@
-# Manage Blacklist And Whitelist Through API
+# Manage Blacklist And Whitelist Through Dashboard
 
 ---
 

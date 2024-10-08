@@ -76,7 +76,7 @@ class PaymentProcessingService
         $invoice->save();
 
         try {
-            if ($data['usage'] > 0) {
+            if ($data['cost'] > 0) {
                 //Charging customer's card through Paddle
                 $response = Cashier::api('POST', 'subscriptions/' . $user->subscription()->asPaddleSubscription()['id'] . '/charge', [
                     'effective_from' => 'immediately',

@@ -2,12 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Invoice;
 use App\Models\User;
 use App\Services\CustomAuditingService;
 use App\Services\PaymentProcessingService;
 use Illuminate\Console\Command;
-use Laravel\Paddle\Cashier;
 
 class TriggerSubscriptionRenewal extends Command
 {

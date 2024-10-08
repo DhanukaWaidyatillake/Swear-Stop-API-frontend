@@ -46,6 +46,12 @@ export default function Welcome({
                         </Link>
                     ) : (
                         <>
+                            <a
+                                href='/docs/1.0/authentication'
+                                className="lg:text-white px-3"
+                            >
+                                Docs
+                            </a>
                             <Link
                                 href={route("login")}
                                 className="lg:text-white px-3"
@@ -57,12 +63,6 @@ export default function Welcome({
                                 className="lg:text-white px-3"
                             >
                                 Sign Up
-                            </Link>
-                            <Link
-                                href='/docs/1.0/authentication'
-                                className="lg:text-white px-3"
-                            >
-                                Docs
                             </Link>
                         </>
                     )}

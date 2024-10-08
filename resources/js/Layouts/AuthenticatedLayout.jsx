@@ -79,7 +79,7 @@ export default function Authenticated({user, header, children, flash = null, err
 
                                         <Dropdown.Content>
                                             <Dropdown.Link href={route('profile.edit')}>Profile</Dropdown.Link>
-                                            <Dropdown.Link href='/docs/1.0/authentication'>Docs</Dropdown.Link>
+                                            <a className="block w-full px-4 py-2 text-start text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out " href='/docs'>Docs</a>
                                             <Dropdown.Link href={route('logout')} method="post" as="button">
                                                 Log Out
                                             </Dropdown.Link>
@@ -135,7 +135,7 @@ export default function Authenticated({user, header, children, flash = null, err
 
                             <div className="mt-3 space-y-1">
                                 <ResponsiveNavLink href={route('profile.edit')}>Profile</ResponsiveNavLink>
-                                <ResponsiveNavLink href={route('profile.edit')}>Docs</ResponsiveNavLink>
+                                <a className="w-full flex items-start ps-3 pe-4 py-2 border-l-4 border-transparent text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 text-base font-medium focus:outline-none transition duration-150 ease-in-out " href='/docs'>Docs</a>
                                 <ResponsiveNavLink method="post" href={route('logout')} as="button">
                                     Log Out
                                 </ResponsiveNavLink>
