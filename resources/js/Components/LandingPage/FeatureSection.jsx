@@ -47,7 +47,7 @@ export default function FeatureSection() {
         },
         6: {
             'header': 'Get Started For Free!',
-            'body': 'No credit card needed to get started! Enjoy your first 100 API calls absolutely free. Upgrade to one of our amazingly cheap subscriptions once you\'re ready.' ,
+            'body': 'No credit card needed to get started! Enjoy your first 100 API calls absolutely free. No subscriptions, no commitments—only pay for what you use! Enjoy complete flexibility and control with our usage-based pricing.' ,
             'svg': <NoSubscriptionIcon/>
         },
     };
