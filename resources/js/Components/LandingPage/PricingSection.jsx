@@ -6,7 +6,7 @@ export default function PricingSection({max_usage}) {
 
     const [usage, setUsage] = useState(0)
     const [cost, setCost] = useState(0)
-    const [openPricingPopup, setOpenPricingPopup] = useState(false);
+    const [openPricingPopup, setOpenPricingPopup] = useState(window.location.pathname === "/show-pricing");
 
     const initial_value = 25
 

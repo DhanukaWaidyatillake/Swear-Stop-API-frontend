@@ -11,6 +11,7 @@ Route::middleware([])->group(function () {
     Route::get('/', [\App\Http\Controllers\WelcomePageController::class, 'loadWelcomePage'])->name('load-welcome-page');
     Route::get('/privacy-policy', [\App\Http\Controllers\WelcomePageController::class, 'loadWelcomePage'])->name('load-welcome-page');
     Route::get('/terms-of-use', [\App\Http\Controllers\WelcomePageController::class, 'loadWelcomePage'])->name('load-welcome-page');
+    Route::get('/show-pricing', [\App\Http\Controllers\WelcomePageController::class, 'loadWelcomePage'])->name('load-welcome-page');
     Route::get('/api-tester-get-sentence', [\App\Http\Controllers\WelcomePageController::class, 'getRandomSentence'])->name('get-random-sentence');
     Route::get('/calculate-monthly-cost', [\App\Http\Controllers\WelcomePageController::class, 'getMonthlyCost'])->name('calculate-monthly-cost');
     Route::get('/get_pricing_structure', [App\Http\Controllers\PaymentController::class, 'get_pricing_structure'])->name('get-pricing-structure');

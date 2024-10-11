@@ -1,6 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, router, usePage} from '@inertiajs/react';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Button, Card, CardBody, Chip, Typography} from "@material-tailwind/react";
 import CreditCardIcon from "@/Icons/CreditCardIcon.jsx";
 import {Helmet} from "react-helmet";
@@ -15,6 +15,12 @@ export default function ManagePayments({auth, flash, errors}) {
     const [openCardRemovalPopup, setOpenCardRemovalPopup] = useState(false);
 
     const {usage_details} = usePage().props;
+
+    useEffect(() => {
+        if (window.Paddle) {
+            loadData(1);
+        }
+    }, []);
 
     return (
         <AuthenticatedLayout

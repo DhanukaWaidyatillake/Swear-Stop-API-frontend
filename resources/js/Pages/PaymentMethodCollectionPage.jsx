@@ -22,12 +22,12 @@ export default function PaymentMethodCollectionPage({auth, txn_id, price_id}) {
                 eventCallback: function (data) {
                     switch (data.name) {
                         case "checkout.completed":
-                            window.Paddle.Checkout.close()
                             router.post('/card-saved-successfully', data, {
                                 'preserveScroll': true
                             })
 
                             setTimeout(function () {
+                                window.Paddle.Checkout.close()
                                 router.get('/payments');
                             }, 2000);  // 5000 milliseconds = 5 seconds
                             break;
@@ -37,6 +37,7 @@ export default function PaymentMethodCollectionPage({auth, txn_id, price_id}) {
                             })
 
                             setTimeout(function () {
+                                window.Paddle.Checkout.close()
                                 router.get('/payments');
                             }, 2000);  // 5000 milliseconds = 5 seconds
                             break;
