@@ -2,18 +2,15 @@
 
 namespace App\Providers;
 
+use App\Contracts\PaymentProviderManager;
 use App\Services\ApiKeyCreationService;
 use App\Services\ApiResultTools;
 use App\Services\CustomAuditingService;
 use App\Services\PaymentProcessingService;
 use App\Services\ToastMessageService;
 use Illuminate\Cache\RateLimiting\Limit;
-use Illuminate\Database\Events\MigrationsStarted;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
@@ -24,6 +21,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        //Registering Services
         $this->app->singleton(ApiResultTools::class, function ($app) {
             return new ApiResultTools();
         });
@@ -43,6 +41,13 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(PaymentProcessingService::class, function ($app) {
             return new PaymentProcessingService(new CustomAuditingService());
         });
+
+
+        //Registering Managers
+        $this->app->bind(PaymentProviderManager::class, function ($app) {
+            return new PaymentProviderManager();
+        });
+
     }
 
     /**

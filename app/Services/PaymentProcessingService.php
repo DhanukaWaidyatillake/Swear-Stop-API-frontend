@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Contracts\PaymentProviderManager;
 use App\Models\Invoice;
 use App\Models\PricingTier;
 use App\Models\TextFilterAudit;
@@ -62,7 +63,7 @@ class PaymentProcessingService
         ];
     }
 
-    public function chargeCustomer(User $user): bool
+    public function chargeCustomer(User $user, PaymentProviderManager $paymentProviderManager): bool
     {
         $data = $this->calculateCostAndUsageForCurrentBillingMonth($user);
 
@@ -78,15 +79,7 @@ class PaymentProcessingService
         try {
             if ($data['cost'] > 0) {
                 //Charging customer's card through Paddle
-                $response = Cashier::api('POST', 'subscriptions/' . $user->subscription()->asPaddleSubscription()['id'] . '/charge', [
-                    'effective_from' => 'immediately',
-                    'items' => [
-                        [
-                            'price_id' => $data['pricing_tier']->paddle_pricing_id,
-                            'quantity' => $data['usage']
-                        ]
-                    ]
-                ]);
+                $response = $paymentProviderManager->usingDefault()->chargeCustomer($user, $data['pricing_tier'], $data['usage']);
 
                 $invoice->paddle_response = $response->json();
 
