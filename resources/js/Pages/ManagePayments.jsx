@@ -16,12 +16,6 @@ export default function ManagePayments({auth, flash, errors}) {
 
     const {usage_details} = usePage().props;
 
-    useEffect(() => {
-        if (window.Paddle) {
-            loadData(1);
-        }
-    }, []);
-
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -55,7 +49,7 @@ export default function ManagePayments({auth, flash, errors}) {
                                         Usage For The Current Billing Month
                                     </Typography>
                                     <Typography
-                                        className={`text-sm text-center flex justify-center mt-1 ${auth.user.is_subscribed ? 'block' : 'hidden'}`}>
+                                        className={`text-sm text-center flex justify-center mt-1 ${auth.user.card_last_4 ? 'block' : 'hidden'}`}>
                                         (Next billing date : <span className="font-bold">{usage_details['billing_date']}</span>)
                                     </Typography>
                                     <Typography variant="h5" color="blue-gray"
@@ -73,7 +67,7 @@ export default function ManagePayments({auth, flash, errors}) {
                                         <span className="w-1/2">Total Cost</span>
                                         <Chip
                                             value={'$' + usage_details['cost'].toLocaleString('en-US', {
-                                                maximumFractionDigits: 1
+                                                maximumFractionDigits: 5
                                             })}
                                             className="text-center w-auto text-lg" variant="filled"
                                         ></Chip>
@@ -89,7 +83,7 @@ export default function ManagePayments({auth, flash, errors}) {
                                                            setVisible={setOpenPricingPopup}></PricingStructurePopup>
                                 </CardBody>
                             </Card>
-                            {auth.user.is_subscribed ?
+                            {auth.user.card_last_4 ?
                                 (<Card className="mt-6 w-full sm:w-1/3  sm:ml-10 border-black border-2">
                                     <CardBody className="flex flex-col">
                                         <Typography variant="h4" color="blue-gray" className="mb-2 text-center">
@@ -106,7 +100,7 @@ export default function ManagePayments({auth, flash, errors}) {
                                                 className="w-3/4 self-center mt-5 text-center justify-center"
                                                 variant="outlined"
                                                 onClick={() => {
-                                                    router.visit(route('load-payment-details-update-page'))
+                                                    router.visit(route('update-card'))
                                                 }}>Change Payment Method</Button>
                                         <Button color="red" size="sm"
                                                 className="w-3/4 self-center mt-5 text-center justify-center"
@@ -130,7 +124,7 @@ export default function ManagePayments({auth, flash, errors}) {
                                                 className="w-3/4 self-center mt-5 text-center justify-center"
                                                 variant="outlined"
                                                 onClick={() => {
-                                                    router.visit(route('load-payment-details-page'))
+                                                    router.visit(route('save-card'))
                                                 }}
                                         >Add payment method</Button>
                                     </CardBody>

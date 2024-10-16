@@ -17,6 +17,7 @@
         "laravel/socialite": "^5.14",
         "laravel/tinker": "^2.9",
         "owen-it/laravel-auditing": "^13.6",
+        "stripe/stripe-php": "^16.1",
         "tightenco/ziggy": "^2.0"
     },
     "require-dev": {

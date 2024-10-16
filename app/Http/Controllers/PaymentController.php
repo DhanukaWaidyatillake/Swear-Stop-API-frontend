@@ -25,7 +25,10 @@ class PaymentController extends Controller
 
     public function get_pricing_structure(Request $request): \Illuminate\Database\Eloquent\Collection|array
     {
-        return PricingTier::query()->select(['from', 'to', 'price_per_api_call'])->get();
+        return [
+            'structure' => PricingTier::query()->select(['from', 'to', 'price_per_api_call'])->get(),
+            'processing_fee' => SiteConfig::getConfig('payment_processing_fee')
+        ];
     }
 
 
@@ -35,15 +38,15 @@ class PaymentController extends Controller
     }
 
 
-    public function load_payment_details_update_page(Request $request, PaymentProviderManager $paymentProviderManager, CustomAuditingService $auditService): \Inertia\Response
+    public function load_payment_details_update_page(Request $request, PaymentProviderManager $paymentProviderManager): \Inertia\Response
     {
-        return $paymentProviderManager->usingDefault()->renderPaymentMethodUpdatePage($request, $auditService);
+        return $paymentProviderManager->usingDefault()->renderPaymentMethodUpdatePage($request);
     }
 
 
-    public function card_saved_successfully(Request $request, PaymentProviderManager $paymentProviderManager, ToastMessageService $toastMessageService, CustomAuditingService $auditService): void
+    public function card_saved_successfully(Request $request, PaymentProviderManager $paymentProviderManager): \Illuminate\Http\RedirectResponse|null
     {
-        $paymentProviderManager->usingDefault()->saveCard($request, toastMessageService: $toastMessageService, auditService: $auditService);
+        return $paymentProviderManager->usingDefault()->saveCard($request);
     }
 
 
@@ -56,7 +59,10 @@ class PaymentController extends Controller
 
     public function show_payment_method_removal_popup(Request $request, PaymentProcessingService $paymentProcessingService)
     {
-        return $paymentProcessingService->calculateCostAndUsageForCurrentBillingMonth($request->user())['cost'];
+        return [
+            'cost' => $paymentProcessingService->calculateCostAndUsageForCurrentBillingMonth($request->user())['cost'],
+            'processing_fee' => SiteConfig::getConfig('payment_processing_fee')
+        ];
     }
 
 
@@ -65,7 +71,7 @@ class PaymentController extends Controller
         $user = $request->user();
 
         //Charging the due amount from the customers card
-        $isSuccessful = $paymentProcessingService->chargeCustomer($user, $paymentProviderManager);
+        $isSuccessful = $paymentProcessingService->chargeCustomer($user);
 
         try {
             if ($isSuccessful) {
@@ -105,6 +111,6 @@ class PaymentController extends Controller
             ]);
         }
 
-        return Redirect::route('load-payment-details-page');
+        return Redirect::route('save-card');
     }
 }

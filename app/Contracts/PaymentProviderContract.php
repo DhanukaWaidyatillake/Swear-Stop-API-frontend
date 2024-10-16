@@ -2,15 +2,23 @@
 
 namespace App\Contracts;
 
+use App\Models\Invoice;
 use App\Models\PricingTier;
 use App\Models\User;
-use App\Services\CustomAuditingService;
 use App\Services\ToastMessageService;
 use Illuminate\Http\Request;
 use Inertia\Response;
 
 interface PaymentProviderContract
 {
+    /**
+     * remove
+     *
+     * @param User $user
+     */
+    public function addCustomer(User $user): void;
+
+
     /**
      * render the payment method collection page
      *
@@ -23,10 +31,9 @@ interface PaymentProviderContract
      * render the payment method collection page
      *
      * @param Request $request
-     * @param CustomAuditingService $auditService
      * @return Response
      */
-    public function renderPaymentMethodUpdatePage(Request $request, CustomAuditingService $auditService): Response;
+    public function renderPaymentMethodUpdatePage(Request $request): Response;
 
 
     /**
@@ -34,10 +41,9 @@ interface PaymentProviderContract
      *
      * @param Request $request
      * @param ToastMessageService $toastMessageService
-     * @param CustomAuditingService $auditService
      * @return PaymentProviderContract
      */
-    public function saveCard(Request $request, ToastMessageService $toastMessageService, CustomAuditingService $auditService): void;
+    public function saveCard(Request $request): null|\Illuminate\Http\RedirectResponse;
 
     /**
      * remove
@@ -51,9 +57,10 @@ interface PaymentProviderContract
      * remove
      *
      * @param User $user
+     * @param Invoice $invoice
      * @param PricingTier $pricing_tier
      * @param int $usage
-     * @return \Illuminate\Http\Client\Response
+     * @return bool
      */
-    public function chargeCustomer(User $user, PricingTier $pricing_tier, int $usage): \Illuminate\Http\Client\Response;
+    public function chargeCustomer(User $user, Invoice $invoice, PricingTier $pricing_tier, int $usage): bool;
 }

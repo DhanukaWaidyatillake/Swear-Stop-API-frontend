@@ -1,6 +1,6 @@
 - ## Profanity Filtering API
     - [API Authentication](/{{route}}/{{version}}/authentication)
-    - [APIs](/{{route}}/{{version}}/api_endpoints)
+    - [API Usage](/{{route}}/{{version}}/api_endpoints)
     - 
 - ## Manage Blacklist and Whitelist
     - [Using Dashboard](/{{route}}/{{version}}/manage_lists_through_dashboard)

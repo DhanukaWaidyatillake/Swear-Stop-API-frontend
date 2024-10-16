@@ -1,11 +1,8 @@
-# APIs
+# API Usage
 
 ---
 
 - 
-
-
-## Profanity Filtering
 
 The **Profanity Filtering API** allows you to filter out profanity or objectionable content from a given text based on several moderation categories. Users can specify which categories to filter, or apply all available categories.
 

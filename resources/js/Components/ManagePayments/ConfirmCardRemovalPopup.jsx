@@ -6,10 +6,13 @@ import {router} from "@inertiajs/react";
 export default function ConfirmCardRemovalPopup({visible, setVisible}) {
 
     const [pendingAmount, setPendingAmount] = useState(0);
+    const [processingFeeText, setProcessingFeeText] = useState([]);
+
 
     const loadData = (page) => {
         axios.get('/show_payment_method_removal_popup').then(response => {
-            setPendingAmount(response.data);
+            setPendingAmount(response.data.cost);
+            setProcessingFeeText(response.data.cost === 0 ? null : "(+ $" + response.data.processing_fee + " payment processing fee)");
         }).catch(error => {
             console.error(error);
         });
@@ -38,7 +41,7 @@ export default function ConfirmCardRemovalPopup({visible, setVisible}) {
                 <div
                     className="relative p-4 font-sans text-base antialiased font-light leading-relaxed border-t border-b border-t-blue-gray-100 border-b-blue-gray-100 text-black">
                     Your payment method will be removed after the remaining balance of <span
-                    className="font-extrabold text-black">${pendingAmount}</span> is charged.
+                    className="font-extrabold text-black">${pendingAmount}</span> <span>{processingFeeText}</span> is charged.
                     To proceed, please confirm to complete the payment and finalize the removal of
                     your card.
                     <br/><br/> <span className="text-red-400">Note that your API access will be revoked once the card is removed.</span>

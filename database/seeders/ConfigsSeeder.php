@@ -47,5 +47,13 @@ class ConfigsSeeder extends Seeder
                 'value' => 'pri_01j17pahhf3d620xya4x9ckrg7'
             ]
         );
+
+        SiteConfig::query()->updateOrCreate(
+            ['key' => 'payment_processing_fee'],
+            [
+                'key' => 'payment_processing_fee',
+                'value' => '0.5'
+            ]
+        );
     }
 }

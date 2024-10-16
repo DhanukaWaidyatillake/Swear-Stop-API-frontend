@@ -51,7 +51,7 @@ class PaymentMethodTest extends TestCase
     {
         $user = $this->createUser();
 
-        $response = $this->actingAs($user)->get('/load-payment-details-page');
+        $response = $this->actingAs($user)->get('/save-card');
 
         $response->assertSuccessful();
     }
@@ -110,7 +110,7 @@ class PaymentMethodTest extends TestCase
     {
         $user = $this->createUser();
 
-        $response = $this->actingAs($user)->get('/load-payment-details-update-page');
+        $response = $this->actingAs($user)->get('/update-card');
 
         $response->assertUnauthorized();
     }

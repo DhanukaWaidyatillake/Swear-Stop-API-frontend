@@ -3,7 +3,7 @@ import {router} from "@inertiajs/react";
 import {useEffect} from "react";
 import {Button} from "@material-tailwind/react";
 
-export default function PaymentMethodCollectionPage({auth, txn_id, price_id}) {
+export default function PaddlePaymentMethodCollectionPage({auth, txn_id, price_id}) {
 
     // Load the Paddle script dynamically
     const script = document.createElement('script');

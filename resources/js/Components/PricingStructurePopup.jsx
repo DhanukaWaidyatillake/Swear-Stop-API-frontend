@@ -7,11 +7,14 @@ export default function PricingStructurePopup({visible, setVisible}) {
     const TABLE_HEAD = ["Number of API calls per month", "Price per API call"];
 
     const [data, setData] = useState([]);
+    const [processingFee, setProcessingFee] = useState([]);
+
 
     const loadData = (page) => {
         //Using axios here instead of router since we are not returning an Inertia response
         axios.get('/get_pricing_structure').then(response => {
-            setData(response.data)
+            setData(response.data.structure)
+            setProcessingFee(response.data.processing_fee)
         }).catch(error => {
             console.error(error);
         });
@@ -38,7 +41,7 @@ export default function PricingStructurePopup({visible, setVisible}) {
                     <span className="w-1/2">Pricing Structure</span>
                 </Typography>
                 <table
-                    className="w-5/6 self-center table-auto border-collapse border border-gray-200 rounded-lg mb-10 ">
+                    className="w-5/6 self-center table-auto border-collapse border border-gray-200 rounded-lg mb-5">
                     <thead>
                     <tr>
                         {TABLE_HEAD.map((head) => (
@@ -87,6 +90,9 @@ export default function PricingStructurePopup({visible, setVisible}) {
                     })}
                     </tbody>
                 </table>
+                <span className="mb-5 text-sm text-center">
+                    (+ ${processingFee} Payment processing fee)
+                </span>
             </div>
         </div>
     );

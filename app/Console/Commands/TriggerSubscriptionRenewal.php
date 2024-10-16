@@ -40,7 +40,7 @@ class TriggerSubscriptionRenewal extends Command
             $current_date = \Carbon\Carbon::now();
 
             //User has API usage for the month
-            $isSuccessful = $paymentProcessingService->chargeCustomer($user, $auditingService);
+            $isSuccessful = $paymentProcessingService->chargeCustomer($user);
 
             if ($isSuccessful) {
                 //Successfully charged the customers card

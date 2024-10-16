@@ -2,19 +2,26 @@
 
 namespace App\Services;
 
+use App\Contracts\PaymentProviderManager;
 use App\Models\SiteConfig;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 
 class ApiKeyCreationService
 {
+    private PaymentProviderManager $paymentProviderManager;
+
+    public function __construct(PaymentProviderManager $paymentProviderManager)
+    {
+        $this->paymentProviderManager = $paymentProviderManager;
+    }
+
+
     public function createAPIKeyAndFinalizeRegistration(User $user): void
     {
-        $response = Http::post(Config::get('auth.api_external_url') . '/api/generate-token', [
+        $response = Http::post(Config::get('auth.api_internal_url') . '/api/generate-token', [
             'user_id' => $user->id,
             'signup_secret' => SiteConfig::getConfig('signup_secret')
         ]);
@@ -28,8 +35,8 @@ class ApiKeyCreationService
                 'is_signup_successful' => true
             ]);
 
-            //Create paddle customer
-            $user->createAsCustomer();
+            //Create customer on payment provider
+            $this->paymentProviderManager->usingDefault()->addCustomer($user);
 
             $user->update([
                 'free_request_count' => (int)SiteConfig::getConfig('free_requests')

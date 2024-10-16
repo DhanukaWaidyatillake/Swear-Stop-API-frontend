@@ -38,7 +38,8 @@ class User extends Authenticatable implements Auditable
         'is_active',
         'free_request_count',
         'user_inactivity_message',
-        'is_oauth_user'
+        'is_oauth_user',
+        'stripe_customer_id'
     ];
 
     /**

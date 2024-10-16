@@ -58,8 +58,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/remove_payment_method', [\App\Http\Controllers\PaymentController::class, 'remove_payment_method'])->name('remove-payment-method');
     });
 
-    Route::get('/load-payment-details-page', [\App\Http\Controllers\PaymentController::class, 'load_payment_details_page'])->name('load-payment-details-page');
-    Route::get('/load-payment-details-update-page', [\App\Http\Controllers\PaymentController::class, 'load_payment_details_update_page'])->name('load-payment-details-update-page');
+    Route::get('/save-card', [\App\Http\Controllers\PaymentController::class, 'load_payment_details_page'])->name('save-card');
+    Route::get('/update-card', [\App\Http\Controllers\PaymentController::class, 'load_payment_details_update_page'])->name('update-card');
 
     Route::get('/show_payment_method_removal_popup', [\App\Http\Controllers\PaymentController::class, 'show_payment_method_removal_popup'])->name('show-payment-method-removal-popup');
 });

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Contracts\PaddlePaymentProvider;
 use App\Contracts\PaymentProviderManager;
 use App\Services\ApiKeyCreationService;
 use App\Services\ApiResultTools;
@@ -35,19 +36,24 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton(ApiKeyCreationService::class, function ($app) {
-            return new ApiKeyCreationService();
+            $auditing_service = new CustomAuditingService();
+            $toast_service = new ToastMessageService();
+            return new ApiKeyCreationService(new PaymentProviderManager($auditing_service, $toast_service));
         });
 
         $this->app->singleton(PaymentProcessingService::class, function ($app) {
-            return new PaymentProcessingService(new CustomAuditingService());
+            $auditing_service = new CustomAuditingService();
+            $toast_service = new ToastMessageService();
+            return new PaymentProcessingService(
+                customAuditingService: $auditing_service,
+                paymentProviderManager: new PaymentProviderManager($auditing_service, $toast_service)
+            );
         });
-
 
         //Registering Managers
-        $this->app->bind(PaymentProviderManager::class, function ($app) {
-            return new PaymentProviderManager();
+        $this->app->singleton(PaymentProviderManager::class, function ($app) {
+            return new PaymentProviderManager(new CustomAuditingService(), new ToastMessageService());
         });
-
     }
 
     /**
@@ -56,7 +62,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //Allowing only https traffic in production environments
-        if($this->app->environment('production')) {
+        if ($this->app->environment('production')) {
             URL::forceScheme('https');
         }
 

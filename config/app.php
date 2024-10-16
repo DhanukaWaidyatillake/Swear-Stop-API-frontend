@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+    'debug' => (bool)env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -131,4 +131,11 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'active_payment_provider' => env('ACTIVE_PAYMENT_PROVIDER'),
+
+    'stripe_key' => env('STRIPE_KEY'),
+
+    'stripe_secret' => env('STRIPE_SECRET'),
+
+    'stripe_webhook_secret' => env('STRIPE_WEBHOOK_SECRET'),
 ];

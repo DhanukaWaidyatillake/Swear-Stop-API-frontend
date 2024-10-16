@@ -2,6 +2,9 @@
 
 namespace App\Contracts;
 
+use App\Services\CustomAuditingService;
+use App\Services\ToastMessageService;
+
 class PaymentProviderManager
 {
     /**
@@ -10,6 +13,16 @@ class PaymentProviderManager
      * @var array
      */
     protected array $payment_providers = [];
+
+    private CustomAuditingService $customAuditingService;
+
+    private ToastMessageService $toastMessageService;
+
+    public function __construct(CustomAuditingService $customAuditingService, ToastMessageService $toastMessageService)
+    {
+        $this->customAuditingService = $customAuditingService;
+        $this->toastMessageService = $toastMessageService;
+    }
 
     /**
      * Get a payment gateway instance.
@@ -69,7 +82,7 @@ class PaymentProviderManager
      */
     public function createStripePaymentProvider(): StripePaymentProvider
     {
-        return new StripePaymentProvider();
+        return new StripePaymentProvider($this->customAuditingService, $this->toastMessageService);
     }
 
     /**
@@ -79,6 +92,6 @@ class PaymentProviderManager
      */
     public function createPaddlePaymentProvider(): PaddlePaymentProvider
     {
-        return new PaddlePaymentProvider();
+        return new PaddlePaymentProvider($this->customAuditingService, $this->toastMessageService);
     }
 }

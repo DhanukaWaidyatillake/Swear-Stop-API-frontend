@@ -7,15 +7,16 @@ use App\Models\Invoice;
 use App\Models\PricingTier;
 use App\Models\TextFilterAudit;
 use App\Models\User;
-use Laravel\Paddle\Cashier;
 
 class PaymentProcessingService
 {
     private CustomAuditingService $customAuditingService;
+    private PaymentProviderManager $paymentProviderManager;
 
-    public function __construct(CustomAuditingService $customAuditingService)
+    public function __construct(CustomAuditingService $customAuditingService, PaymentProviderManager $paymentProviderManager)
     {
         $this->customAuditingService = $customAuditingService;
+        $this->paymentProviderManager = $paymentProviderManager;
     }
 
     public function calculateCost(int $usage = 0): array
@@ -34,7 +35,7 @@ class PaymentProcessingService
         }
 
         return [
-            'cost' => round($tier->price_per_api_call * $usage, 2),
+            'cost' => $tier->price_per_api_call * $usage,
             'tier' => $tier
         ];
     }
@@ -63,7 +64,7 @@ class PaymentProcessingService
         ];
     }
 
-    public function chargeCustomer(User $user, PaymentProviderManager $paymentProviderManager): bool
+    public function chargeCustomer(User $user): bool
     {
         $data = $this->calculateCostAndUsageForCurrentBillingMonth($user);
 
@@ -79,37 +80,8 @@ class PaymentProcessingService
         try {
             if ($data['cost'] > 0) {
                 //Charging customer's card through Paddle
-                $response = $paymentProviderManager->usingDefault()->chargeCustomer($user, $data['pricing_tier'], $data['usage']);
+                return $this->paymentProviderManager->usingDefault()->chargeCustomer($user, $invoice, $data['pricing_tier'], $data['usage']);
 
-                $invoice->paddle_response = $response->json();
-
-                if ($response->successful()) {
-                    //Successfully Charged the customers card
-                    $invoice->is_paid = true;
-                    $invoice->update();
-
-                    $this->customAuditingService->createCustomAudit($user,
-                        'Payment made successfully', [
-                            ...$response->json(),
-                            'invoice_id' => $invoice->id
-                        ]
-                    );
-
-                    return true;
-                } else {
-                    //Paddle response failed
-                    $invoice->is_paid = false;
-                    $invoice->update();
-
-                    $this->customAuditingService->createCustomAudit($user,
-                        'Payment failed', [
-                            ...$response->json(),
-                            'invoice_id' => $invoice->id
-                        ]
-                    );
-
-                    return false;
-                }
             } else {
                 //Creating a $0 invoice
 
